@@ -1,20 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "../css/MealCalander.css";
+import Popup from "../components/Calander/popup";
 
 function MealCalendar() {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const dayClickAction = (info) => {
+    setSelectedDate(info.dateStr);
+    setPopupOpen(true); 
+  };
+
   return (
     <div>
-      <div></div>
-      <div className="calendar-frame">
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-        />
-      </div>
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        height={"80vh"}
+        headerToolbar={{
+          left: 'prev,next',
+          center: 'title',
+          right: 'today'
+        }}
+        dateClick={dayClickAction}
+        validRange={{ start: today }}
+
+      />
+      
+      <Popup open={popupOpen} handleClose={() => setPopupOpen(false)} selectedDate={selectedDate} />
     </div>
   );
 }
