@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import MealTypeSelect from "./MealTypeSelect";
+import MealTypeSelect from "./MealTypeSelect";  
 
 const style = {
   position: "absolute",
@@ -17,22 +17,23 @@ const style = {
   p: 4,
 };
 
-function Popupmealtype({ open, handleClose }) {
+function Popupmealtype({ open, handleClose, onAddEvent }) {
   return (
     <Modal
       open={open}
       onClose={handleClose}
       BackdropProps={{
         style: {
-          backdropFilter: "blur(5px)", 
-          backgroundColor: "rgba(0, 0, 0, 0.2)", 
+          backdropFilter: "blur(5px)",
+          backgroundColor: "rgba(0, 0, 0, 0.2)",
         },
       }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <MealTypeSelect />
+
+        <MealTypeSelect onSelect={(mealType) => onAddEvent(mealType)} />
       </Box>
     </Modal>
   );
