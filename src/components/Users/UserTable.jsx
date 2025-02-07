@@ -22,7 +22,7 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
   const [editUser, setEditUser] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortColumn, setSortColumn] = useState("email");
 
@@ -187,6 +187,7 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
             setRowsPerPage(parseInt(event.target.value, 10));
             setPage(0);
           }}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
         />
 
         {selected.length > 0 && (
