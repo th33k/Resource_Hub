@@ -7,12 +7,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Popupmealtype from "./popupmealtype";  
 
-const MealTimeCard = ({ name, image, onSelect }) => {
+const MealTimeCard = ({ name, image, onSelect, isDisabled }) => {
   const [popupOpen, setPopupOpen] = React.useState(false);
   
-   
   const handleClick = () => {
-    setPopupOpen(true);  
+    if (!isDisabled) {
+      setPopupOpen(true);  
+    }
   };
 
   return (
@@ -36,13 +37,16 @@ const MealTimeCard = ({ name, image, onSelect }) => {
           </Typography>
         </CardContent>
         <CardActions sx={{ display: "block", margin: "auto" }}>
-          <Button variant="contained" onClick={handleClick}>
+          <Button 
+            variant="contained" 
+            onClick={handleClick}
+            disabled={isDisabled} 
+          >
             Select
           </Button>
         </CardActions>
       </Card>
 
-       
       <Popupmealtype
         open={popupOpen}
         handleClose={() => setPopupOpen(false)}   

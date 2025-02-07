@@ -17,7 +17,7 @@ const style = {
   p: 4,
 };
 
-function Popup({ open, handleClose, selectedDate, onAddEvent }) {
+function Popup({ open, handleClose, selectedDate, onAddEvent, isMealSelected }) {
   return (
     <Modal
       open={open}
@@ -35,6 +35,7 @@ function Popup({ open, handleClose, selectedDate, onAddEvent }) {
         <MealTimeSelect
           selectedDate={selectedDate}
           onAddEvent={onAddEvent}   
+          isMealSelected={isMealSelected}  
         />
       </Box>
     </Modal>

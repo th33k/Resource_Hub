@@ -26,6 +26,10 @@ function MealCalendar() {
     setPopupOpen(false); 
   };
 
+  const isMealSelected = (mealType) => {
+    return eventData.some(event => event.start === selectedDate && event.title.includes(mealType));
+  };
+
   return (
     <div>
       <FullCalendar
@@ -46,6 +50,7 @@ function MealCalendar() {
         handleClose={() => setPopupOpen(false)}
         selectedDate={selectedDate}
         onAddEvent={handleAddEvent} 
+        isMealSelected={isMealSelected}  
       />
     </div>
   );
