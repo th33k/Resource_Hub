@@ -68,45 +68,49 @@ export const Users = () => {
         <h1 className="text-2xl font-semibold">User Management</h1>
       </div>
 
-      <div className="flex justify-between items-center mb-2">
-        <div className="flex gap-4">
-          {/* Search Bar */}
-          <TextField
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            InputProps={{
-              startAdornment: <Search size={20} />,
-            }}
-          />
-          {/* Filter Dropdown */}
-          <FormControl variant="outlined" size="small" className="w-40">
-            <InputLabel>Filter by Type</InputLabel>
-            <Select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              label="Filter by Type"
-            >
-              <MenuItem value="All">All</MenuItem>
-              <MenuItem value="Admin">Admin</MenuItem>
-              <MenuItem value="User">User</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* Left-aligned: Search Bar and Filter Dropdown */}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {/* Search Bar */}
+        <TextField
+          label="Search"
+          variant="outlined"
+          size="small"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          InputProps={{
+            startAdornment: <Search size={20} />,
+          }}
+        />
 
-        {/* Add New User Button */}
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#1976D2", fontWeight: "bold" }}
-          startIcon={<UserPlus size={20} />}
-          onClick={() => setIsAddUserOpen(true)}
-        >
-          Add New User
-        </Button>
+        {/* Filter Dropdown */}
+        <FormControl variant="outlined" size="small" className="w-40" style={{ marginLeft: '10px' }}>
+          <InputLabel>Filter by Type</InputLabel>
+          <Select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            label="Filter by Type"
+          >
+            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="Admin">Admin</MenuItem>
+            <MenuItem value="User">User</MenuItem>
+          </Select>
+        </FormControl>
       </div>
+
+      {/* Right-aligned: Add New User Button */}
+      <Button
+        variant="contained"
+        color="primary"
+        style={{ backgroundColor: "#1976D2", fontWeight: "bold" }}
+        startIcon={<UserPlus size={20} />}
+        onClick={() => setIsAddUserOpen(true)}
+      >
+        Add New User
+      </Button>
+    </div>
+    
+    <div style={{ marginTop: '20px' }}></div>
 
       <UserTable
         users={filteredUsers}
