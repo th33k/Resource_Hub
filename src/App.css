@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{margin:0px;padding:0px}
+
+body {
+  margin: 0;
+  font-family: 'Roboto';
+}
+.main .slidebarWrapper{
+  width:30%;
+  flex: 0 0 15%;
+  transition: all 0.3s ease-in-out;
+
+}
