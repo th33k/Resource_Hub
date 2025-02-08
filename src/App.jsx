@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import { Users } from "./pages/Users";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Slidebar from "./components/SideBar/Slidebar";
 import Header from "./components/Header/Header";
 import MealCalander from "./pages/MealCalander";
-import IconBreadcrumbs from "./components/IconBreadcrumbs"
+import IconBreadcrumbs from "./components/IconBreadcrumbs";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mealcalander" element={<MealCalander />} />
+            <Route path="/users" element={<Users />} />
           </Routes>
         </div>
       </div>
