@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Layout from "./components/AdminLayout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import UserDashboard from "./pages/UserDashboard";
 
 // Authentication check function
 const PrivateRoute = ({ element }) => {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<PrivateRoute element={<Layout />} />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="userdashboard" element={<UserDashboard/>} />
           <Route path="mealcalander" element={<MealCalander />} />
           <Route path="addmealtime" element={<AddMealTime />} />
           <Route path="addmealtype" element={<AddMealType />} />

@@ -14,6 +14,10 @@ function Login() {
       localStorage.setItem("isAuthenticated", "true"); 
       navigate("/dashboard"); 
     } 
+    else if(credentials.username === "user" && credentials.password === "user"){
+        localStorage.setItem("isAuthenticated", "true"); 
+        navigate("/userdashboard"); 
+    }
     else {
       alert("Invalid credentials!");
     }

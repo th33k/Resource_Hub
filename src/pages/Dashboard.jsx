@@ -4,9 +4,7 @@ function Dashboard() {
 
     return (
         <div>
-
-
-            <h1>eageg</h1>
+            <h1>Admin</h1>
         </div>
     );
 
