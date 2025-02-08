@@ -7,6 +7,8 @@ import Slidebar from "./components/SideBar/Slidebar";
 import Header from "./components/Header/Header";
 import MealCalander from "./pages/MealCalander";
 import IconBreadcrumbs from "./components/IconBreadcrumbs";
+import AddMealTime from "./pages/AddMealTime";
+import AddMealType from "./pages/AddMealType";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mealcalander" element={<MealCalander />} />
+            <Route path="/mealtime" element={<AddMealTime />} />
+            <Route path="/mealtype" element={<AddMealType/>} />
             <Route path="/users" element={<Users />} />
           </Routes>
         </div>
