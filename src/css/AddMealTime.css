@@ -1,0 +1,12 @@
+.addicon {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  
+.mealtimes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px;
+    padding: 20px;
+  }
+

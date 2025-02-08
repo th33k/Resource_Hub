@@ -2,6 +2,8 @@ header{
     width: 100%;
     height: 85px;
     background-color: #0B1649;
+    position: fixed;
+    z-index: 100;
   }
   
   header .logo{

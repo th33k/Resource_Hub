@@ -5,7 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-
+import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
 function NewMealTypeCard({ name, image }) {
     return (
@@ -29,8 +30,16 @@ function NewMealTypeCard({ name, image }) {
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ display: "block", margin: "auto" }}>
-                    <Button variant="outlined">Edit</Button>
-                    <Button variant="outlined">Edit</Button>
+                    <Button variant="outlined" sx={{
+                        width:'90px'
+                    }}>
+                        Edit<ModeEditTwoToneIcon/>
+                        </Button>
+                    <Button variant="outlined" color="error" sx={{
+                        width:'90px',
+                    }}>
+                        Delete <DeleteTwoToneIcon/>
+                        </Button>
                 </CardActions>
             </Card>
 

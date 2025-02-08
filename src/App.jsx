@@ -15,17 +15,13 @@ function App() {
     <BrowserRouter>
       <Header />
       <div className="main d-flex">
-        {/* Sidebar Section */}
         <div className="slidebarWrapper">
           <Slidebar />
         </div>
 
-        {/* Content Section */}
         <div className="content flex-grow-1 p-3">
-          {/* Breadcrumbs */}
           <IconBreadcrumbs />
 
-          {/* Page Content */}
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
