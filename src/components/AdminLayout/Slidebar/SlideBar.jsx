@@ -23,7 +23,7 @@ function Slidebar() {
         <div className='slidebar'>
             <ul>
                 <li>
-                    <Link to={'/Dashboard'}>
+                    <Link to={'admin/Dashboard'}>
                         <Button className='w-100'>
                             <span className='icon'><MdSpaceDashboard /></span>
                             Dashboard
@@ -41,9 +41,9 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 1 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="/MealCalander">Meal Calander</Link></li>
-                            <li><Link to="/AddMealTime">Add Meal Time</Link></li>
-                            <li><Link to="/AddMealType">Add Meal Type</Link></li>
+                            <li><Link to="admin/MealCalander">Meal Calander</Link></li>
+                            <li><Link to="admin/AddMealTime">Add Meal Time</Link></li>
+                            <li><Link to="admin/AddMealType">Add Meal Type</Link></li>
                         </ul>
                     </div>
                 </li>
@@ -87,7 +87,7 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 4 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="/users">User list</Link></li>
+                            <li><Link to="admin/users">User list</Link></li>
                         </ul>
                     </div>
                 </li>

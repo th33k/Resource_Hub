@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import IconBreadcrumbs from "../IconBreadcrumbs";
 import './Layout.css'
-import UserSideBar from '../UserSideBar/SlideBar'
-import UserHeader from '../UserHeader/Header'
+import UserSideBar from './UserSideBar/SlideBar'
+import UserHeader from './UserHeader/Header'
 
 function Layout() {
   return (

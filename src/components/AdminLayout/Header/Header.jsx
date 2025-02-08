@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
-import logo from '../../assets/Resource Hub Logo.png'
+import logo from '/Resource Hub Logo.png'
 import Button from '@mui/material/Button';
 import { MdOutlineMenuOpen } from "react-icons/md";
 import Search from './Search.jsx'
-import clientlogo from '../../assets/WSO2 logo.png'
+import clientlogo from '/WSO2 logo.png'
 import NotificationBtn from './NotificationBtn.jsx'
 import SwitchBtn from "./SwitchBtn.jsx";
 import "./css/Header.css";

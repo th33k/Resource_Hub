@@ -26,7 +26,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2 className="title">Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="text"
@@ -44,9 +44,10 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
-      <h6>
-      (admin , admin for admin login)
-        (user , user for user login)
+      <h6 className="disc">
+      admin , admin for admin login
+      <br />
+        user , user for user login
       </h6>
     </div>
   );

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Header from "../Header/Header";
-import Slidebar from "../SideBar/Slidebar";
+import Header from "./Header/Header";
+import Slidebar from "./Slidebar/SlideBar";
 import IconBreadcrumbs from "../IconBreadcrumbs";
 import './Layout.css'
 
