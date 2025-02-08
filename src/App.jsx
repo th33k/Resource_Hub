@@ -6,12 +6,12 @@ import MealCalander from "./pages/MealCalander";
 import AddMealTime from "./pages/AddMealTime";
 import AddMealType from "./pages/AddMealType";
 import Login from "./pages/Login";
-import Layout from "./components/AdminLayout/Layout";
+import AdminLayout from "./components/AdminLayout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import UserDashboard from "./pages/UserDashboard";
+import UserLayout from './components/UserLayout/Layout'
 
-// Authentication check function
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   return isAuthenticated ? element : <Navigate to="/login" />;
@@ -21,18 +21,26 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Route */}
+
         <Route path="/login" element={<Login />} />
 
-        {/* Protected Routes with Layout */}
-        <Route path="/" element={<PrivateRoute element={<Layout />} />}>
+        <Route path="/" element={<PrivateRoute element={<AdminLayout />} />}>
           <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="userdashboard" element={<UserDashboard/>} />
-          <Route path="mealcalander" element={<MealCalander />} />
-          <Route path="addmealtime" element={<AddMealTime />} />
-          <Route path="addmealtype" element={<AddMealType />} />
-          <Route path="users" element={<Users />} />
+          <Route path="admin/dashboard" element={<Dashboard />} />
+          <Route path="admin/userdashboard" element={<Dashboard/>} />
+          <Route path="admin/mealcalander" element={<MealCalander />} />
+          <Route path="admin/addmealtime" element={<AddMealTime />} />
+          <Route path="admin/addmealtype" element={<AddMealType />} />
+          <Route path="admin/users" element={<Users />} />
+        </Route>
+        <Route path="/" element={<PrivateRoute element={<UserLayout />} />}>
+          <Route index element={<Dashboard />} />
+          <Route path="user/dashboard" element={<UserDashboard />} />
+          <Route path="user/userdashboard" element={<UserDashboard/>} />
+          <Route path="user/mealcalander" element={<MealCalander />} />
+          <Route path="user/addmealtime" element={<AddMealTime />} />
+          <Route path="user/addmealtype" element={<AddMealType />} />
+          <Route path="user/users" element={<Users />} />
         </Route>
       </Routes>
     </BrowserRouter>

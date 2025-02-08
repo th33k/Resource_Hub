@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import '../css/Login.css'
 
 function Login() {
   const [credentials, setCredentials] = useState({ username: "", password: "" });
@@ -8,16 +8,17 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    
-  
+
     if (credentials.username === "admin" && credentials.password === "admin") {
-      localStorage.setItem("isAuthenticated", "true"); 
-      navigate("/dashboard"); 
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("role", "admin");
+      navigate("/admin/dashboard"); 
     } 
-    else if(credentials.username === "user" && credentials.password === "user"){
-        localStorage.setItem("isAuthenticated", "true"); 
-        navigate("/userdashboard"); 
-    }
+    else if (credentials.username === "user" && credentials.password === "user") {
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("role", "user");
+      navigate("/user/dashboard"); 
+    } 
     else {
       alert("Invalid credentials!");
     }
@@ -43,6 +44,10 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
+      <h6>
+      (admin , admin for admin login)
+        (user , user for user login)
+      </h6>
     </div>
   );
 }

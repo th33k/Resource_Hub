@@ -1,0 +1,45 @@
+header{
+    width: 100%;
+    height: 85px;
+    background-color: #0B1649;
+    position: fixed;
+    z-index: 100;
+  }
+  
+  header .logo{
+    width: 150px;
+
+  }
+  header .clientlogo{
+    height: 50px;
+    margin-left: 20px;
+  }
+  header .row{
+    margin: 0px;
+  }
+
+  header .logo{
+    text-decoration: none;
+  }
+
+header button.menu{
+    min-width: 40px;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: rgb(255, 255, 255);
+    font-size: 28px;
+    border-radius: 8px;
+}
+header button.menu svg{
+
+  font-size: 30px;
+}
+.searchBox{
+    margin-left: 5px;
+    width :503px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.40);
+    border-radius:28px;
+    color: white;
+}
