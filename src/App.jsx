@@ -1,37 +1,38 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import { Users } from "./pages/Users";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import Slidebar from "./components/SideBar/Slidebar";
-import Header from "./components/Header/Header";
 import MealCalander from "./pages/MealCalander";
-import IconBreadcrumbs from "./components/IconBreadcrumbs";
 import AddMealTime from "./pages/AddMealTime";
 import AddMealType from "./pages/AddMealType";
+import Login from "./pages/Login";
+import Layout from "./components/AdminLayout/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+
+// Authentication check function
+const PrivateRoute = ({ element }) => {
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  return isAuthenticated ? element : <Navigate to="/login" />;
+};
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <div className="main d-flex">
-        <div className="slidebarWrapper">
-          <Slidebar />
-        </div>
+      <Routes>
+        {/* Public Route */}
+        <Route path="/login" element={<Login />} />
 
-        <div className="content flex-grow-1 p-3">
-          <IconBreadcrumbs />
-
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/mealcalander" element={<MealCalander />} />
-            <Route path="/addmealtime" element={<AddMealTime />} />
-            <Route path="/addmealtype" element={<AddMealType/>} />
-            <Route path="/users" element={<Users />} />
-          </Routes>
-        </div>
-      </div>
+        {/* Protected Routes with Layout */}
+        <Route path="/" element={<PrivateRoute element={<Layout />} />}>
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="mealcalander" element={<MealCalander />} />
+          <Route path="addmealtime" element={<AddMealTime />} />
+          <Route path="addmealtype" element={<AddMealType />} />
+          <Route path="users" element={<Users />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
