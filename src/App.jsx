@@ -30,8 +30,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mealcalander" element={<MealCalander />} />
-            <Route path="/mealtime" element={<AddMealTime />} />
-            <Route path="/mealtype" element={<AddMealType/>} />
+            <Route path="/addmealtime" element={<AddMealTime />} />
+            <Route path="/addmealtype" element={<AddMealType/>} />
             <Route path="/users" element={<Users />} />
           </Routes>
         </div>
