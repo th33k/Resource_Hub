@@ -1,37 +1,48 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import { Users } from "./pages/Users";
+import MealCalander from "./pages/MealCalander";
+import AddMealTime from "./pages/AddMealTime";
+import AddMealType from "./pages/AddMealType";
+import Login from "./pages/Login";
+import AdminLayout from "./components/AdminLayout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Slidebar from "./components/SideBar/Slidebar";
-import Header from "./components/Header/Header";
-import MealCalander from "./pages/MealCalander";
-import IconBreadcrumbs from "./components/IconBreadcrumbs";
+import UserDashboard from "./pages/UserDashboard";
+import UserLayout from './components/UserLayout/Layout'
+
+const PrivateRoute = ({ element }) => {
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  return isAuthenticated ? element : <Navigate to="/login" />;
+};
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <div className="main d-flex">
-        {/* Sidebar Section */}
-        <div className="slidebarWrapper">
-          <Slidebar />
-        </div>
+      <Routes>
 
-        {/* Content Section */}
-        <div className="content flex-grow-1 p-3">
-          {/* Breadcrumbs */}
-          <IconBreadcrumbs />
+        <Route path="/login" element={<Login />} />
 
-          {/* Page Content */}
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/mealcalander" element={<MealCalander />} />
-            <Route path="/users" element={<Users />} />
-          </Routes>
-        </div>
-      </div>
+        <Route path="/" element={<PrivateRoute element={<AdminLayout />} />}>
+          <Route index element={<Dashboard />} />
+          <Route path="admin/dashboard" element={<Dashboard />} />
+          <Route path="admin/userdashboard" element={<Dashboard/>} />
+          <Route path="admin/mealcalander" element={<MealCalander />} />
+          <Route path="admin/addmealtime" element={<AddMealTime />} />
+          <Route path="admin/addmealtype" element={<AddMealType />} />
+          <Route path="admin/users" element={<Users />} />
+        </Route>
+        <Route path="/" element={<PrivateRoute element={<UserLayout />} />}>
+          <Route index element={<Dashboard />} />
+          <Route path="user/dashboard" element={<UserDashboard />} />
+          <Route path="user/userdashboard" element={<UserDashboard/>} />
+          <Route path="user/mealcalander" element={<MealCalander />} />
+          <Route path="user/addmealtime" element={<AddMealTime />} />
+          <Route path="user/addmealtype" element={<AddMealType />} />
+          <Route path="user/users" element={<Users />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

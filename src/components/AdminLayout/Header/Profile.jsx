@@ -13,6 +13,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+// Import the useNavigate hook
+import { useNavigate } from 'react-router-dom';
+
 const settings = [
   { name: 'Profile', icon: <PersonIcon /> },
   { name: 'Settings', icon: <SettingsIcon /> },
@@ -21,6 +24,7 @@ const settings = [
 
 function Profile() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();  
 
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,6 +32,11 @@ function Profile() {
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    navigate('/login');  
+    handleCloseMenu();  
   };
 
   const name = "Minul Chathumal";
@@ -69,9 +78,15 @@ function Profile() {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         {settings.map((setting) => (
-          <MenuItem key={setting.name} onClick={handleCloseMenu} sx={{display:'flex',justifyContent:'center',width:'220px'}}>
+          <MenuItem 
+            key={setting.name} 
+            onClick={setting.name === 'Logout' ? handleLogout : handleCloseMenu} 
+            sx={{display:'flex', justifyContent:'center', width:'220px'}}
+          >
             {setting.icon}
-            <Typography sx={{textAlign: 'center',width:'150px'}}>{setting.name}</Typography>
+            <Typography sx={{ textAlign: 'center', width:'150px' }}>
+              {setting.name}
+            </Typography>
           </MenuItem>
         ))}
       </Menu>
