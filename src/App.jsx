@@ -6,11 +6,11 @@ import MealCalander from "./pages/MealCalander";
 import AddMealTime from "./pages/AddMealTime";
 import AddMealType from "./pages/AddMealType";
 import Login from "./pages/Login";
-import AdminLayout from "./components/AdminLayout/Layout";
+import AdminLayout from "./Layout/AdminLayout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import UserDashboard from "./pages/UserDashboard";
-import UserLayout from './components/UserLayout/Layout'
+import UserLayout from './Layout/UserLayout/Layout'
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
