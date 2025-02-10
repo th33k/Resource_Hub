@@ -1,0 +1,31 @@
+/* MealTimeCard.css */
+
+.mealtime-card {
+    width: 250px;
+    height: 300px;
+    padding: 20px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .mealtime-card-media {
+    height: 200px;
+    width: 200px;
+  }
+  
+  .mealtime-card-content {
+    text-align: center;
+  }
+  
+  .mealtime-card-actions {
+    display: block;
+    margin: auto;
+  }
+  
+  .mealtime-card-button {
+    width: 90px;
+  }
+  

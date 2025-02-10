@@ -5,29 +5,23 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import '../css/Calender/MealTypeCard.css';  
 
 function MealTypeCard({ name, image, onSelect }) {
   return (
-    <Card
-      sx={{
-        width: 250,
-        height: 300,
-        padding: "20px",
-        maxWidth: 400,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <CardMedia sx={{ height: 200, width: 200 }} image={image} title={name} />
+    <Card className="meal-type-card">
+      <CardMedia className="meal-type-card-media" image={image} title={name} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>
       </CardContent>
-      <CardActions sx={{ display: "block", margin: "auto" }}>
-        <Button variant="contained" onClick={() => onSelect(name)}>
+      <CardActions className="meal-type-card-actions">
+        <Button 
+          variant="contained" 
+          className="meal-type-card-button"
+          onClick={() => onSelect(name)}
+        >
           Request
         </Button>
       </CardActions>

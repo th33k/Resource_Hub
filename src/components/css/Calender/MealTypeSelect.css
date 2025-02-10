@@ -1,0 +1,21 @@
+/* MealTypeSelect.css */
+
+.meal {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Dynamic grid layout */
+    gap: 16px;
+    padding: 8px 0;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .meal {
+      justify-content: flex-start; /* Adjust alignment for medium screens */
+    }
+  }
+  
+  @media screen and (max-width: 900px) {
+    .meal {
+      gap: 10px; /* Reduce space for smaller screens */
+    }
+  }
+  

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import "../css/MealCalander.css";
+import "./css/MealCalander.css";
 import Popup from "../components/Calander/popup";
 import DeletePopup from "../components/Calander/DeletePopup"; // Assuming you create a new DeletePopup component
 

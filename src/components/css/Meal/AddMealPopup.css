@@ -1,0 +1,100 @@
+/* MealCardPopup.css */
+
+/* Popup Container */
+.mealtime-popup-container {
+    padding: 24px;
+  }
+  
+  .mealtime-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  
+  .mealtime-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .mealtime-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .mealtime-close-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .mealtime-form {
+    margin-bottom: 32px;
+  }
+  
+  .mealtime-input-group {
+    margin-bottom: 16px;
+  }
+  
+  .mealtime-label {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+  
+  .mealtime-input {
+    padding: 12px;
+    margin-top: 8px;
+  }
+  
+  .mealtime-upload-btn {
+    padding: 12px;
+    margin-top: 8px;
+  }
+  
+  .mealtime-upload-icon {
+    margin-right: 8px;
+  }
+  
+  .mealtime-image-preview {
+    margin-top: 16px;
+  }
+  
+  .mealtime-preview-img {
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+    margin-top: 8px;
+  }
+  
+  .mealtime-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .mealtime-cancel-btn, .mealtime-submit-btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+  }
+  
+  .mealtime-cancel-btn {
+    background-color: transparent;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+  }
+  
+  .mealtime-submit-btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+  }
+  
+  .mealtime-cancel-btn:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .mealtime-submit-btn:hover {
+    background-color: #1d4ed8;
+  }
+  

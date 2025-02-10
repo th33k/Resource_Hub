@@ -1,33 +1,73 @@
-import NewMealTimeCard from "../components/Meal/MealTimeCard";
+import { useState } from 'react';
 import { Button } from "@mui/material";
-import '../css/AddMealTime.css'
 import AddIcon from '@mui/icons-material/Add';
+import MealCard from "../components/Meal/MealCard";
+import { MealCardPopup } from '../components/Meal/AddMealTimePopup';
+import './css/AddMealTime.css';
 
-function AddMealTime(){
-    return(
-        <div>
-<Button variant="contained" className='addbtn' sx={{
-        fontSize:'15px',
-        padding:'10px 25px',
-        margin:'10px',
-        marginLeft:'20px'
-      }}>
+function AddMealTime() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+
+  const title = "Add New Meal Time"; 
+  const value = 100; 
+  const chartData = [10, 20, 30]; 
+
+
+  const getSubtitle = () => {
+    return "Manage meal times for the day"; 
+  };
+
+
+  const handlePopupOpen = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
+
+  return (
+    <div>
+      <Button
+        variant="contained"
+        className="addbtn"
+        sx={{
+          fontSize: '15px',
+          padding: '10px 25px',
+          margin: '10px',
+          marginLeft: '20px'
+        }}
+        onClick={handlePopupOpen}
+      >
         New Meal Time
-        <span className='addicon'><AddIcon /></span>
+        <span className="addicon"><AddIcon /></span>
       </Button>
-        <div className="mealtimes">
-        <NewMealTimeCard name="Breakfast" image="/breakfast.png" />
-        <NewMealTimeCard name="Lunch" image="/lunch.png" />
-        <NewMealTimeCard name="Dinner" image="/dinner.png" />
-        <NewMealTimeCard name="Breakfast" image="/breakfast.png" />
-        <NewMealTimeCard name="Lunch" image="/lunch.png" />
-        <NewMealTimeCard name="Dinner" image="/dinner.png" />
-        <NewMealTimeCard name="Breakfast" image="/breakfast.png" />
-        <NewMealTimeCard name="Lunch" image="/lunch.png" />
-        <NewMealTimeCard name="Dinner" image="/dinner.png" />
-        </div>
+
+      {/* Meal Time Cards */}
+      <div className="mealtimes">
+        <MealCard name="Breakfast" image="/breakfast.png" />
+        <MealCard name="Lunch" image="/lunch.png" />
+        <MealCard name="Dinner" image="/dinner.png" />
+        <MealCard name="Breakfast" image="/breakfast.png" />
+        <MealCard name="Lunch" image="/lunch.png" />
+        <MealCard name="Dinner" image="/dinner.png" />
+        <MealCard name="Breakfast" image="/breakfast.png" />
+        <MealCard name="Lunch" image="/lunch.png" />
+        <MealCard name="Dinner" image="/dinner.png" />
       </div>
-    )
+
+
+      <MealCardPopup
+        open={isPopupOpen}
+        onClose={handlePopupClose}
+        title={title}
+        subtitle={getSubtitle()}
+        value={value}
+        chartData={chartData}
+      />
+    </div>
+  );
 }
 
-export default AddMealTime
+export default AddMealTime;
