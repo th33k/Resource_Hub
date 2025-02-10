@@ -25,21 +25,21 @@ function App() {
 
         <Route path="/" element={<PrivateRoute element={<AdminLayout />} />}>
           <Route index element={<DashboardAdmin />} />
-          <Route path="admin/DashboardAdmin" element={<DashboardAdmin />} />
-          <Route path="admin/DashboardUser" element={<DashboardUser />} />
-          <Route path="admin/mealcalander" element={<MealCalander />} />
-          <Route path="admin/addmealtime" element={<AddMealTime />} />
-          <Route path="admin/addmealtype" element={<AddMealType />} />
-          <Route path="admin/users" element={<Users />} />
+          <Route path="admin-DashboardAdmin" element={<DashboardAdmin />} />
+          <Route path="admin-DashboardUser" element={<DashboardUser />} />
+          <Route path="admin-mealcalander" element={<MealCalander />} />
+          <Route path="admin-addmealtime" element={<AddMealTime />} />
+          <Route path="admin-addmealtype" element={<AddMealType />} />
+          <Route path="admin-users" element={<Users />} />
         </Route>
         <Route path="/" element={<PrivateRoute element={<UserLayout />} />}>
           <Route index element={<DashboardUser />} />
-          <Route path="user/DashboardAdmin" element={<DashboardAdmin />} />
-          <Route path="user/DashboardUser" element={<DashboardUser />} />
-          <Route path="user/mealcalander" element={<MealCalander />} />
-          <Route path="user/addmealtime" element={<AddMealTime />} />
-          <Route path="user/addmealtype" element={<AddMealType />} />
-          <Route path="user/users" element={<Users />} />
+          <Route path="user-DashboardAdmin" element={<DashboardAdmin />} />
+          <Route path="user-DashboardUser" element={<DashboardUser />} />
+          <Route path="user-mealcalander" element={<MealCalander />} />
+          <Route path="user-addmealtime" element={<AddMealTime />} />
+          <Route path="user-addmealtype" element={<AddMealType />} />
+          <Route path="user-users" element={<Users />} />
         </Route>
       </Routes>
     </BrowserRouter>
