@@ -1,29 +1,43 @@
 import { useState } from 'react';
 import { Dialog, Input, Button } from '@mui/material';
 import { X } from 'lucide-react';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import '../css/Meal/AddMealPopup.css'
+import '../css/Meal/AddMealPopup.css';
 
 export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
   const [mealName, setMealName] = useState('');
-  const [mealImage, setMealImage] = useState(null);
+  const [mealImageUrl, setMealImageUrl] = useState('');
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setMealImage(file);
-    }
+  const handleUrlChange = (e) => {
+    setMealImageUrl(e.target.value);
   };
 
-  const handleSubmit = () => {
-    if (mealImage && mealName) {
+  const handleSubmit = async () => {
+    if (mealImageUrl && mealName) {
+      try {
+        const response = await fetch('http://localhost:9090/mealtype', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            mealName,
+            mealImageUrl,
+          }),
+        });
 
-      console.log('Meal Name:', mealName);
-      console.log('Meal Image:', mealImage);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-      onClose();
+        const result = await response.json();
+        console.log('Server Response:', result);
+        onClose(); 
+      } catch (error) {
+        console.error('Fetch error:', error);
+        alert('Failed to add meal. Please try again.');
+      }
     } else {
-      alert("Please provide both meal name and image");
+      alert('Please provide both meal name and image URL');
     }
   };
 
@@ -42,38 +56,31 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
 
         <div className="mealtime-form">
 
-
           <div className="mealtime-input-group">
-            <label className="mealtime-label">Meal Type Image</label>
-            <Button
-              variant="outlined"
-              component="label"
+            <label className="mealtime-label">Meal Image URL</label>
+            <Input
+              type="text"
+              value={mealImageUrl}
+              onChange={handleUrlChange}
               fullWidth
-              className="mealtime-upload-btn"
-            >
-              <CloudUploadIcon className="mealtime-upload-icon" />
-              Upload Meal Image
-              <Input
-                type="file"
-                hidden
-                onChange={handleImageUpload}
-              />
-            </Button>
+              className="mealtime-input"
+              placeholder="Enter image URL here"
+            />
           </div>
 
-
-          {mealImage && (
+          {mealImageUrl && (
             <div className="mealtime-image-preview">
               <h3>Preview:</h3>
               <img
-                src={URL.createObjectURL(mealImage)}
+                src={mealImageUrl}
                 alt="Meal Preview"
                 className="mealtime-preview-img"
               />
             </div>
           )}
+
           <div className="mealtime-input-group">
-            <label className="mealtime-label">Meal Type Name</label>
+            <label className="mealtime-label">Meal Name</label>
             <Input
               type="text"
               value={mealName}
