@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import MealCard from "../components/Meal/MealCard";
@@ -7,17 +7,15 @@ import './css/AddMealTime.css';
 
 function AddMealTime() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const [mealTypes, setMealTypes] = useState([]); // State to store meal types fetched from API
 
   const title = "Add New Meal Type"; 
   const value = 100; 
   const chartData = [10, 20, 30]; 
 
-
   const getSubtitle = () => {
-    return "Manage meal times for the day"; 
+    return "Manage meal types for the day"; 
   };
-
 
   const handlePopupOpen = () => {
     setIsPopupOpen(true);
@@ -26,6 +24,21 @@ function AddMealTime() {
   const handlePopupClose = () => {
     setIsPopupOpen(false);
   };
+
+  // Fetch meal types from the API
+  useEffect(() => {
+    const fetchMealTypes = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/mealtype/allMealTypes');
+        const data = await response.json();
+        setMealTypes(data); // Update the state with the fetched data
+      } catch (error) {
+        console.error('Error fetching meal types:', error);
+      }
+    };
+
+    fetchMealTypes();
+  }, []); 
 
   return (
     <div>
@@ -44,19 +57,20 @@ function AddMealTime() {
         <span className="addicon"><AddIcon /></span>
       </Button>
 
-      {/* Meal Time Cards */}
+      {/* Meal Type Cards */}
       <div className="mealtimes">
-      <MealCard name="Veg" image="/veg.png"/>
-          <MealCard name="Chicken" image="/chicken.png" />
-          <MealCard name="Fish" image="/fish.png"  />
-          <MealCard name="Veg" image="/veg.png"/>
-          <MealCard name="Chicken" image="/chicken.png" />
-          <MealCard name="Fish" image="/fish.png"  />
-          <MealCard name="Veg" image="/veg.png"/>
-          <MealCard name="Chicken" image="/chicken.png" />
-          <MealCard name="Fish" image="/fish.png"  />
+        {mealTypes.length > 0 ? (
+          mealTypes.map((meal) => (
+            <MealCard 
+              key={meal.id} 
+              name={meal.meal_name} 
+              image={meal.meal_image_url || '/default-meal.png'} 
+            />
+          ))
+        ) : (
+          <p>No meal types available</p>
+        )}
       </div>
-
 
       <MealCardPopup
         open={isPopupOpen}

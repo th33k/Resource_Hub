@@ -1,23 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import MealCard from "../components/Meal/MealCard";
-import { MealCardPopup } from '../components/Meal/AddMealTimePopup';
+import { MealCardPopup } from '../components/Meal/AddMealTypePopup';
 import './css/AddMealTime.css';
 
 function AddMealTime() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const [mealTimes, setMealTimes] = useState([]); 
 
   const title = "Add New Meal Time"; 
   const value = 100; 
   const chartData = [10, 20, 30]; 
 
-
   const getSubtitle = () => {
     return "Manage meal times for the day"; 
   };
-
 
   const handlePopupOpen = () => {
     setIsPopupOpen(true);
@@ -26,6 +24,21 @@ function AddMealTime() {
   const handlePopupClose = () => {
     setIsPopupOpen(false);
   };
+
+
+  useEffect(() => {
+    const fetchMealTimes = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/mealtime/allMeals');
+        const data = await response.json();
+        setMealTimes(data); 
+      } catch (error) {
+        console.error('Error fetching meal times:', error);
+      }
+    };
+
+    fetchMealTimes();
+  }, []); 
 
   return (
     <div>
@@ -44,19 +57,20 @@ function AddMealTime() {
         <span className="addicon"><AddIcon /></span>
       </Button>
 
-      {/* Meal Time Cards */}
+      {/* Meal Type Cards */}
       <div className="mealtimes">
-        <MealCard name="Breakfast" image="/breakfast.png" />
-        <MealCard name="Lunch" image="/lunch.png" />
-        <MealCard name="Dinner" image="/dinner.png" />
-        <MealCard name="Breakfast" image="/breakfast.png" />
-        <MealCard name="Lunch" image="/lunch.png" />
-        <MealCard name="Dinner" image="/dinner.png" />
-        <MealCard name="Breakfast" image="/breakfast.png" />
-        <MealCard name="Lunch" image="/lunch.png" />
-        <MealCard name="Dinner" image="/dinner.png" />
+        {mealTimes.length > 0 ? (
+          mealTimes.map((meal) => (
+            <MealCard 
+              key={meal.id} 
+              name={meal.meal_name} 
+              image={meal.meal_image_url || '/default-meal.png'} 
+            />
+          ))
+        ) : (
+          <p>No meal times available</p>
+        )}
       </div>
-
 
       <MealCardPopup
         open={isPopupOpen}
