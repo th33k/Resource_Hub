@@ -1,20 +1,20 @@
 import { useState } from 'react';
-import { Dialog, Input, Button } from '@mui/material';
+import { Dialog, Input } from '@mui/material';
 import { X } from 'lucide-react';
-import '../css/Meal/AddMealPopup.css';
+import '../css/Meal/AddMealPopup.css'
 
-export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
+export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
-  const [mealImageUrl, setMealImageUrl] = useState('');
+  const [mealImageUrl, setMealImageUrl] = useState(''); 
 
   const handleUrlChange = (e) => {
-    setMealImageUrl(e.target.value);
+    setMealImageUrl(e.target.value); 
   };
 
   const handleSubmit = async () => {
     if (mealImageUrl && mealName) {
       try {
-        const response = await fetch('http://localhost:9091/mealtype', {
+        const response = await fetch('http://localhost:9092/mealtype/add', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -24,17 +24,18 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
             mealImageUrl,
           }),
         });
-
+  
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
+  
         const result = await response.json();
         console.log('Server Response:', result);
-        onClose(); 
+        onClose();
+        onSubmit(); // Refresh the meal type list
       } catch (error) {
         console.error('Fetch error:', error);
-        alert('Failed to add meal. Please try again.');
+        alert('Failed to add meal type. Please try again.');
       }
     } else {
       alert('Please provide both meal name and image URL');
@@ -55,9 +56,8 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
         </div>
 
         <div className="mealtime-form">
-
           <div className="mealtime-input-group">
-            <label className="mealtime-label">Meal Image URL</label>
+            <label className="mealtime-label">Meal Type Image URL</label>
             <Input
               type="text"
               value={mealImageUrl}
@@ -73,14 +73,14 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
               <h3>Preview:</h3>
               <img
                 src={mealImageUrl}
-                alt="Meal Preview"
+                alt="Meal Type Preview"
                 className="mealtime-preview-img"
               />
             </div>
           )}
 
           <div className="mealtime-input-group">
-            <label className="mealtime-label">Meal Name</label>
+            <label className="mealtime-label">Meal Type Name</label>
             <Input
               type="text"
               value={mealName}

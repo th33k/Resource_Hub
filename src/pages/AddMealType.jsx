@@ -1,44 +1,53 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import MealCard from "../components/Meal/MealCard";
+import MealCard from "../components/Meal/MealTypeCard";
 import { MealCardPopup } from '../components/Meal/AddMealTypePopup';
 import './css/AddMealTime.css';
 
-function AddMealTime() {
+function AddMealType() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [mealTypes, setMealTypes] = useState([]); // State to store meal types fetched from API
+  const [mealTypes, setMealTypes] = useState([]);
+  const [error, setError] = useState(null);
 
-  const title = "Add New Meal Type"; 
-  const value = 100; 
-  const chartData = [10, 20, 30]; 
+  const title = "Add New Meal Type";
+  const getSubtitle = () => "Manage meal types for the day";
 
-  const getSubtitle = () => {
-    return "Manage meal types for the day"; 
-  };
+  const handlePopupOpen = () => setIsPopupOpen(true);
+  const handlePopupClose = () => setIsPopupOpen(false);
 
-  const handlePopupOpen = () => {
-    setIsPopupOpen(true);
-  };
+  const handleDelete = async (mealId) => {
+    try {
+      const response = await fetch(`http://localhost:9092/mealtype/${mealId}`, {
+        method: "DELETE",
+      });
 
-  const handlePopupClose = () => {
-    setIsPopupOpen(false);
-  };
-
-  // Fetch meal types from the API
-  useEffect(() => {
-    const fetchMealTypes = async () => {
-      try {
-        const response = await fetch('http://localhost:8081/mealtype/allMealTypes');
-        const data = await response.json();
-        setMealTypes(data); // Update the state with the fetched data
-      } catch (error) {
-        console.error('Error fetching meal types:', error);
+      if (response.ok) {
+        await fetchMealTypes();
+      } else {
+        setError("Failed to delete meal type");
       }
-    };
+    } catch (error) {
+      setError(`Error deleting meal type: ${error.message}`);
+    }
+  };
 
+  const fetchMealTypes = async () => {
+    try {
+      const response = await fetch('http://localhost:9092/mealtype');
+      if (!response.ok) {
+        throw new Error('Failed to fetch meal types');
+      }
+      const data = await response.json();
+      setMealTypes(data);
+    } catch (error) {
+      setError(`Error fetching meal types: ${error.message}`);
+    }
+  };
+
+  useEffect(() => {
     fetchMealTypes();
-  }, []); 
+  }, []);
 
   return (
     <div>
@@ -57,14 +66,17 @@ function AddMealTime() {
         <span className="addicon"><AddIcon /></span>
       </Button>
 
-      {/* Meal Type Cards */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       <div className="mealtimes">
         {mealTypes.length > 0 ? (
           mealTypes.map((meal) => (
             <MealCard 
               key={meal.id} 
-              name={meal.meal_name} 
-              image={meal.meal_image_url || '/default-meal.png'} 
+              mealId={meal.id}
+              name={meal.mealName}
+              image={meal.mealImageUrl || '/default-meal.png'} 
+              onDelete={handleDelete}
             />
           ))
         ) : (
@@ -77,11 +89,10 @@ function AddMealTime() {
         onClose={handlePopupClose}
         title={title}
         subtitle={getSubtitle()}
-        value={value}
-        chartData={chartData}
+        onSubmit={fetchMealTypes}
       />
     </div>
   );
 }
 
-export default AddMealTime;
+export default AddMealType;

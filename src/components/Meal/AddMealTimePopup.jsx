@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Dialog, Input, Button } from '@mui/material';
+import { Dialog, Input } from '@mui/material';
 import { X } from 'lucide-react';
 import '../css/Meal/AddMealPopup.css'
 
-export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
+export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
   const [mealImageUrl, setMealImageUrl] = useState(''); 
+
   const handleUrlChange = (e) => {
     setMealImageUrl(e.target.value); 
   };
@@ -13,7 +14,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
   const handleSubmit = async () => {
     if (mealImageUrl && mealName) {
       try {
-        const response = await fetch('http://localhost:9090/mealtime', {
+        const response = await fetch('http://localhost:9090/mealtime/add', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -30,7 +31,8 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
   
         const result = await response.json();
         console.log('Server Response:', result);
-        onClose(); 
+        onClose();
+        onSubmit(); // Refresh the meal list
       } catch (error) {
         console.error('Fetch error:', error);
         alert('Failed to add meal. Please try again.');
@@ -54,7 +56,6 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
         </div>
 
         <div className="mealtime-form">
-
           <div className="mealtime-input-group">
             <label className="mealtime-label">Meal Time Image URL</label>
             <Input
