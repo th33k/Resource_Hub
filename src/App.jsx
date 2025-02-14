@@ -11,6 +11,7 @@ import MealCalander from "./pages/MealCalander";
 import AddMealTime from "./pages/AddMealTime";
 import AddMealType from "./pages/AddMealType";
 import { Users } from "./pages/Users";
+import Asset from "./pages/Asset";
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
@@ -31,6 +32,7 @@ function App() {
           <Route path="admin-addmealtime" element={<AddMealTime />} />
           <Route path="admin-addmealtype" element={<AddMealType />} />
           <Route path="admin-users" element={<Users />} />
+          <Route path="admin-asset" element={<Asset />} />
         </Route>
         <Route path="/" element={<PrivateRoute element={<UserLayout />} />}>
           <Route index element={<DashboardUser />} />

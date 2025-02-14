@@ -1,7 +1,8 @@
+import AssetTable from "../components/Asset/AssetTable"
 
 function Asset(){
     return(
-        <div></div>
+        <AssetTable/>
     )
 }
 export default Asset
