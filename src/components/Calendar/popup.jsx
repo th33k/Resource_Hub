@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import MealTimeSelect from "./MealTimeSelect";
-import '../css/Calender/Popup.css';  // Import the CSS file
+import '../css/Calender/Popup.css'; 
 
 function Popup({ open, handleClose, selectedDate, onAddEvent, isMealSelected }) {
   return (
@@ -10,12 +10,12 @@ function Popup({ open, handleClose, selectedDate, onAddEvent, isMealSelected }) 
       open={open}
       onClose={handleClose}
       BackdropProps={{
-        className: "popup-backdrop",
+        className: "popup-backdrop1",
       }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box className="popup-box" sx={{overflowY: "auto"}}>
+      <Box className="popup-box1" sx={{overflowY: "auto"}}>
         <MealTimeSelect
           selectedDate={selectedDate}
           onAddEvent={onAddEvent}   

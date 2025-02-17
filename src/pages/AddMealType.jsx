@@ -51,15 +51,12 @@ function AddMealType() {
 
   return (
     <div>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">Meal types</h1>
+      </div>
       <Button
         variant="contained"
         className="addbtn"
-        sx={{
-          fontSize: '15px',
-          padding: '10px 25px',
-          margin: '10px',
-          marginLeft: '20px'
-        }}
         onClick={handlePopupOpen}
       >
         New Meal Type

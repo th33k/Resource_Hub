@@ -1,48 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import "./css/MealCalander.css";
-import Popup from "../components/Calander/popup";
-import DeletePopup from "../components/Calander/DeletePopup"; // Assuming you create a new DeletePopup component
+import "./css/MealCalendar.css";
+import Popup from "../components/Calendar/popup";
+import DeletePopup from "../components/Calendar/DeletePopup";
+import axios from "axios";
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
-  const [deletePopupOpen, setDeletePopupOpen] = useState(false); // State for delete confirmation popup
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null); // Store selected event for deletion
-  const [eventData, setEventData] = useState([]);  
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [eventData, setEventData] = useState([]);
   const today = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get("http://localhost:9093/mealevents");
+      const formattedEvents = response.data.map(event => ({
+        id: event.id,
+        title: `${event.meal_time} - ${event.meal_type}`,
+        start: event.meal_request_date,
+        end: event.meal_request_date
+      }));
+      setEventData(formattedEvents);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
 
   const dayClickAction = (info) => {
     setSelectedDate(info.dateStr);
-    setPopupOpen(true); 
+    setPopupOpen(true);
   };
 
-  const handleAddEvent = (mealTime, mealType) => {
-    const newEvent = {
-      title: `${mealTime} - ${mealType}`,
-      start: selectedDate,
-      end: selectedDate,
-      id: `${selectedDate}-${mealTime}-${mealType}`, // Generate a unique id
-    };
-    setEventData([...eventData, newEvent]);  
-    setPopupOpen(false); 
+  const handleAddEvent = async (mealTime, mealType) => {
+    try {
+      const response = await axios.post("http://localhost:9093/mealevents/add", {
+        meal_time: mealTime,
+        meal_type: mealType,
+        user_id: 1,
+        submitted_date: today,
+        meal_request_date: selectedDate
+      });
+
+      const newEvent = {
+        id: response.data.id,
+        title: `${mealTime} - ${mealType}`,
+        start: selectedDate,
+        end: selectedDate
+      };
+      setEventData([...eventData, newEvent]);
+      setPopupOpen(false);
+      window.location.reload(); // Refresh the page after adding
+    } catch (error) {
+      console.error("Error adding event:", error);
+    }
   };
 
-  const handleDeleteEvent = (eventId) => {
-    const updatedEvents = eventData.filter(event => event.id !== eventId);
-    setEventData(updatedEvents);
-    setDeletePopupOpen(false); // Close the delete popup
-  };
-
-  const isMealSelected = (mealType) => {
-    return eventData.some(event => event.start === selectedDate && event.title.includes(mealType));
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      await axios.delete(`http://localhost:9093/mealevents/${eventId}`);
+      const updatedEvents = eventData.filter(event => event.id !== eventId);
+      setEventData(updatedEvents);
+      setDeletePopupOpen(false);
+      window.location.reload(); // Refresh the page after deleting
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
   };
 
   const handleEventClick = (info) => {
-    setSelectedEvent(info.event); // Set the selected event
-    setDeletePopupOpen(true); // Open the delete confirmation popup
+    setSelectedEvent(info.event);
+    setDeletePopupOpen(true);
+  };
+
+  const isMealSelected = (mealTime) => {
+    return eventData.some(event => 
+      event.start === selectedDate && event.title.includes(mealTime)
+    );
   };
 
   return (
@@ -58,23 +99,21 @@ function MealCalendar() {
         dateClick={dayClickAction}
         validRange={{ start: today }}
         events={eventData}
-        eventClick={handleEventClick} // Event click handler to trigger deletion popup
+        eventClick={handleEventClick}
       />
 
-      {/* Add Meal Popup */}
       <Popup
         open={popupOpen}
         handleClose={() => setPopupOpen(false)}
         selectedDate={selectedDate}
-        onAddEvent={handleAddEvent} 
-        isMealSelected={isMealSelected}  
+        onAddEvent={handleAddEvent}
+        isMealSelected={isMealSelected}
       />
 
-      {/* Delete Confirmation Popup */}
       <DeletePopup
         open={deletePopupOpen}
         handleClose={() => setDeletePopupOpen(false)}
-        onDelete={() => handleDeleteEvent(selectedEvent.id)} // Delete the selected event
+        onDelete={() => selectedEvent && handleDeleteEvent(selectedEvent.id)}
         eventTitle={selectedEvent ? selectedEvent.title : ''}
       />
     </div>
