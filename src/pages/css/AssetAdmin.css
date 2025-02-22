@@ -1,0 +1,47 @@
+/* Main container for the entire page */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.search-filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.search-filter-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar {
+  margin-right: 10px;
+}
+
+.category-dropdown {
+  width: 200px;
+}
+
+.add-asset-btn {
+  margin-left: 20px;
+  padding: 8px 16px;
+}
+
+/* Styling for the asset table container */
+.table-container {
+  margin-top: 20px;
+}
+
+/* Optional: Styles for your Edit and Delete button sections */
+.edit-delete-buttons {
+  margin-right: 15px;  /* Add spacing between Edit and Delete buttons */
+}
