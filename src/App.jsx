@@ -18,7 +18,7 @@ import MaintenanceHome from "./pages/Admin/MaintenanceHome";
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-  return isAuthenticated ? <Navigate to="/login" /> : element; // change before git push
+  return isAuthenticated ?element  : <Navigate to="/login" />;
 };
 
 function App() {
