@@ -66,13 +66,12 @@ function Slidebar() {
                         className={`w-100 ${activeTab === 3 ? 'active' : ''}`} 
                         onClick={() => isOpenSubMenu(3)}>
                         <span className='icon'><FaTools /></span>
-                        Maintenance
+                        <Link to="Admin-maintenanceHome">Maintenance</Link>
                         <span className='arrow'><IoIosArrowForward /></span>
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 3 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                        <li><Link to="Admin-maintenanceHome">Maintenance Home</Link></li>
-                        <li><Link to="Admin-maintenanceDetails">Maintenance Details</Link></li>
+                        <li><Link to="Admin-maintenanceDetails">Maintenance</Link></li>
                         </ul>
                     </div>
                 </li>

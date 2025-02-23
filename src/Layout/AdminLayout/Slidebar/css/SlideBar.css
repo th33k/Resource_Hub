@@ -93,6 +93,9 @@
 .settings-button:hover {
     background-color: #162A6E;
 }
+.slidebar ul li a {
+    color: inherit; 
+}
 
 .slidebar ul .submenu {
     padding-left: 10px;
