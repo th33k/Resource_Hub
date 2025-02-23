@@ -48,6 +48,9 @@ function App() {
           <Route path="admin-addmealtype" element={<AddMealType />} />
           <Route path="admin-users" element={<Users />} />
           <Route path="admin-asset" element={<AssetAdmin />} />
+          <Route path="Admin-AssetMonitoring" element={<AssetMonitoringAdmin/>} />
+          <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
+          <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
         </Route>
 
         <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user", "admin"]} />}>
