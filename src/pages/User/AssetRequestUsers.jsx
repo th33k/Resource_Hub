@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import MonitorTable from "../components/Asset/AssetMonitoring/MonitorTable";
+import RequestTable from "../../components/Asset/Asset Requesting User/RequestTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { Search } from "lucide-react";
-import EditAssetPopup from "../components/Asset/AssetEdit";
-import DeleteAssetPopup from "../components/Asset/AssetDelete";
-import "./css/AssetAdmin.css";
+import EditAssetPopup from "../../components/Asset/AssetEdit";
+import DeleteAssetPopup from "../../components/Asset/AssetDelete";
+// import "./css/AssetAdmin.css";
 
 const initialAssets = [
   { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "008", assetname: "Laptop", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
@@ -76,7 +76,7 @@ const AssetMonitoringAdmin = () => {
         </FormControl>
       </div>
 
-      <MonitorTable 
+      <RequestTable 
         assets={filteredAssets}
         handleEditOpen={handleEditOpen}
         handleDeleteOpen={handleDeleteOpen}

@@ -1,16 +1,6 @@
 import React, { useState } from "react";
-<<<<<<< HEAD:src/pages/Admin/AssetAdmin.jsx
-<<<<<<< HEAD:src/pages/Admin/AssetAdmin.jsx
 import AssetTable from "../../components/Asset/AssetTable";
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-=======
-import AssetTable from "../components/Asset/AssetTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
->>>>>>> feat/asset:src/pages/AssetAdmin.jsx
-=======
-import AssetTable from "../components/Asset/AssetTable";
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
->>>>>>> feat/asset:src/pages/AssetAdmin.jsx
 import { UserPlus, Search } from "lucide-react";
 import EditAssetPopup from "../../components/Asset/AssetEdit"; 
 import DeleteAssetPopup from "../../components/Asset/AssetDelete"; 
