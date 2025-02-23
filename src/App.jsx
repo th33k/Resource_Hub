@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import AdminLayout from "./Layout/AdminLayout/Layout";
 import UserLayout from "./Layout/UserLayout/Layout";
+<<<<<<< HEAD
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import DashboardUser from "./pages/User/DashboardUser";
 import MealCalander from "./pages/User/MealCalander";
@@ -12,6 +13,18 @@ import AddMealType from "./pages/Admin/AddMealType";
 import { Users } from "./pages/Admin/Users";
 import AssetUser from "./pages/User/AssetUser";
 import AssetAdmin from "./pages/Admin/AssetAdmin";
+=======
+import DashboardAdmin from "./pages/DashboardAdmin";
+import DashboardUser from "./pages/DashboardUser";
+import MealCalander from "./pages/MealCalander";
+import AddMealTime from "./pages/AddMealTime";
+import AddMealType from "./pages/AddMealType";
+import { Users } from "./pages/Users";
+import AssetUser from "./pages/AssetUser";
+import AssetAdmin from "./pages/AssetAdmin";
+import AssetMonitoringAdmin from "./pages/AssetMonitoringAdmin";
+import AssetRequestUsers from "./pages/AssetRequestUsers";
+>>>>>>> feat/asset
 
 const PrivateRoute = ({ element, allowedRole }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
@@ -43,6 +56,7 @@ function App() {
           <Route path="admin-addmealtype" element={<AddMealType />} />
           <Route path="admin-users" element={<Users />} />
           <Route path="admin-asset" element={<AssetAdmin />} />
+          <Route path="admin-assetmonitoring" element={<AssetMonitoringAdmin />} />
         </Route>
 
         <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user", "admin"]} />}>
@@ -50,6 +64,7 @@ function App() {
           <Route path="user-DashboardUser" element={<DashboardUser />} />
           <Route path="user-mealcalander" element={<MealCalander />} />
           <Route path="user-asset" element={<AssetUser />} />
+          <Route path="user-assetrequest" element={<AssetRequestUsers />} />
         </Route>
       </Routes>
     </BrowserRouter>
