@@ -24,6 +24,9 @@ import AssetUser from "./pages/AssetUser";
 import AssetAdmin from "./pages/AssetAdmin";
 import AssetMonitoringAdmin from "./pages/AssetMonitoringAdmin";
 import AssetRequestUsers from "./pages/AssetRequestUsers";
+<<<<<<< HEAD
+>>>>>>> feat/asset
+=======
 >>>>>>> feat/asset
 
 const PrivateRoute = ({ element, allowedRole }) => {
