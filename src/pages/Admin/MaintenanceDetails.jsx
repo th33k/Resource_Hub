@@ -10,7 +10,8 @@ import {
 import { Plus, Search } from "lucide-react";
 import { MainteranceTable } from "../../components/Maintenance/MaintenanceTable.jsx";
 import { AddMainterancePopup } from "../../components/Maintenance/AddMaintenancePopup.jsx";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -225,8 +226,9 @@ const MaintenanceDetails = () => {
   const [searchText, setSearchText] = useState("");
   const [filterType, setFilterType] = useState("All");
 
-  const handleAddUser = (newUser) => {
+  const handleAddMainteince = (newUser) => {
     setUsers((prev) => [...prev, { ...newUser, id: Date.now().toString() }]);
+    toast.success("Adding Successful");
     setIsAddUserOpen(false);
   };
 
@@ -245,6 +247,8 @@ const MaintenanceDetails = () => {
     const idsArray = Array.isArray(userIds) ? userIds : [userIds];
   
     setUsers((prev) => prev.filter((user) => !idsArray.includes(user.id)));
+    toast.success("Delete successfully!");
+    
   };
 
   const filteredUsers = users.filter((user) => {
@@ -331,9 +335,11 @@ const MaintenanceDetails = () => {
       <AddMainterancePopup
         open={isAddUserOpen}
         onClose={() => setIsAddUserOpen(false)}
-        onAdd={handleAddUser}
+        onAdd={handleAddMainteince}
       />
+        <ToastContainer />
     </div>
+    
   );
 };
 

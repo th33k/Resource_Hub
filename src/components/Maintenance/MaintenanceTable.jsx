@@ -16,6 +16,9 @@ import { Pencil, Trash2, Send } from "lucide-react";
 import { EditMaintanence } from "./EditMaintenacePopup";
 import { DeleteConfirmDialog } from "./DeleteMaintenancePopup";
 import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const MainteranceTable = ({ users, onEditUser, onDeleteUsers }) => {
   const [selected,setSelected] = useState([]);
@@ -44,6 +47,11 @@ export const MainteranceTable = ({ users, onEditUser, onDeleteUsers }) => {
     setSelected([]);
     setIsDeleteDialogOpen(false);
   };
+
+  const sendMaintanence = (user) => {
+   
+    toast.success( "Sent Successfully!");
+  }
 
   // const handleSort = (column) => {
   //   const isSameColumn = column === sortColumn;
@@ -188,8 +196,9 @@ export const MainteranceTable = ({ users, onEditUser, onDeleteUsers }) => {
                             color="success"
                             startIcon={<Send size={20} />}
                             onClick={() => {
-                              // setSelected([user.id]);
-                              // setIsDeleteDialogOpen(true);
+                              setSelected(user.id);
+                              sendMaintanence(user);
+                         
                             }}
                           >
                             Send
@@ -251,6 +260,7 @@ export const MainteranceTable = ({ users, onEditUser, onDeleteUsers }) => {
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={handleDelete}
       />
+       <ToastContainer />
     </>
   );
 };
