@@ -13,6 +13,8 @@ import AddMealType from "./pages/AddMealType";
 import { Users } from "./pages/Users";
 import AssetUser from "./pages/AssetUser";
 import AssetAdmin from "./pages/AssetAdmin";
+import AssetMonitoringAdmin from "./pages/AssetMonitoringAdmin";
+import AssetRequestUsers from "./pages/AssetRequestUsers";
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
@@ -34,6 +36,7 @@ function App() {
           <Route path="admin-addmealtype" element={<AddMealType />} />
           <Route path="admin-users" element={<Users />} />
           <Route path="admin-asset" element={<AssetAdmin />} />
+          <Route path="admin-assetmonitoring" element={<AssetMonitoringAdmin />} />
         </Route>
         <Route path="/" element={<PrivateRoute element={<UserLayout />} />}>
           <Route index element={<DashboardUser />} />
@@ -44,6 +47,7 @@ function App() {
           <Route path="user-addmealtype" element={<AddMealType />} />
           <Route path="user-users" element={<Users />} />
           <Route path="user-asset" element={<AssetUser />} />
+          <Route path="user-assetrequest" element={<AssetRequestUsers />} />
         </Route>
       </Routes>
     </BrowserRouter>
