@@ -13,10 +13,12 @@ import AddMealType from "./pages/Admin/AddMealType";
 import { Users } from "./pages/Admin/Users";
 import AssetUser from "./pages/User/AssetUser";
 import AssetAdmin from "./pages/Admin/AssetAdmin";
+import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
+import MaintenanceHome from "./pages/Admin/MaintenanceHome";
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-  return isAuthenticated ? element : <Navigate to="/login" />;
+  return isAuthenticated ? <Navigate to="/login" /> : element; // change before git push
 };
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
           <Route path="admin-addmealtype" element={<AddMealType />} />
           <Route path="admin-users" element={<Users />} />
           <Route path="admin-asset" element={<AssetAdmin />} />
+          <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
+          <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
         </Route>
         <Route path="/" element={<PrivateRoute element={<UserLayout />} />}>
           <Route index element={<DashboardUser />} />
