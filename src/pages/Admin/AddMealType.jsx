@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import MealCard from "../components/Meal/MealTypeCard";
-import { MealCardPopup } from '../components/Meal/AddMealTypePopup';
-import './css/AddMealTime.css';
+import MealCard from "../../components/Meal/MealTypeCard";
+import { MealCardPopup } from '../../components/Meal/AddMealTypePopup';
+import '../css/AddMealTime.css';
 
 function AddMealType() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

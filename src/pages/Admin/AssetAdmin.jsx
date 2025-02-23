@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import AssetTable from "../components/Asset/AssetTable";
+import AssetTable from "../../components/Asset/AssetTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import EditAssetPopup from "../components/Asset/AssetEdit"; 
-import DeleteAssetPopup from "../components/Asset/AssetDelete"; 
-import './css/AssetAdmin.css';
+import EditAssetPopup from "../../components/Asset/AssetEdit"; 
+import DeleteAssetPopup from "../../components/Asset/AssetDelete"; 
+import '../css/AssetAdmin.css';
 
 const initialAssets = [
   { id: 1, name: "Laptop", category: "Electronics & IT", quantity: 10, condition: "Good", location: "Office" },

@@ -1,7 +1,7 @@
 import { Utensils, Box, Wrench } from 'lucide-react';
-import { StatCard } from '../components/Dashboard/User/StatCard';
-import { RecentActivities } from '../components/Dashboard/User/RecentActivities';
-import { QuickActions } from '../components/Dashboard/User/QuickActions';
+import { StatCard } from '../../components/Dashboard/User/StatCard';
+import { RecentActivities } from '../../components/Dashboard/User/RecentActivities';
+import { QuickActions } from '../../components/Dashboard/User/QuickActions';
 
 const getMonthLabels = () => {
   const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

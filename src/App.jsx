@@ -5,14 +5,14 @@ import "./App.css";
 import Login from "./pages/Login";
 import AdminLayout from "./Layout/AdminLayout/Layout";
 import UserLayout from "./Layout/UserLayout/Layout";
-import DashboardAdmin from "./pages/DashboardAdmin";
-import DashboardUser from "./pages/DashboardUser";
-import MealCalander from "./pages/MealCalander";
-import AddMealTime from "./pages/AddMealTime";
-import AddMealType from "./pages/AddMealType";
-import { Users } from "./pages/Users";
-import AssetUser from "./pages/AssetUser";
-import AssetAdmin from "./pages/AssetAdmin";
+import DashboardAdmin from "./pages/Admin/DashboardAdmin";
+import DashboardUser from "./pages/User/DashboardUser";
+import MealCalander from "./pages/User/MealCalander";
+import AddMealTime from "./pages/Admin/AddMealTime";
+import AddMealType from "./pages/Admin/AddMealType";
+import { Users } from "./pages/Admin/Users";
+import AssetUser from "./pages/User/AssetUser";
+import AssetAdmin from "./pages/Admin/AssetAdmin";
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";

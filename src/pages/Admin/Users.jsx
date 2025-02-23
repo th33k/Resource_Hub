@@ -8,8 +8,8 @@ import {
   FormControl,
 } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import { UserTable } from "../components/Users/UserTable.jsx";
-import { AddUserDialog } from "../components/users/AddUserDialog.jsx";
+import { UserTable } from "../../components/Users/UserTable.jsx";
+import { AddUserDialog } from "../../components/users/AddUserDialog.jsx";
 
 export const Users = () => {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);

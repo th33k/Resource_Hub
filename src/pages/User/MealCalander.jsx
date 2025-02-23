@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import "./css/MealCalendar.css";
-import Popup from "../components/Calendar/popup";
-import DeletePopup from "../components/Calendar/DeletePopup";
+import "../css/MealCalendar.css";
+import Popup from "../../components/Calendar/popup";
+import DeletePopup from "../../components/Calendar/DeletePopup";
 import axios from "axios";
 
 function MealCalendar() {
