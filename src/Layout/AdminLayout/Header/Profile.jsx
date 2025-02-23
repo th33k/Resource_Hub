@@ -39,8 +39,8 @@ function Profile() {
     handleCloseMenu();  
   };
 
-  const name = "Minul Chathumal";
-  const email = "minulck@gamil.com";
+  const name = "John Doe";
+  const email = "jhondoe@gamil.com";
 
   return (
     <Box sx={{

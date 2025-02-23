@@ -58,10 +58,9 @@ function AssetAdmin() {
 
   return (
     <>
-      <div className="header">
-        <h1 className="title">Asset Management</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">Assets</h1>
       </div>
-
       <div className="search-filter-section">
         {/* Search & Filter Section */}
         <div className="search-filter-container">
