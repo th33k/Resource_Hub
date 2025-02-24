@@ -10,7 +10,6 @@ import MealCalander from "./pages/User/MealCalander";
 import AddMealTime from "./pages/Admin/AddMealTime";
 import AddMealType from "./pages/Admin/AddMealType";
 import { Users } from "./pages/Admin/Users";
-import AssetUser from "./pages/User/AssetUser";
 import AssetAdmin from "./pages/Admin/AssetAdmin";
 import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
 import MaintenanceHome from "./pages/Admin/MaintenanceHome";
@@ -57,7 +56,6 @@ function App() {
           <Route index element={<DashboardUser />} />
           <Route path="user-DashboardUser" element={<DashboardUser />} />
           <Route path="user-mealcalander" element={<MealCalander />} />
-          <Route path="user-asset" element={<AssetUser />} />
           <Route path="user-assetrequest" element={<AssetRequestUsers />} />
         </Route>
       </Routes>
