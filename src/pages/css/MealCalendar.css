@@ -1,0 +1,10 @@
+.fc-day-disabled {
+    background-color: #7979794b !important;
+    color: #af9191 !important;
+    cursor: not-allowed !important;
+  }
+  
+  .fc-day-disabled .fc-daygrid-day-number {
+    opacity: 0.8;
+  }
+  

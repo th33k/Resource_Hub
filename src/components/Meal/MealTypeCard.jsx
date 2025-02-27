@@ -40,7 +40,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
 
   const handleSaveEdit = async (mealId, name, image) => {
     try {
-      const response = await fetch(`http://localhost:9092/mealtype/${mealId}`, {
+      const response = await fetch(`http://localhost:9090/mealtype/${mealId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

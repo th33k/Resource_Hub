@@ -21,7 +21,7 @@ function MealCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("http://localhost:9093/mealevents");
+      const response = await axios.get("http://localhost:9090/mealevents");
       const formattedEvents = response.data.map(event => ({
         id: event.id,
         title: `${event.meal_time} - ${event.meal_type}`,
@@ -34,14 +34,22 @@ function MealCalendar() {
     }
   };
 
+  const isPastDate = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
   const dayClickAction = (info) => {
-    setSelectedDate(info.dateStr);
-    setPopupOpen(true);
+    if (!isPastDate(info.date)) {
+      setSelectedDate(info.dateStr);
+      setPopupOpen(true);
+    }
   };
 
   const handleAddEvent = async (mealTime, mealType) => {
     try {
-      const response = await axios.post("http://localhost:9093/mealevents/add", {
+      const response = await axios.post("http://localhost:9090/mealevents/add", {
         meal_time: mealTime,
         meal_type: mealType,
         user_id: 1,
@@ -65,7 +73,7 @@ function MealCalendar() {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:9093/mealevents/${eventId}`);
+      await axios.delete(`http://localhost:9090/mealevents/${eventId}`);
       const updatedEvents = eventData.filter(event => event.id !== eventId);
       setEventData(updatedEvents);
       setDeletePopupOpen(false);
@@ -76,8 +84,10 @@ function MealCalendar() {
   };
 
   const handleEventClick = (info) => {
-    setSelectedEvent(info.event);
-    setDeletePopupOpen(true);
+    if (!isPastDate(info.event.start)) {
+      setSelectedEvent(info.event);
+      setDeletePopupOpen(true);
+    }
   };
 
   const isMealSelected = (mealTime) => {
@@ -97,9 +107,14 @@ function MealCalendar() {
           right: "today",
         }}
         dateClick={dayClickAction}
-        validRange={{ start: today }}
         events={eventData}
         eventClick={handleEventClick}
+        dayCellClassNames={(arg) => {
+          if (isPastDate(arg.date)) {
+            return 'fc-day-disabled';
+          }
+          return '';
+        }}
       />
 
       <Popup

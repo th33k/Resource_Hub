@@ -50,7 +50,7 @@ function AddMealTime() {
   }, []);
 
   return (
-    <div>
+    <div className="mealpage">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Meal times</h1>
       </div>
