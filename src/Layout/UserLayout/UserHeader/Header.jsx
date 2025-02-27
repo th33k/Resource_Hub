@@ -6,7 +6,7 @@ import Search from './Search.jsx'
 import clientlogo from '/WSO2 logo.png'
 import NotificationBtn from './NotificationBtn.jsx'
 import SwitchBtn from "./SwitchBtn.jsx";
-import "./css/Header.css";
+import "./Header.css";
 import Profile from "./Profile.jsx";
 
 

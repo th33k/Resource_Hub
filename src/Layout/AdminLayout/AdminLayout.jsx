@@ -1,21 +1,20 @@
 import { Outlet } from "react-router-dom";
+import Header from "./AdminHeader/AdminHeader";
+import Slidebar from "./AdminSlidebar/AdminSlideBar";
 import IconBreadcrumbs from "../IconBreadcrumbs";
-import './Layout.css'
-import UserSideBar from './UserSideBar/SlideBar'
-import UserHeader from './UserHeader/Header'
+import './AdminLayout.css'
 
 function Layout() {
   return (
     <>
-      <UserHeader />
-      <div className="main d-flex">
+      <Header />
+      <div className="main">
         <div className="slidebarWrapper">
-          <UserSideBar />
+          <Slidebar />
         </div>
-
         <div className="content flex-grow-1 p-3">
           <IconBreadcrumbs />
-          <Outlet /> {/* This renders the child page content */}
+          <Outlet />
         </div>
       </div>
     </>

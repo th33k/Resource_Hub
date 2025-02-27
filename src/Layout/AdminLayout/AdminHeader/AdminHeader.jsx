@@ -2,12 +2,12 @@ import { Link } from "react-router-dom"
 import logo from '/Resource Hub Logo.png'
 import Button from '@mui/material/Button';
 import { MdOutlineMenuOpen } from "react-icons/md";
-import Search from './Search.jsx'
+import Search from './AdminSearch.jsx'
 import clientlogo from '/WSO2 logo.png'
-import NotificationBtn from './NotificationBtn.jsx'
-import SwitchBtn from "./SwitchBtn.jsx";
-import "./css/Header.css";
-import Profile from "./Profile.jsx";
+import NotificationBtn from './AdminNotificationBtn.jsx'
+import SwitchBtn from "./AdminSwitchBtn.jsx";
+import "./AdminHeader.css";
+import Profile from "./AdminProfile.jsx";
 
 
 function Header() {
