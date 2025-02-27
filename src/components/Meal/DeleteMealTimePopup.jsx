@@ -9,7 +9,7 @@ function DeletePopup({ open, onClose, onDelete, mealId }) {
 
     const handleDelete = async () => {
       try {
-        const response = await fetch(`http://localhost:9090/mealtime/${mealId}`, {
+        const response = await fetch(`http://localhost:9090/mealtime/details/${mealId}`, {
           method: "DELETE",
         });
   

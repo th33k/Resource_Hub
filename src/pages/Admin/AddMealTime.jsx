@@ -18,7 +18,7 @@ function AddMealTime() {
 
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`http://localhost:9090/mealtime/${mealId}`, {
+      const response = await fetch(`http://localhost:9090/mealtime/details/${mealId}`, {
         method: "DELETE",
       });
 
@@ -34,7 +34,7 @@ function AddMealTime() {
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtime');
+      const response = await fetch('http://localhost:9090/mealtime/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal times');
       }

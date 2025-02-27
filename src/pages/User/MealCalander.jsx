@@ -21,7 +21,7 @@ function MealCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/mealevents");
+      const response = await axios.get("http://localhost:9090/calander/mealevents");
       const formattedEvents = response.data.map(event => ({
         id: event.id,
         title: `${event.meal_time} - ${event.meal_type}`,
@@ -49,7 +49,7 @@ function MealCalendar() {
 
   const handleAddEvent = async (mealTime, mealType) => {
     try {
-      const response = await axios.post("http://localhost:9090/mealevents/add", {
+      const response = await axios.post("http://localhost:9090/calander/mealevents/add", {
         meal_time: mealTime,
         meal_type: mealType,
         user_id: 1,
@@ -73,7 +73,7 @@ function MealCalendar() {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:9090/mealevents/${eventId}`);
+      await axios.delete(`http://localhost:9090/calander/mealevents/${eventId}`);
       const updatedEvents = eventData.filter(event => event.id !== eventId);
       setEventData(updatedEvents);
       setDeletePopupOpen(false);
