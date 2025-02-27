@@ -1,53 +1,44 @@
-import { Link } from "react-router-dom"
-import logo from '/Resource Hub Logo.png'
-import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
+import logo from "/Resource Hub Logo.png";
+import Button from "@mui/material/Button";
 import { MdOutlineMenuOpen } from "react-icons/md";
-import Search from './AdminSearch.jsx'
-import clientlogo from '/WSO2 logo.png'
-import NotificationBtn from './AdminNotificationBtn.jsx'
+import Search from "./AdminSearch.jsx";
+import clientlogo from "/WSO2 logo.png";
+import NotificationBtn from "./AdminNotificationBtn.jsx";
 import SwitchBtn from "./AdminSwitchBtn.jsx";
 import "./AdminHeader.css";
 import Profile from "./AdminProfile.jsx";
 
-
-function Header() {
-    return (
-      <header className="d-flex align-items-center">
-        <div className="container-fluid w-100">
-          <div className="row d-flex align-items-center w-100">
-
-            <div className="col-sm-1  d-flex part1">
-              <Link to="/" className="d-flex align-items-center logo">
-                <img src={logo} className="logo" alt="Resource Hub Logo" />
-              </Link>
-            </div>
-            <div className="col-sm-1  d-flex part1">
-            <img className="clientlogo" src={clientlogo} alt="clientlogo" />
-            </div>
-            <div className="col-sm-2 d-flex align-items-center part2 p1-4" > 
-              <Button className="menu"><MdOutlineMenuOpen /></Button> 
-            </div>
-
-            <div className="col-sm-4 d-flex align-items-center part3 p1-4" > 
-              <Search></Search>
-            </div>
-
-            <div className="col-sm-1" > 
-              <SwitchBtn/>
-            </div>
-
-            <div className="col-sm-1" > 
-              <NotificationBtn/>
-            </div>
-
-            <div className="col-sm-1" > 
-              <Profile/>
-            </div>
-
+function AdminHeader() {
+  return (
+    <header className="adminheader">
+      <div className="adminheader__container">
+        <div className="adminheader__row">
+          <div className="adminheader__part1">
+            <Link to="/" className="adminheader__logo">
+              <img src={logo} className="adminheader__logo" alt="Resource Hub Logo" />
+            </Link>
+          </div>
+          <div className="adminheader__part1">
+            <img className="adminheader__clientlogo" src={clientlogo} alt="clientlogo" />
+          </div>
+          <div className="adminheader__part2"></div>
+          <div className="adminheader__part3">
+            <Search />
+          </div>
+          <div className="adminheader__part4">
+            <SwitchBtn />
+          </div>
+          <div className="adminheader__part5">
+            <NotificationBtn />
+          </div>
+          <div className="adminheader__part6">
+            <Profile />
           </div>
         </div>
-      </header>
-    );
-  }
-  
-  export default Header;
+      </div>
+    </header>
+  );
+}
+
+export default AdminHeader;

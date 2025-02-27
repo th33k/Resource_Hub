@@ -1,0 +1,133 @@
+header.userheader {
+  width: 100%;
+  height: 85px;
+  background-color: #0B1649;
+  position: fixed;
+  z-index: 100;
+}
+
+.userheader__logo {
+  width: 120px;
+}
+
+.userheader__clientlogo {
+  height: 50px;
+  margin-left: 20px;
+}
+
+.userheader__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 8px;
+}
+
+.userheader__logo {
+  text-decoration: none;
+}
+
+.userheader__menu , .userheader__part5{
+  min-width: 40px;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: rgb(255, 255, 255);
+  font-size: 28px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userheader__menu svg {
+  font-size: 40px;
+}
+
+.userheader__part5 svg{
+  font-size: 30px;
+  color: white;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  width: 500px;
+  height: 48px;
+  border-radius: 40px;
+  padding: 4px 20px;
+}
+.searchBox__input {
+  flex: 1;
+  color: rgb(255, 255, 255);
+  margin-left: 1rem;
+}
+.profileBox {
+  background-color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 65px;
+  width: 244px;
+  border-radius: 10px;
+}
+
+
+.profileText {
+  margin-left: 1rem;
+  text-align: left;
+}
+
+.profileName {
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+}
+
+.profileEmail {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.profileArrow {
+  color: rgb(255, 255, 255);
+}
+
+.profileMenu {
+  margin-top: 30px;
+}
+
+.profileMenuItem {
+  display: flex;
+  justify-content: center;
+  width: 220px;
+}
+
+.profileMenuText {
+  text-align: center;
+  width: 150px;
+}
+
+@media (max-width: 1300px) {
+  .userheader__clientlogo {
+    display: none;
+  }
+
+  .searchBox {
+    width: 250px;
+  }
+}
+@media (max-width: 1000px) {
+
+  .searchBox {
+    width: 200px;
+  }
+  .profileText {
+      display: none;
+  }
+  .profileBox {
+      width:80px;
+      padding: 0;
+      margin: 0;
+      height: 50px;
+  }
+}

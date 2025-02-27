@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Link } from 'react-router-dom';
 
-function SwitchBtn(){
+function UserSwitchBtn(){
     return(
         <FormControl component="fieldset">
         <FormGroup aria-label="position" row>
@@ -21,4 +21,4 @@ function SwitchBtn(){
     )
 }
 
-export default SwitchBtn
+export default UserSwitchBtn
