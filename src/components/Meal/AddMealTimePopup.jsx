@@ -1,42 +1,97 @@
 import { useState } from 'react';
-import { Dialog, Input, Button } from '@mui/material';
+import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
-import '../css/Meal/AddMealPopup.css'
+import '../css/Meal/AddMealPopup.css';
 
-export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
+export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
-  const [mealImageUrl, setMealImageUrl] = useState(''); 
-  const handleUrlChange = (e) => {
-    setMealImageUrl(e.target.value); 
+  const [mealImageUrl, setMealImageUrl] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
+  // Handle file selection
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // File type check
+      if (!file.type.startsWith('image/')) {
+        alert('Please upload a valid image file.');
+        return;
+      }
+  
+      // File size check (limit to 5MB for example)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB.');
+        return;
+      }
+  
+      setImageFile(file);
+      const fileURL = URL.createObjectURL(file); // Create preview URL
+      setMealImageUrl(fileURL); // Set preview URL
+    }
+  };
+
+  // Upload image to Cloudinary
+  const uploadImageToCloudinary = async () => {
+    if (!imageFile) {
+      alert('Please select an image to upload');
+      return null;
+    }
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append('upload_preset', 'ResourceHub'); // Your upload preset
+    formData.append('cloud_name', 'dyjwjhekd'); // Your Cloudinary cloud name
+
+    try {
+      const response = await fetch('https://api.cloudinary.com/v1_1/dyjwjhekd/image/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      setUploading(false);
+      return data.secure_url; // Cloudinary URL
+    } catch (error) {
+      console.error('Upload failed:', error);
+      setUploading(false);
+      alert('Image upload failed. Please try again.');
+      return null;
+    }
   };
 
   const handleSubmit = async () => {
-    if (mealImageUrl && mealName) {
+    const imageUrl = await uploadImageToCloudinary();
+    if (!imageUrl) return;
+
+    setMealImageUrl(imageUrl); // Save Cloudinary image URL
+
+    if (imageUrl && mealName) {
       try {
-        const response = await fetch('http://localhost:9090/mealtime', {
+        const response = await fetch('http://localhost:9090/mealtime/add', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             mealName,
-            mealImageUrl,
+            mealImageUrl: imageUrl, // Use the Cloudinary image URL
           }),
         });
-  
+
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-  
+
         const result = await response.json();
         console.log('Server Response:', result);
-        onClose(); 
+        onClose();
+        onSubmit(); // Refresh meal list
       } catch (error) {
         console.error('Fetch error:', error);
         alert('Failed to add meal. Please try again.');
       }
     } else {
-      alert('Please provide both meal name and image URL');
+      alert('Please provide both meal name and an image.');
     }
   };
 
@@ -54,26 +109,28 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
         </div>
 
         <div className="mealtime-form">
-
           <div className="mealtime-input-group">
-            <label className="mealtime-label">Meal Time Image URL</label>
-            <Input
-              type="text"
-              value={mealImageUrl}
-              onChange={handleUrlChange}
-              fullWidth
-              className="mealtime-input"
-              placeholder="Enter image URL here"
+            <label className="mealtime-label">Meal Time Image</label>
+            {/* File input for selecting image */}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: 'block', marginBottom: '10px' }}
             />
           </div>
 
+          {uploading && <Typography>Uploading image...</Typography>}
+
+          {/* Preview of selected image */}
           {mealImageUrl && (
             <div className="mealtime-image-preview">
-              <h3>Preview:</h3>
+              <Typography variant="h6">Preview:</Typography>
               <img
                 src={mealImageUrl}
                 alt="Meal Preview"
                 className="mealtime-preview-img"
+                style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'cover' }}
               />
             </div>
           )}
@@ -91,18 +148,9 @@ export const MealCardPopup = ({ open, onClose, title, subtitle }) => {
         </div>
 
         <div className="mealtime-buttons">
-          <button
-            onClick={onClose}
-            className="mealtime-cancel-btn"
-          >
-            Cancel
-          </button>
-
-          <button
-            onClick={handleSubmit}
-            className="mealtime-submit-btn"
-          >
-            Submit
+          <button onClick={onClose} className="mealtime-cancel-btn">Cancel</button>
+          <button onClick={handleSubmit} className="mealtime-submit-btn" disabled={uploading}>
+            {uploading ? 'Uploading...' : 'Submit'}
           </button>
         </div>
       </div>

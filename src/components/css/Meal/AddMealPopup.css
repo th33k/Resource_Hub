@@ -2,99 +2,125 @@
 
 /* Popup Container */
 .mealtime-popup-container {
-    padding: 24px;
-  }
-  
-  .mealtime-popup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 24px;
-  }
-  
-  .mealtime-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-  
-  .mealtime-subtitle {
-    font-size: 0.875rem;
-    color: #6b7280;
-  }
-  
-  .mealtime-close-btn {
-    background: none;
-    border: none;
-    color: #6b7280;
-    cursor: pointer;
-    padding: 0;
-  }
-  
-  .mealtime-form {
-    margin-bottom: 32px;
-  }
-  
-  .mealtime-input-group {
-    margin-bottom: 16px;
-  }
-  
-  .mealtime-label {
-    font-size: 0.875rem;
-    color: #4b5563;
-  }
-  
-  .mealtime-input {
-    padding: 12px;
-    margin-top: 8px;
-  }
-  
-  .mealtime-upload-btn {
-    padding: 12px;
-    margin-top: 8px;
-  }
-  
-  .mealtime-upload-icon {
-    margin-right: 8px;
-  }
-  
-  .mealtime-image-preview {
-    margin-top: 16px;
-  }
-  
-  .mealtime-preview-img {
-    width: 128px;
-    height: 128px;
-    object-fit: cover;
-    margin-top: 8px;
-  }
-  
-  .mealtime-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .mealtime-cancel-btn, .mealtime-submit-btn {
-    padding: 10px 20px;
-    border-radius: 4px;
-  }
-  
-  .mealtime-cancel-btn {
-    background-color: transparent;
-    color: #6b7280;
-    border: 1px solid #d1d5db;
-  }
-  
-  .mealtime-submit-btn {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-  }
-  
-  .mealtime-cancel-btn:hover {
-    background-color: #f3f4f6;
-  }
-  
-  .mealtime-submit-btn:hover {
-    background-color: #1d4ed8;
-  }
-  
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mealtime-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.mealtime-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.mealtime-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.mealtime-close-btn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.25rem;
+}
+
+.mealtime-form {
+  margin-bottom: 32px;
+}
+
+.mealtime-input-group {
+  margin-bottom: 24px;
+}
+
+.mealtime-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.mealtime-input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+.mealtime-upload-btn {
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.mealtime-upload-icon {
+  margin-right: 8px;
+}
+
+.mealtime-image-preview {
+  margin-top: 16px;
+}
+
+.mealtime-preview-img {
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  margin-top: 8px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mealtime-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.mealtime-cancel-btn, .mealtime-submit-btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 48%;
+}
+
+.mealtime-cancel-btn {
+  background-color: transparent;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  transition: all 0.2s ease;
+}
+
+.mealtime-submit-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.mealtime-cancel-btn:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px);
+}
+
+.mealtime-submit-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.mealtime-submit-btn:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}

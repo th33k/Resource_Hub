@@ -1,17 +1,20 @@
+/* Popup.css */
 
-.popup-backdrop {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .popup-box {
-    background-color: white;
-    border-radius: 8px;
-    padding: 16px;
-    max-height: 80vh;  
-    display: flex;
-    flex-direction: column;
-    width: 100%; 
-  }
-  
+.popup-box2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background-color: #fff;
+  border: 2px solid #000;
+  box-shadow: 24px;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.popup-backdrop2 {
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0);
+}

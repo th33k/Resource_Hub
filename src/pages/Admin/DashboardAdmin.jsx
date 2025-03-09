@@ -1,8 +1,8 @@
 import { Users, Utensils, Box, Wrench } from 'lucide-react';
-import { StatCard } from '../components/Dashboard/Admin/StatCard';
-import { ResourceCard } from '../components/Dashboard/Admin/ResourceCard';
-import { MealDistributionChart } from '../components/Dashboard/Admin/MealDistributionChart';
-import { ResourceAllocation } from '../components/Dashboard/Admin/ResourceAllocation';
+import { StatCard } from '../../components/Dashboard/Admin/StatCard';
+import { ResourceCard } from '../../components/Dashboard/Admin/ResourceCard';
+import { MealDistributionChart } from '../../components/Dashboard/Admin/MealDistributionChart';
+import { ResourceAllocation } from '../../components/Dashboard/Admin/ResourceAllocation';
 
 
 const getMonthLabels = () => {
