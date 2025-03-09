@@ -48,11 +48,11 @@ function AssetTable() {
               <TableCell>{asset.location}</TableCell>
               <TableCell>
                 {/* Edit Button */}
-                <Button color="primary" variant="outlined" onClick={() => handleEdit(asset.id)}>
+                <Button sx={{mr:'10px',marginRight:'10px'}} color="primary" variant="outlined" onClick={() => handleEdit(asset.id)}>
                   Edit <Edit />
                 </Button>
                 {/* Delete Button */}
-                <Button color="error" variant="outlined" onClick={() => handleDelete(asset.id)}>
+                <Button color="error" sx={{marginLeft:'10px'}} variant="outlined" onClick={() => handleDelete(asset.id)}>
                  Delete <Delete />
                 </Button>
               </TableCell>
