@@ -92,7 +92,7 @@ function Slidebar() {
             </ul>
 
             <div className="settings-container">
-                <Link to={'/'}>
+                <Link to={'/settings/account'}>
                     <div className="settings-button">
                         <FaCog /> Profile Settings
                     </div>
