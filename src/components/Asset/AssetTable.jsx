@@ -28,7 +28,7 @@ function AssetTable({ assets, handleEditOpen, handleDeleteOpen, editOpen, delete
                 <TableCell>{asset.condition}</TableCell>
                 <TableCell>{asset.location}</TableCell>
                 <TableCell>
-                  <Button color="primary" variant="outlined" onClick={() => handleEditOpen(asset)}>
+                  <Button sx={{mr:'10px'}} color="primary" variant="outlined" onClick={() => handleEditOpen(asset)}>
                     Edit <Edit />
                   </Button>
                   <Button color="error" variant="outlined" onClick={() => handleDeleteOpen(asset)}>
