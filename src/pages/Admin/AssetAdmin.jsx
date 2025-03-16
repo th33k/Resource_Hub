@@ -1,18 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AssetTable from "../../components/Asset/AssetTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
 import EditAssetPopup from "../../components/Asset/AssetEdit"; 
 import DeleteAssetPopup from "../../components/Asset/AssetDelete"; 
 import '../css/AssetAdmin.css';
-
-const initialAssets = [
-  { id: 1, name: "Laptop", category: "Electronics & IT", quantity: 10, condition: "Good", location: "Office" },
-  { id: 2, name: "Projector", category: "Electronics & IT", quantity: 2, condition: "Excellent", location: "Conference Room" },
-  { id: 3, name: "Marker Pens", category: "Stationery", quantity: 3, condition: "Average", location: "IT Room" },
-  { id: 4, name: "White Board", category: "Furniture", quantity: 1, condition: "Good", location: "Meeting Room" },
-  { id: 5, name: "Phone", category: "Electronics & IT", quantity: 5, condition: "New", location: "Reception" }
-];
 
 function AssetAdmin() {
   const [searchText, setSearchText] = useState("");
@@ -28,14 +20,23 @@ function AssetAdmin() {
     condition: "Good",
     location: "",
   });
+  const [assets, setAssets] = useState([]); // State to store assets from the API
+
+  // Fetch asset data from the API
+  useEffect(() => {
+    fetch('http://localhost:9090/asset/details')
+      .then(response => response.json())
+      .then(data => setAssets(data))
+      .catch(error => console.error('Error fetching assets:', error));
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   // Get unique categories for filtering
-  const uniqueCategories = ["All", ...new Set(initialAssets.map(asset => asset.category))];
+  const uniqueCategories = ["All", ...new Set(assets.map(asset => asset.category))];
 
   // Filter assets based on category or search
-  const filteredAssets = initialAssets.filter(asset => 
+  const filteredAssets = assets.filter(asset => 
     (filterCategory === "All" || asset.category === filterCategory) &&
-    asset.name.toLowerCase().includes(searchText.toLowerCase())
+    asset.asset_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleEditOpen = (asset) => {
@@ -49,29 +50,41 @@ function AssetAdmin() {
   };
 
   const handleUpdateAsset = (updatedAsset) => {
-    const updatedAssets = filteredAssets.map(asset => asset.id === updatedAsset.id ? updatedAsset : asset);
+    const updatedAssets = assets.map(asset => asset.id === updatedAsset.id ? updatedAsset : asset);
+    setAssets(updatedAssets);
     setSelectedAsset(null);
     setEditOpen(false);
   };
 
   const handleDeleteAsset = (id) => {
-    const updatedAssets = filteredAssets.filter(asset => asset.id !== id);
+    const updatedAssets = assets.filter(asset => asset.id !== id);
+    setAssets(updatedAssets);
     setSelectedAsset(null);
     setDeleteOpen(false);
   };
 
   // Handle adding a new asset
   const handleAddAsset = () => {
-    const newAssetWithId = { ...newAsset, id: Date.now() }; // Unique id based on timestamp
-    initialAssets.push(newAssetWithId);
-    setAddAssetOpen(false);
-    setNewAsset({
-      name: "",
-      category: "Electronics & IT",
-      quantity: 0,
-      condition: "Good",
-      location: "",
-    });
+    fetch('http://localhost:9090/asset/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newAsset),
+    })
+    .then(response => response.json())
+    .then(data => {
+      setAssets([...assets, data]);
+      setAddAssetOpen(false);
+      setNewAsset({
+        name: "",
+        category: "Electronics & IT",
+        quantity: 0,
+        condition: "Good",
+        location: "",
+      });
+    })
+    .catch(error => console.error('Error adding asset:', error));
   };
 
   return (

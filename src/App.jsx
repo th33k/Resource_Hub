@@ -15,6 +15,7 @@ import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
 import MaintenanceHome from "./pages/Admin/MaintenanceHome";
 import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
 import AssetRequestUsers from "./pages/User/AssetRequestUsers";
+import AssetHome from "./pages/Admin/AssetHome";
 
 
 const PrivateRoute = ({ element, allowedRole }) => {
@@ -50,6 +51,7 @@ function App() {
           <Route path="Admin-AssetMonitoring" element={<AssetMonitoringAdmin/>} />
           <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
           <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
+          <Route path="Admin-AssetHome" element={<AssetHome />} />
         </Route>
 
         <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user", "admin"]} />}>

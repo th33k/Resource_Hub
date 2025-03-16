@@ -22,10 +22,10 @@ function AssetTable({ assets, handleEditOpen, handleDeleteOpen, editOpen, delete
           {assets.length > 0 ? (
             assets.map((asset) => (
               <TableRow key={asset.id}>
-                <TableCell>{asset.name}</TableCell>
+                <TableCell>{asset.asset_name}</TableCell>
                 <TableCell>{asset.category}</TableCell>
                 <TableCell>{asset.quantity}</TableCell>
-                <TableCell>{asset.condition}</TableCell>
+                <TableCell>{asset.condition_type}</TableCell>
                 <TableCell>{asset.location}</TableCell>
                 <TableCell>
                   <Button color="primary" variant="outlined" onClick={() => handleEditOpen(asset)}>
