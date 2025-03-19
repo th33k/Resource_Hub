@@ -18,7 +18,7 @@ function AddMealType() {
 
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`http://localhost:9090/mealtype/${mealId}`, {
+      const response = await fetch(`http://localhost:9090/mealtype/details/${mealId}`, {
         method: "DELETE",
       });
 

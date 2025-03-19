@@ -65,7 +65,7 @@ function MealCalendar() {
       };
       setEventData([...eventData, newEvent]);
       setPopupOpen(false);
-      window.location.reload(); // Refresh the page after adding
+      window.location.reload(); 
     } catch (error) {
       console.error("Error adding event:", error);
     }

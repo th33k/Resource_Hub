@@ -16,7 +16,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   }));
 
-function NotificationBtn(){
+function UserNotificationBtn(){
     return(
     <IconButton aria-label="cart" className="menu">
       <StyledBadge  badgeContent={10} color="secondary" >
@@ -26,4 +26,4 @@ function NotificationBtn(){
     )
 }
 
-export default NotificationBtn
+export default UserNotificationBtn

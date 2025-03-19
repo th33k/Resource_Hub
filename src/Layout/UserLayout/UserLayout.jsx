@@ -1,16 +1,16 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header/Header";
-import Slidebar from "./Slidebar/SlideBar";
 import IconBreadcrumbs from "../IconBreadcrumbs";
-import './Layout.css'
+import './UserLayout.css'
+import UserSideBar from './UserSideBar/UserSlideBar'
+import UserHeader from './UserHeader/UserHeader'
 
-function Layout() {
+function UserLayout() {
   return (
     <>
-      <Header />
+      <UserHeader />
       <div className="main">
         <div className="slidebarWrapper">
-          <Slidebar />
+          <UserSideBar />
         </div>
         <div className="content flex-grow-1 p-3">
           <IconBreadcrumbs />
@@ -21,4 +21,4 @@ function Layout() {
   );
 }
 
-export default Layout;
+export default UserLayout;
