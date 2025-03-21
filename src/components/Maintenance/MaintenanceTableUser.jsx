@@ -20,29 +20,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const MainteranceTable = ({
-  maintanence,
-  userType,
-  onEditUser,
-  onDeleteUsers,
+  maintanence
+
 }) => {
-  const [selected, setSelected] = useState([]);
-  const [editUser, setEditUser] = useState(null);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortColumn, setSortColumn] = useState("name");
 
-  const handleDelete = () => {
-    onDeleteUsers(selected);
-    setSelected([]);
-    setIsDeleteDialogOpen(false);
-  };
 
-  const sendMaintanence = (user) => {
-    toast.success("Sent Successfully!");
-   // Store notification in database
-  };
 
   const sortsedMaintanance = [...maintanence].sort((a, b) => {
     const aValue = a[sortColumn];
@@ -89,7 +76,7 @@ export const MainteranceTable = ({
                 </TableCell>
                 <TableCell align="center">Status</TableCell>
 
-                <TableCell align="center">Actions</TableCell>
+        
               </TableRow>
             </TableHead>
 
@@ -123,48 +110,7 @@ export const MainteranceTable = ({
                       </div>
                     </TableCell>
 
-                    <TableCell align="center">
-                      <div className="flex justify-center gap-2">
-                        <Tooltip title="Edit User">
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            startIcon={<Pencil size={20} />}
-                            onClick={() => setEditUser(user)}
-                          >
-                            Edit
-                          </Button>
-                        </Tooltip>
-
-                        <Tooltip title="Delete User">
-                          <Button
-                            variant="outlined"
-                            color="error"
-                            startIcon={<Trash2 size={20} />}
-                            onClick={() => {
-                              setSelected(user.id);
-                              setIsDeleteDialogOpen(true);
-                            }}
-                          >
-                            Delete
-                          </Button>
-                        </Tooltip>
-
-                        <Tooltip title="Send">
-                          <Button
-                            variant="outlined"
-                            color="success"
-                            startIcon={<Send size={20} />}
-                            onClick={() => {
-                              setSelected(user.id);
-                              sendMaintanence(user);
-                            }}
-                          >
-                            Send
-                          </Button>
-                        </Tooltip>
-                      </div>
-                    </TableCell>
+                   
                   </TableRow>
                 ))}
             </TableBody>
@@ -185,25 +131,7 @@ export const MainteranceTable = ({
         />
       </Paper>
 
-      {editUser && (
-        <EditMaintanence
-          user={editUser}
-          open={!!editUser}
-          onClose={() => setEditUser(null)}
-          onSave={(editedUser) => {
-            onEditUser(editedUser);
-            setEditUser(null);
-          }}
-        />
-      )}
-
-      <DeleteConfirmDialog
-        open={isDeleteDialogOpen}
-        userCount={selected.length}
-        onClose={() => setIsDeleteDialogOpen(false)}
-        onConfirm={handleDelete}
-      />
-      <ToastContainer />
+     
     </>
   );
 };
