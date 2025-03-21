@@ -64,8 +64,10 @@ function App() {
           <Route path="user-mealcalander" element={<MealCalander />} />
           <Route path="user-assetrequest" element={<AssetRequestUsers />} />
           <Route path="settings/*" element={<Settings />} />          
-          <Route path="user-asset" element={<AssetUser />} />
+          {/* <Route path="user-asset" element={<AssetUser />} /> */}
           <Route path="user-maintenanceDetails" element={<MaintenanceDetailsUser />} />
+          <Route path="user-MaintenanceHome" element={<MaintenanceHome />} />
+
           
         </Route>
       </Routes>
