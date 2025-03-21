@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AssetTable from "../../components/Asset/AssetTable";
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import { Button, TextField, MenuItem, Select, InputLabel, FormControl, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
 import EditAssetPopup from "../../components/Asset/AssetEdit"; 
 import DeleteAssetPopup from "../../components/Asset/AssetDelete"; 
@@ -20,6 +20,14 @@ function AssetAdmin() {
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [addAssetOpen, setAddAssetOpen] = useState(false); // State for Add Asset Popup
+  const [newAsset, setNewAsset] = useState({
+    name: "",
+    category: "Electronics & IT",
+    quantity: 0,
+    condition: "Good",
+    location: "",
+  });
 
   // Get unique categories for filtering
   const uniqueCategories = ["All", ...new Set(initialAssets.map(asset => asset.category))];
@@ -41,19 +49,29 @@ function AssetAdmin() {
   };
 
   const handleUpdateAsset = (updatedAsset) => {
-    // Update the asset in the list
     const updatedAssets = filteredAssets.map(asset => asset.id === updatedAsset.id ? updatedAsset : asset);
-    // Reset selected asset and close the edit dialog
     setSelectedAsset(null);
     setEditOpen(false);
   };
 
   const handleDeleteAsset = (id) => {
-    // Delete the asset from the list
     const updatedAssets = filteredAssets.filter(asset => asset.id !== id);
-    // Reset selected asset and close the delete dialog
     setSelectedAsset(null);
     setDeleteOpen(false);
+  };
+
+  // Handle adding a new asset
+  const handleAddAsset = () => {
+    const newAssetWithId = { ...newAsset, id: Date.now() }; // Unique id based on timestamp
+    initialAssets.push(newAssetWithId);
+    setAddAssetOpen(false);
+    setNewAsset({
+      name: "",
+      category: "Electronics & IT",
+      quantity: 0,
+      condition: "Good",
+      location: "",
+    });
   };
 
   return (
@@ -62,9 +80,7 @@ function AssetAdmin() {
         <h1 className="text-2xl font-semibold">Assets</h1>
       </div>
       <div className="search-filter-section">
-        {/* Search & Filter Section */}
         <div className="search-filter-container">
-          {/* Search Bar */}
           <TextField
             label="Search"
             variant="outlined"
@@ -75,7 +91,6 @@ function AssetAdmin() {
             className="search-bar"
           />
 
-          {/* Filter by Category Dropdown */}
           <FormControl variant="outlined" size="small" className="category-dropdown">
             <InputLabel>Filter by Category</InputLabel>
             <Select
@@ -93,7 +108,13 @@ function AssetAdmin() {
         </div>
 
         {/* Add New Asset Button */}
-        <Button variant="contained" color="primary" startIcon={<UserPlus size={20} />} className="add-asset-btn">
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<UserPlus size={20} />}
+          className="add-asset-btn"
+          onClick={() => setAddAssetOpen(true)} // Open the Add Asset modal
+        >
           Add New Asset
         </Button>
       </div>
@@ -123,6 +144,68 @@ function AssetAdmin() {
           />
         </>
       )}
+
+      {/* Add New Asset Dialog */}
+      <Dialog open={addAssetOpen} onClose={() => setAddAssetOpen(false)}>
+        <DialogTitle>Add New Asset</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Asset Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newAsset.name}
+            onChange={(e) => setNewAsset({ ...newAsset, name: e.target.value })}
+          />
+          <FormControl fullWidth variant="outlined" size="small" margin="normal">
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={newAsset.category}
+              onChange={(e) => setNewAsset({ ...newAsset, category: e.target.value })}
+              label="Category"
+            >
+              {uniqueCategories.map((category) => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            label="Quantity"
+            variant="outlined"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={newAsset.quantity}
+            onChange={(e) => setNewAsset({ ...newAsset, quantity: e.target.value })}
+          />
+          <TextField
+            label="Condition"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newAsset.condition}
+            onChange={(e) => setNewAsset({ ...newAsset, condition: e.target.value })}
+          />
+          <TextField
+            label="Location"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newAsset.location}
+            onChange={(e) => setNewAsset({ ...newAsset, location: e.target.value })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setAddAssetOpen(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleAddAsset} color="primary">
+            Add Asset
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

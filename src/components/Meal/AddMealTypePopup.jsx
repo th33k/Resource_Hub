@@ -57,7 +57,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
 
     if (imageUrl && mealName) {
       try {
-        const response = await fetch('http://localhost:9092/mealtype/add', {
+        const response = await fetch('http://localhost:9090/mealtype/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

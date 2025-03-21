@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import './css/Slidebar.css';
+import './css/UserSlidebar.css';
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
 import { GiHotMeal } from "react-icons/gi";
@@ -55,7 +55,7 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 2 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                            <li><Link to="#">product list</Link></li>
+                            <li><Link to="User-AssetRequest">User_Requests</Link></li>
                             <li><Link to="#">product list</Link></li>
                         </ul>
                     </div>
@@ -92,7 +92,7 @@ function Slidebar() {
             </ul>
 
             <div className="settings-container">
-                <Link to={'/'}>
+                <Link to={'/settings/account'}>
                     <div className="settings-button">
                         <FaCog /> Profile Settings
                     </div>

@@ -18,7 +18,7 @@ function AddMealType() {
 
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`http://localhost:9092/mealtype/${mealId}`, {
+      const response = await fetch(`http://localhost:9090/mealtype/details/${mealId}`, {
         method: "DELETE",
       });
 
@@ -34,7 +34,7 @@ function AddMealType() {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch('http://localhost:9092/mealtype');
+      const response = await fetch('http://localhost:9090/mealtype/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal types');
       }
@@ -50,7 +50,7 @@ function AddMealType() {
   }, []);
 
   return (
-    <div>
+    <div className="mealpage">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Meal types</h1>
       </div>

@@ -1,5 +1,4 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import Button from '@mui/material/Button';
 import * as React from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';

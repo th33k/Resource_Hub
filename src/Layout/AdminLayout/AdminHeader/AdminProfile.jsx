@@ -7,14 +7,11 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-// Importing icons
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-// Import the useNavigate hook
 import { useNavigate } from 'react-router-dom';
+import './AdminHeader.css';
 
 const settings = [
   { name: 'Profile', icon: <PersonIcon /> },
@@ -39,52 +36,36 @@ function Profile() {
     handleCloseMenu();  
   };
 
-  const name = "John Doe";
-  const email = "jhondoe@gamil.com";
-
   return (
-    <Box sx={{
-        backgroundColor: 'rgb(255,255,255,0.4)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '65px',
-        width: '244px',
-        borderRadius: '10px',
-      }}>
+    <Box className="profileBox">
       <Tooltip title="Open settings">
-        <IconButton sx={{ p: 0 }}>
-          <Avatar sx={{
-            height:'50px',
-            width:'50px'
-          }} alt="User Avatar" src="https://media.istockphoto.com/id/1309328823/photo/headshot-portrait-of-smiling-male-employee-in-office.jpg?s=612x612&w=0&k=20&c=kPvoBm6qCYzQXMAn9JUtqLREXe9-PlZyMl9i-ibaVuY=" />
-          <Box sx={{ ml: 1, textAlign: 'left' }}>
-            <Typography sx={{ fontSize: '14px', color: 'rgb(255,255,255)', fontWeight: 'bold' }}>{name}</Typography>
-            <Typography sx={{ fontSize: '12px', color: 'rgb(255,255,255,0.6)' }}>{email}</Typography>
+        <IconButton className="profileButton">
+          <Avatar className="profileAvatar" alt="User Avatar" src="https://media.istockphoto.com/id/1309328823/photo/headshot-portrait-of-smiling-male-employee-in-office.jpg?s=612x612&w=0&k=20&c=kPvoBm6qCYzQXMAn9JUtqLREXe9-PlZyMl9i-ibaVuY=" />
+          <Box className="profileText">
+            <Typography className="profileName" sx={{fontSize:"16px"}}>John Doe</Typography>
+            <Typography className="profileEmail" sx={{fontSize:"12px"}}>jhondoe@gmail.com</Typography>
           </Box>
-          <ArrowDropDownIcon 
-            sx={{ color: '#ffffff', fontSize: '40px', cursor: 'pointer' }} 
-            onClick={handleOpenMenu} 
-          />
+          <ArrowDropDownIcon className="profileArrow" onClick={handleOpenMenu} sx={{fontSize:"35px"}} />
         </IconButton>
       </Tooltip>
 
       <Menu
-        sx={{ mt: '30px' }}
+        className="profileMenu"
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        disableScrollLock={true} 
       >
         {settings.map((setting) => (
           <MenuItem 
             key={setting.name} 
             onClick={setting.name === 'Logout' ? handleLogout : handleCloseMenu} 
-            sx={{display:'flex', justifyContent:'center', width:'220px'}}
+            className="profileMenuItem"
           >
             {setting.icon}
-            <Typography sx={{ textAlign: 'center', width:'150px' }}>
+            <Typography className="profileMenuText">
               {setting.name}
             </Typography>
           </MenuItem>

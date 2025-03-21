@@ -17,7 +17,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   }));
 
-function NotificationBtn(){
+function UserNotificationBtn(){
     return(
       <Link to="/admin-maintenanceNotification" style={{ textDecoration: "none", color: "inherit" }}>
       <IconButton aria-label="notifications" className="menu">
@@ -29,4 +29,4 @@ function NotificationBtn(){
     )
 }
 
-export default NotificationBtn
+export default UserNotificationBtn
