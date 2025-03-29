@@ -6,9 +6,18 @@
   
 
 
-.asset-home{
+/*.asset-home{
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
     gap: 16px;
     padding: 20px;
+}*/
+
+.asset-home {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  grid-template-rows: repeat(2, auto); /* 2 rows */
+  gap: 40px; /* Space between boxes */
+  padding: 30px; /* Adjusted padding */
+  justify-content: center; /* Center alignment */
 }
