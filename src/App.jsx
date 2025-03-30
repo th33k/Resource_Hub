@@ -16,7 +16,7 @@ import MaintenanceHome from "./pages/Admin/MaintenanceHome";
 import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
 import AssetRequestUsers from "./pages/User/AssetRequestUsers";
 import AssetHome from "./pages/Admin/AssetHome";
-
+import MealReport from "./pages/Admin/MealReport";
 
 const PrivateRoute = ({ element, allowedRole }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
@@ -52,6 +52,7 @@ function App() {
           <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
           <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
           <Route path="Admin-AssetHome" element={<AssetHome />} />
+          <Route path="MealReport" element={<MealReport />} />
         </Route>
 
         <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user", "admin"]} />}>
