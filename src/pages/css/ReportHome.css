@@ -1,0 +1,20 @@
+.outerreport{
+  display:block;
+  margin:auto;
+  width:80%;
+  height:80vh;
+}
+.addicon {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  
+.Report {
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+    justify-content: space-between;
+  }
+

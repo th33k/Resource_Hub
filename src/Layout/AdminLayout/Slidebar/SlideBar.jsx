@@ -95,7 +95,7 @@ function Slidebar() {
                         className={`w-100 ${activeTab === 5 ? 'active' : ''}`} 
                         onClick={() => isOpenSubMenu(5)}>
                         <span className='icon'><IoDocumentsSharp /></span>
-                        Reports
+                        <Link to="Admin-ReportHome">Reports</Link>
                         <span className='arrow'><IoIosArrowForward /></span>
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 5 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
