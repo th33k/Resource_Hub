@@ -1,28 +1,25 @@
 import React, { useState } from "react";
-import MonitorTable from "../../components/Asset/AssetMonitoring/MonitorTable";
+import RequestTable from "../components/Asset/Asset Requesting User/RequestTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { Search } from "lucide-react";
-import RequestButton from "../../components/Asset/Asset Requesting User/RequestButton";
-import "../css/AssetAdmin.css";
+import EditAssetPopup from "../components/Asset/AssetEdit";
+import DeleteAssetPopup from "../components/Asset/AssetDelete";
+import "./css/AssetAdmin.css";
+
 
 const initialAssets = [
   { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "008", assetname: "Laptop", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
-  { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "009", assetname: "Monitor", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
-  { avatar: "https://i.pravatar.cc/50",  name: "John Doe", id: "010", assetname: "Keyboard", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
-  { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "011", assetname: "Laptop", handoverdate: "1.1.2222", datesremaining: "07", category: "Furniture" },
-  { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "012", assetname: "Pen", handoverdate: "1.1.2222", datesremaining: "07", category: "Furniture" },
-  { avatar: "https://i.pravatar.cc/50",  name: "John Doe", id: "013", assetname: "Keyboard", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
-
+  { avatar: "https://randomuser.me/api/portraits/men/1.jpg", name: "Jane Smith", id: "009", assetname: "Monitor", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
+  { avatar: "https://randomuser.me/api/portraits/men/1.jpg", name: "John Doe", id: "010", assetname: "Keyboard", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
 ];
 
-const AssetRequestingUsers = () => {
+const AssetMonitoringAdmin = () => {
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [assets, setAssets] = useState(initialAssets);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [requestOpen, setRequestOpen] = useState(false);
 
   const uniqueCategories = ["All", ...new Set(initialAssets.map(asset => asset.category))];
 
@@ -49,19 +46,6 @@ const AssetRequestingUsers = () => {
   const handleDeleteAsset = () => {
     setAssets(assets.filter(asset => asset.id !== selectedAsset.id));
     setDeleteOpen(false);
-  };
-
-  const handleRequestOpen = () => {
-    setRequestOpen(true);
-  };
-
-  const handleRequestClose = () => {
-    setRequestOpen(false);
-  };
-
-  const handleRequestSubmit = (newRequest) => {
-    // Handle the new request submission logic here
-    setRequestOpen(false);
   };
 
   return (
@@ -91,25 +75,22 @@ const AssetRequestingUsers = () => {
             ))}
           </Select>
         </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#1976D2", fontWeight: "bold" }}
-          onClick={handleRequestOpen}
-        >
-          Request Asset
-        </Button>
       </div>
 
-      <MonitorTable 
+      <RequestTable 
         assets={filteredAssets}
         handleEditOpen={handleEditOpen}
         handleDeleteOpen={handleDeleteOpen}
       />
 
-      <RequestButton open={requestOpen} onClose={handleRequestClose} onRequest={handleRequestSubmit} />
+      {selectedAsset && (
+        <>
+          <EditAssetPopup open={editOpen} asset={selectedAsset} onClose={() => setEditOpen(false)} onUpdate={handleUpdateAsset} />
+          <DeleteAssetPopup open={deleteOpen} asset={selectedAsset} onClose={() => setDeleteOpen(false)} onDelete={handleDeleteAsset} />
+        </>
+      )}
     </div>
   );
 };
 
-export default AssetRequestingUsers;
+export default AssetMonitoringAdmin;
