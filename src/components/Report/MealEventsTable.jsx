@@ -1,57 +1,173 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import html2pdf from "html2pdf.js";
 
-// Component to display meal events table
 const MealEventsTable = () => {
   const [mealEvents, setMealEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [mealTimes, setMealTimes] = useState([]);
+  const [mealTypes, setMealTypes] = useState([]); // Store meal types from API
+  const [selectedMealTime, setSelectedMealTime] = useState("");
+  const [selectedMealType, setSelectedMealType] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
-  // Fetch data from the API
+  // Fetch meal events
   useEffect(() => {
     fetch("http://localhost:9090/calander/mealevents")
       .then((response) => response.json())
-      .then((data) => setMealEvents(data))
+      .then((data) => {
+        setMealEvents(data);
+        setFilteredEvents(data);
+      })
       .catch((error) => console.error("Error fetching meal events:", error));
   }, []);
 
-  // Function to download the table as PDF
+  // Fetch meal times from API
+  useEffect(() => {
+    fetch("http://localhost:9090/mealtime/details")
+      .then((response) => response.json())
+      .then((data) => {
+        const mealNames = data.map((meal) => ({
+          id: meal.id,
+          name: meal.mealName,
+        }));
+        setMealTimes(mealNames);
+      })
+      .catch((error) => console.error("Error fetching meal times:", error));
+  }, []);
+
+  // Fetch meal types from API
+  useEffect(() => {
+    fetch("http://localhost:9090/mealtype/details")
+      .then((response) => response.json())
+      .then((data) => {
+        const mealTypeList = data.map((type) => ({
+          id: type.id,
+          name: type.mealName,
+        }));
+        setMealTypes(mealTypeList);
+      })
+      .catch((error) => console.error("Error fetching meal types:", error));
+  }, []);
+
+  // Filter events based on selected values
+  useEffect(() => {
+    let filtered = mealEvents;
+
+    if (selectedMealTime) {
+      filtered = filtered.filter((event) => event.meal_time === selectedMealTime);
+    }
+    if (selectedMealType) {
+      filtered = filtered.filter((event) => event.meal_type === selectedMealType);
+    }
+    if (selectedMonth) {
+      filtered = filtered.filter((event) => {
+        const eventMonth = new Date(event.meal_request_date).getMonth() + 1;
+        return eventMonth === parseInt(selectedMonth, 10);
+      });
+    }
+
+    setFilteredEvents(filtered);
+  }, [selectedMealTime, selectedMealType, selectedMonth, mealEvents]);
+
   const handleDownloadPDF = () => {
-    const element = document.getElementById("meal-events-table"); // Get the content to convert to PDF
+    const element = document.getElementById("meal-events-table");
     const options = {
-      filename: "meal_events.pdf", // Set the filename of the PDF
-      image: { type: "jpeg", quality: 0.98 }, // Set image quality
-      html2canvas: { scale: 2 }, // Set the scale for the canvas
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }, // Set PDF size and orientation
+      filename: "meal_events.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     };
-    html2pdf().from(element).set(options).save(); // Convert and download the PDF
+    html2pdf().from(element).set(options).save();
   };
 
   return (
     <div>
-      {/* Download PDF Button */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleDownloadPDF}
-        style={{ marginBottom: 20, float: "right" }}
-      >
-        Download PDF
-      </Button>
+      <div style={{ display: "flex", gap: "15px", marginBottom: 20 }}>
+        {/* Meal Time Filter */}
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Meal Time</InputLabel>
+          <Select
+            value={selectedMealTime}
+            onChange={(e) => setSelectedMealTime(e.target.value)}
+            label="Meal Time"
+          >
+            <MenuItem value="">All</MenuItem>
+            {mealTimes.map((time) => (
+              <MenuItem key={time.id} value={time.name}> {/* Use name instead of id */}
+                {time.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      {/* Table Container */}
+        {/* Meal Type Filter */}
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Meal Type</InputLabel>
+          <Select
+            value={selectedMealType}
+            onChange={(e) => setSelectedMealType(e.target.value)}
+            label="Meal Type"
+          >
+            <MenuItem value="">All</MenuItem>
+            {mealTypes.map((type) => (
+              <MenuItem key={type.id} value={type.name}> {/* Use name instead of id */}
+                {type.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        {/* Month Filter */}
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Month</InputLabel>
+          <Select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            label="Month"
+          >
+            <MenuItem value="">All</MenuItem>
+            {Array.from({ length: 12 }, (_, i) => (
+              <MenuItem key={i + 1} value={i + 1}>
+                {new Date(0, i).toLocaleString("default", { month: "long" })}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        {/* Download PDF Button */}
+        <Button variant="contained" color="primary" onClick={handleDownloadPDF}>
+          Download PDF
+        </Button>
+      </div>
+
+      {/* Table */}
       <TableContainer component={Paper} id="meal-events-table">
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>Meal Time</TableCell>
               <TableCell>Meal Type</TableCell>
-              <TableCell>User name</TableCell>
+              <TableCell>User Name</TableCell>
               <TableCell>Submitted Date</TableCell>
               <TableCell>Meal Request Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {mealEvents.map((mealEvent, index) => (
+            {filteredEvents.map((mealEvent, index) => (
               <TableRow key={index}>
                 <TableCell>{mealEvent.meal_time}</TableCell>
                 <TableCell>{mealEvent.meal_type}</TableCell>
