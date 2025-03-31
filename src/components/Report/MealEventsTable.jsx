@@ -152,6 +152,9 @@ const MealEventsTable = () => {
         <Button variant="contained" color="primary" onClick={handleDownloadPDF}>
           Download PDF
         </Button>
+        <Button variant="contained" color="primary" >
+          Schedule PDF
+        </Button>
       </div>
 
       {/* Table */}
