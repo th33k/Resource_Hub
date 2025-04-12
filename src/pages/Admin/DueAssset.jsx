@@ -1,19 +1,23 @@
 import React, { useState } from "react";
-import RequestTable from "../components/Asset/Asset Requesting User/RequestTable";
+import MonitorTable from "../../components/Asset/AssetMonitoring/MonitorTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { Search } from "lucide-react";
-import EditAssetPopup from "../components/Asset/AssetEdit";
-import DeleteAssetPopup from "../components/Asset/AssetDelete";
-import "./css/AssetAdmin.css";
-
+import EditAssetPopup from "../../components/Asset/AssetEdit";
+import DeleteAssetPopup from "../../components/Asset/AssetDelete";
+// import "./css/AssetAdmin.css";
 
 const initialAssets = [
   { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "008", assetname: "Laptop", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
   { avatar: "https://randomuser.me/api/portraits/men/1.jpg", name: "Jane Smith", id: "009", assetname: "Monitor", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
   { avatar: "https://randomuser.me/api/portraits/men/1.jpg", name: "John Doe", id: "010", assetname: "Keyboard", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
+  { avatar: "https://i.pravatar.cc/50", name: "Jane Doe", id: "012", assetname: "Drill", handoverdate: "1.1.2222", datesremaining: "07", category: "Machines" },
+  { avatar: "https://i.pravatar.cc/50", name: "Mike Smith", id: "013", assetname: "Chair", handoverdate: "1.1.2222", datesremaining: "07", category: "Furniture" },
+  { avatar: "https://i.pravatar.cc/50", name: "Sarah Johnson", id: "014", assetname: "Screwdriver", handoverdate: "1.1.2222", datesremaining: "07", category: "Maintenance Tools" },
+  { avatar: "https://i.pravatar.cc/50", name: "David Brown", id: "015", assetname: "Whiteboard", handoverdate: "1.1.2222", datesremaining: "07", category: "Extra Items" },
+  { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "011", assetname: "Pencil", handoverdate: "1.1.2222", datesremaining: "07", category: "Stationary" }, 
 ];
 
-const AssetMonitoringAdmin = () => {
+const DueAsset = () => {
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [assets, setAssets] = useState(initialAssets);
@@ -50,7 +54,7 @@ const AssetMonitoringAdmin = () => {
 
   return (
     <div>
-      <h2>Asset Requesting</h2>
+      <h2>Due Assets</h2>
 
       <div className="search-filter-section">
         <TextField
@@ -77,7 +81,7 @@ const AssetMonitoringAdmin = () => {
         </FormControl>
       </div>
 
-      <RequestTable 
+      <MonitorTable 
         assets={filteredAssets}
         handleEditOpen={handleEditOpen}
         handleDeleteOpen={handleDeleteOpen}
@@ -93,4 +97,4 @@ const AssetMonitoringAdmin = () => {
   );
 };
 
-export default AssetMonitoringAdmin;
+export default DueAsset;

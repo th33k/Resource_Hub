@@ -11,16 +11,21 @@
   font-weight: 600;
 }
 
+/* Search and Filter section */
 .search-filter-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%; /* Ensures the container takes full width */
   margin-top: 20px;
 }
 
 .search-filter-container {
   display: flex;
   align-items: center;
+  gap: 10px;
+  flex-grow: 1; /* Makes it take up available space */
+  
 }
 
 .search-bar {
@@ -32,8 +37,17 @@
 }
 
 .add-asset-btn {
-  margin-left: 20px;
+  margin-left: auto;  /* Pushes the button to the right */
   padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.add-asset-btn:hover {
+  background-color: #0056b3;
 }
 
 /* Styling for the asset table container */
@@ -44,4 +58,19 @@
 /* Optional: Styles for your Edit and Delete button sections */
 .edit-delete-buttons {
   margin-right: 15px;  /* Add spacing between Edit and Delete buttons */
+}
+
+@media screen and (max-width: 768px) {
+  .search-filter-section {
+    flex-direction: column;
+    gap: 10px;  /* Space between search/filter section and add button */
+  }
+  
+  .search-filter-container {
+    justify-content: flex-start;
+  }
+  
+  .add-asset-btn {
+    margin-left: 0;  /* Align the button to the left in mobile view */
+  }
 }
