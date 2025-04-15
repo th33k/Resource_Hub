@@ -8,12 +8,11 @@ import Typography from "@mui/material/Typography";
 import Popupmealtype from "./popupmealtype";
 import '../css/Calender/MealTimeCard.css';  // Import the CSS file
 
-const MealTimeCard = ({ name, image, onSelect, isDisabled }) => {
+const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
   const [popupOpen, setPopupOpen] = React.useState(false);
-
   const handleClick = () => {
     if (!isDisabled) {
-      setPopupOpen(true);  
+      setPopupOpen(true);
     }
   };
 
@@ -27,11 +26,11 @@ const MealTimeCard = ({ name, image, onSelect, isDisabled }) => {
           </Typography>
         </CardContent>
         <CardActions className="meal-time-card-actions">
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             className="meal-time-card-button"
             onClick={handleClick}
-            disabled={isDisabled} 
+            disabled={isDisabled}
           >
             Select
           </Button>
@@ -40,8 +39,8 @@ const MealTimeCard = ({ name, image, onSelect, isDisabled }) => {
 
       <Popupmealtype
         open={popupOpen}
-        handleClose={() => setPopupOpen(false)}   
-        onAddEvent={onSelect}   
+        handleClose={() => setPopupOpen(false)}
+        onAddEvent={(mealTypeId) => onSelect(id, mealTypeId)} // Pass mealTypeId here
       />
     </div>
   );

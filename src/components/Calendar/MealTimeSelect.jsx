@@ -12,7 +12,7 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtime');
+      const response = await fetch('http://localhost:9090/mealtime/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal times');
       }
@@ -31,10 +31,11 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
         {mealTimes.map((meal) => (
           <MealTimeCard
             key={meal.id}
+            id={meal.id}
             name={meal.mealName}
             image={meal.mealImageUrl || '/default-meal.png'}
-            onSelect={(mealType) => onAddEvent(meal.mealName, mealType)}
-            isDisabled={isMealSelected(meal.mealName)}
+            onSelect={(mealType) => onAddEvent(meal.id, mealType)}
+            isDisabled={isMealSelected(meal.id)}
           />
         ))}
       </div>

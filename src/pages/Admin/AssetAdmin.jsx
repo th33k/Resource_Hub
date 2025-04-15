@@ -1,26 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import AssetTable from "../../components/Asset/AssetTable";
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import EditAssetPopup from "../../components/Asset/AssetEdit"; 
-import DeleteAssetPopup from "../../components/Asset/AssetDelete"; 
-import '../css/AssetAdmin.css';
-
-const initialAssets = [
-  { id: 1, name: "Laptop", category: "Electronics & IT", quantity: 10, condition: "Good", location: "Office" },
-  { id: 2, name: "Projector", category: "Electronics & IT", quantity: 2, condition: "Excellent", location: "Conference Room" },
-  { id: 3, name: "Marker Pens", category: "Stationery", quantity: 3, condition: "Average", location: "IT Room" },
-  { id: 4, name: "White Board", category: "Furniture", quantity: 1, condition: "Good", location: "Meeting Room" },
-  { id: 5, name: "Phone", category: "Electronics & IT", quantity: 5, condition: "New", location: "Reception" }
-];
+import EditAssetPopup from "../../components/Asset/AssetEdit";
+import DeleteAssetPopup from "../../components/Asset/AssetDelete";
+import "../css/AssetAdmin.css";
 
 function AssetAdmin() {
+  const [assets, setAssets] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [addAssetOpen, setAddAssetOpen] = useState(false); // State for Add Asset Popup
+  const [addAssetOpen, setAddAssetOpen] = useState(false);
+
   const [newAsset, setNewAsset] = useState({
     name: "",
     category: "Electronics & IT",
@@ -29,13 +35,29 @@ function AssetAdmin() {
     location: "",
   });
 
-  // Get unique categories for filtering
-  const uniqueCategories = ["All", ...new Set(initialAssets.map(asset => asset.category))];
+  // Fetch asset data from API on load
+  useEffect(() => {
+    axios
+      .get("http://localhost:9090/asset/details")
+      .then((res) => {
+        const formattedAssets = res.data.map((asset) => ({
+          id: asset.id,
+          name: asset.asset_name,
+          category: asset.category,
+          quantity: asset.quantity,
+          condition: asset.condition_type,
+          location: asset.location,
+        }));
+        setAssets(formattedAssets);
+      })
+      .catch((err) => console.error("Error fetching assets:", err));
+  }, []);
 
-  // Filter assets based on category or search
-  const filteredAssets = initialAssets.filter(asset => 
+  const uniqueCategories = ["All", ...new Set(assets.map((a) => a.category))];
+
+  const filteredAssets = assets.filter((asset) =>
     (filterCategory === "All" || asset.category === filterCategory) &&
-    asset.name.toLowerCase().includes(searchText.toLowerCase())
+    asset.name?.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleEditOpen = (asset) => {
@@ -49,21 +71,23 @@ function AssetAdmin() {
   };
 
   const handleUpdateAsset = (updatedAsset) => {
-    const updatedAssets = filteredAssets.map(asset => asset.id === updatedAsset.id ? updatedAsset : asset);
-    setSelectedAsset(null);
+    setAssets((prev) =>
+      prev.map((a) => (a.id === updatedAsset.id ? updatedAsset : a))
+    );
     setEditOpen(false);
   };
 
   const handleDeleteAsset = (id) => {
-    const updatedAssets = filteredAssets.filter(asset => asset.id !== id);
-    setSelectedAsset(null);
+    setAssets((prev) => prev.filter((a) => a.id !== id));
     setDeleteOpen(false);
   };
 
-  // Handle adding a new asset
   const handleAddAsset = () => {
-    const newAssetWithId = { ...newAsset, id: Date.now() }; // Unique id based on timestamp
-    initialAssets.push(newAssetWithId);
+    const assetWithId = {
+      ...newAsset,
+      id: Date.now(), // Local only – replace with real API POST if needed
+    };
+    setAssets([...assets, assetWithId]);
     setAddAssetOpen(false);
     setNewAsset({
       name: "",
@@ -79,6 +103,7 @@ function AssetAdmin() {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Assets</h1>
       </div>
+
       <div className="search-filter-section">
         <div className="search-filter-container">
           <TextField
@@ -90,7 +115,6 @@ function AssetAdmin() {
             InputProps={{ startAdornment: <Search size={20} /> }}
             className="search-bar"
           />
-
           <FormControl variant="outlined" size="small" className="category-dropdown">
             <InputLabel>Filter by Category</InputLabel>
             <Select
@@ -107,40 +131,38 @@ function AssetAdmin() {
           </FormControl>
         </div>
 
-        {/* Add New Asset Button */}
         <Button
           variant="contained"
           color="primary"
           startIcon={<UserPlus size={20} />}
           className="add-asset-btn"
-          onClick={() => setAddAssetOpen(true)} // Open the Add Asset modal
+          onClick={() => setAddAssetOpen(true)}
         >
           Add New Asset
         </Button>
       </div>
 
       <div className="table-container">
-        <AssetTable 
-          assets={filteredAssets} 
-          handleEditOpen={handleEditOpen} 
-          handleDeleteOpen={handleDeleteOpen} 
+        <AssetTable
+          assets={filteredAssets}
+          handleEditOpen={handleEditOpen}
+          handleDeleteOpen={handleDeleteOpen}
         />
       </div>
 
-      {/* Edit and Delete Popups */}
       {selectedAsset && (
         <>
-          <EditAssetPopup 
-            open={editOpen} 
-            asset={selectedAsset} 
-            onClose={() => setEditOpen(false)} 
-            onUpdate={handleUpdateAsset} 
+          <EditAssetPopup
+            open={editOpen}
+            asset={selectedAsset}
+            onClose={() => setEditOpen(false)}
+            onUpdate={handleUpdateAsset}
           />
-          <DeleteAssetPopup 
-            open={deleteOpen} 
-            asset={selectedAsset} 
-            onClose={() => setDeleteOpen(false)} 
-            onDelete={handleDeleteAsset} 
+          <DeleteAssetPopup
+            open={deleteOpen}
+            asset={selectedAsset}
+            onClose={() => setDeleteOpen(false)}
+            onDelete={() => handleDeleteAsset(selectedAsset.id)}
           />
         </>
       )}
@@ -178,7 +200,9 @@ function AssetAdmin() {
             fullWidth
             margin="normal"
             value={newAsset.quantity}
-            onChange={(e) => setNewAsset({ ...newAsset, quantity: e.target.value })}
+            onChange={(e) =>
+              setNewAsset({ ...newAsset, quantity: parseInt(e.target.value) })
+            }
           />
           <TextField
             label="Condition"

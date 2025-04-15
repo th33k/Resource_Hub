@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   TextField,
@@ -13,218 +13,37 @@ import { AddMainterancePopup } from "../../components/Maintenance/AddMaintenance
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 const MaintenanceDetails = () => {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
-
-  const [users, setUsers] = useState([
-  
-    {
-      id: 1,
-      name :" Karen",
-      description : "power unit malfunction, Floor 3, IT Department",
-      priorityLevel : "5",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Alice+Smith",
-    },
-    {
-      id: 2,
-      name: "John",
-      description: "Projector not working, Floor 7, Conference Room",
-      priorityLevel: "4",
-      status: "In Progress",
-      profilePicture: "https://ui-avatars.com/api/?name=John"
-    },
-    {
-      id: 3,
-      name: "Sophia",
-      description: "Elevator not working, Floor 9, Near Reception",
-      priorityLevel: "5",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Sophia"
-    },
-    {
-      id: 4,
-      name: "David",
-      description: "Water leakage from AC, Floor 4, Finance Department",
-      priorityLevel: "3",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=David"
-    },
-    {
-      id: 5,
-      name: "Emma",
-      description: "Printer not working, Floor 6, Admin Office",
-      priorityLevel: "2",
-      status: "In Progress",
-      profilePicture: "https://ui-avatars.com/api/?name=Emma"
-    },
-    {
-      id: 6,
-      name: "Michael",
-      description: "Glass door handle broken, Floor 8, Legal Department",
-      priorityLevel: "4",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Michael"
-    },
-    {
-      id: 7,
-      name: "Olivia",
-      description: "Lights flickering, Floor 2, Cafeteria",
-      priorityLevel: "3",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=Olivia"
-    },
-    {
-      id: 8,
-      name: "Daniel",
-      description: "Network issues in conference room, Floor 10, IT Support",
-      priorityLevel: "5",
-      status: "In Progress",
-      profilePicture: "https://ui-avatars.com/api/?name=Daniel"
-    },
-    {
-      id: 9,
-      name: "Liam",
-      description: "Air conditioning failure, Floor 5, Operations",
-      priorityLevel: "4",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Liam"
-    },
-    {
-      id: 10,
-      name: "Ava",
-      description: "Broken chair in meeting room, Floor 6, HR Department",
-      priorityLevel: "2",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=Ava"
-    },
-    {
-      id: 11,
-      name: "Noah",
-      description: "Coffee machine not working, Floor 1, Break Room",
-      priorityLevel: "1",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Noah"
-    },
-    {
-      id: 12,
-      name: "Isabella",
-      description: "Leaking sink in restroom, Floor 3, Main Washroom",
-      priorityLevel: "3",
-      status: "In Progress",
-      profilePicture: "https://ui-avatars.com/api/?name=Isabella"
-    },
-    {
-      id: 13,
-      name: "Mason",
-      description: "Emergency exit door stuck, Floor 7, South Wing",
-      priorityLevel: "5",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Mason"
-    },
-    {
-      id: 14,
-      name: "Ethan",
-      description: "Fire alarm malfunctioning, Floor 2, Security Room",
-      priorityLevel: "5",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=Ethan"
-    },
-    {
-      id: 15,
-      name: "Charlotte",
-      description: "Computers not starting, Floor 4, IT Department",
-      priorityLevel: "3",
-      status: "In Progress",
-      profilePicture: "https://ui-avatars.com/api/?name=Charlotte"
-    },
-    {
-      id: 16,
-      name: "James",
-      description: "Phone lines down, Floor 5, Sales Office",
-      priorityLevel: "4",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=James"
-    },
-    {
-      id: 17,
-      name: "Lucas",
-      description: "Door lock not functioning, Floor 8, Storage Room",
-      priorityLevel: "3",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=Lucas"
-    },
-    {
-      id: 18,
-      name: "Harper",
-      description: "Overhead projector not displaying, Floor 9, Training Room",
-      priorityLevel: "4",
-      status: "In Progress",
-      profilePicture: "https://ui-avatars.com/api/?name=Harper"
-    },
-    {
-      id: 19,
-      name: "Benjamin",
-      description: "Heating system failure, Floor 12, Office Area",
-      priorityLevel: "5",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Benjamin"
-    },
-    {
-      id: 20,
-      name: "Amelia",
-      description: "WiFi connectivity issues, Floor 11, Main Hall",
-      priorityLevel: "3",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=Amelia"
-    },
-    {
-      id: 21,
-      name: "Henry",
-      description: "Parking gate malfunction, Basement 1, Entry Point",
-      priorityLevel: "4",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Henry"
-    },
-    {
-      id: 22,
-      name: "Elijah",
-      description: "Water dispenser empty, Floor 2, Pantry",
-      priorityLevel: "1",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=Elijah"
-    },
-    {
-      id: 23,
-      name: "Abigail",
-      description: "Security camera not recording, Floor 3, Main Entrance",
-      priorityLevel: "5",
-      status: "In Progress",
-      profilePicture: "https://ui-avatars.com/api/?name=Abigail"
-    },
-    {
-      id: 24,
-      name: "Matthew",
-      description: "Conference call system error, Floor 6, Meeting Room",
-      priorityLevel: "4",
-      status: "Pending",
-      profilePicture: "https://ui-avatars.com/api/?name=Matthew"
-    },
-    {
-      id: 25,
-      name: "Scarlett",
-      description: "Vending machine jammed, Floor 5, Break Area",
-      priorityLevel: "2",
-      status: "Resolved",
-      profilePicture: "https://ui-avatars.com/api/?name=Scarlett"
-    }
-    
-  ]);
-
+  const [users, setUsers] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterType, setFilterType] = useState("All");
+
+  // Fetch users from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:9090/maintenance/details");
+        const data = await response.json();
+
+        const mappedUsers = data.map((item, index) => ({
+          id: item.id || index,
+          name: item.name,
+          description: item.description,
+          priorityLevel: String(item.priorityLevel),
+          status: item.status,
+          profilePicture: `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}`
+        }));
+
+        setUsers(mappedUsers);
+      } catch (error) {
+        console.error("Failed to fetch maintenance data:", error);
+        toast.error("Failed to load maintenance data");
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleAddMainteince = (newUser) => {
     setUsers((prev) => [...prev, { ...newUser, id: Date.now().toString() }]);
@@ -238,27 +57,15 @@ const MaintenanceDetails = () => {
     );
   };
 
-  // const handleDeleteUsers = (userIds) => {
-  //   setUsers((prev) => prev.filter((user) => !userIds.includes(user.id)));
-  // };
-
   const handleDeleteUsers = (userIds) => {
- 
     const idsArray = Array.isArray(userIds) ? userIds : [userIds];
-  
     setUsers((prev) => prev.filter((user) => !idsArray.includes(user.id)));
     toast.success("Delete successfully!");
-    
   };
 
   const filteredUsers = users.filter((user) => {
-    const searchMatch =
-      user.name.toLowerCase().includes(searchText.toLowerCase())  ;
-
-
+    const searchMatch = user.name.toLowerCase().includes(searchText.toLowerCase());
     const typeMatch = filterType === "All" || user.priorityLevel === filterType;
-
-
     return searchMatch && typeMatch;
   });
 
@@ -268,16 +75,8 @@ const MaintenanceDetails = () => {
         <h1 className="text-2xl font-semibold">Maintenance</h1>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {/* Left-aligned: Search Bar and Filter Dropdown */}
-        <div style={{ display: "flex", alignItems: "center" }}>
-          {/* Search Bar */}
+      <div className="flex justify-between items-center">
+        <div className="flex items-center">
           <TextField
             label="Search"
             variant="outlined"
@@ -289,13 +88,7 @@ const MaintenanceDetails = () => {
             }}
           />
 
-          {/* Filter Dropdown */}
-          <FormControl
-            variant="outlined"
-            size="small"
-            className="w-40"
-            style={{ marginLeft: "10px" }}
-          >
+          <FormControl variant="outlined" size="small" className="w-40 ml-2">
             <InputLabel>Filter by Type</InputLabel>
             <Select
               value={filterType}
@@ -312,7 +105,6 @@ const MaintenanceDetails = () => {
           </FormControl>
         </div>
 
-        {/* Right-aligned: Add New User Button */}
         <Button
           variant="contained"
           color="primary"
@@ -337,10 +129,9 @@ const MaintenanceDetails = () => {
         onClose={() => setIsAddUserOpen(false)}
         onAdd={handleAddMainteince}
       />
-        <ToastContainer />
+      <ToastContainer />
     </div>
-    
   );
 };
 
-export default MaintenanceDetails; 
+export default MaintenanceDetails;

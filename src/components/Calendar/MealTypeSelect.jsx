@@ -12,7 +12,7 @@ export default function MealTypeSelect({ onSelect }) {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtype/mealtype');
+      const response = await fetch('http://localhost:9090/mealtype/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal types');
       }
@@ -31,8 +31,9 @@ export default function MealTypeSelect({ onSelect }) {
         {mealTypes.map((mealType) => (
           <MealTypeCard
             key={mealType.id}
+            id={mealType.id}
             name={mealType.mealName}
-            image={mealType.mealImageUrl || '/default-meal.png'}
+            image={mealType.mealImageUrl}
             onSelect={() => onSelect(mealType.mealName)}
           />
         ))}

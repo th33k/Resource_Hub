@@ -18,7 +18,7 @@ function Popupmealtype({ open, handleClose, onAddEvent }) {
       <Box
         className="popup-box2" sx={{overflowY: "auto"}}
       >
-        <MealTypeSelect onSelect={(mealType) => onAddEvent(mealType)} />
+        <MealTypeSelect onSelect={(mealTypeId) => onAddEvent(mealTypeId)} />
       </Box>
     </Modal>
   );

@@ -26,7 +26,8 @@ function MealCalendar() {
         id: event.id,
         title: `${event.meal_time} - ${event.meal_type}`,
         start: event.meal_request_date,
-        end: event.meal_request_date
+        end: event.meal_request_date,
+        meal_id: event.meal_time_id 
       }));
       setEventData(formattedEvents);
     } catch (error) {
@@ -47,25 +48,24 @@ function MealCalendar() {
     }
   };
 
-  const handleAddEvent = async (mealTime, mealType) => {
+  const handleAddEvent = async (mealTimeId, mealTypeId) => {
     try {
       const response = await axios.post("http://localhost:9090/calander/mealevents/add", {
-        meal_time: mealTime,
-        meal_type: mealType,
+        meal_time_id: mealTimeId,
+        meal_type_id: mealTypeId,
         user_id: 1,
         submitted_date: today,
-        meal_request_date: selectedDate
+        meal_request_date: selectedDate,
       });
-
+  
       const newEvent = {
         id: response.data.id,
-        title: `${mealTime} - ${mealType}`,
+        title: `${mealTimeId} - ${mealTypeId}`, // Fetch names if needed
         start: selectedDate,
-        end: selectedDate
+        end: selectedDate,
       };
-      setEventData([...eventData, newEvent]);
+      setEventData((prevEvents) => [...prevEvents, newEvent]);
       setPopupOpen(false);
-      window.location.reload(); 
     } catch (error) {
       console.error("Error adding event:", error);
     }
@@ -90,9 +90,9 @@ function MealCalendar() {
     }
   };
 
-  const isMealSelected = (mealTime) => {
-    return eventData.some(event => 
-      event.start === selectedDate && event.title.includes(mealTime)
+  const isMealSelected = (mealId) => {
+    return eventData.some(event =>
+      event.start === selectedDate && event.meal_id === mealId
     );
   };
 
