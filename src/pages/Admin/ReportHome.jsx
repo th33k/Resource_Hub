@@ -1,5 +1,5 @@
 import ReportHomeCard from "../../components/Reports/ReportHomeCard"
-import "../css/Reporthome.css"
+import "../css/ReportHome.css"
 function ReportHome() {
   return (
     <div className="outerreport">
