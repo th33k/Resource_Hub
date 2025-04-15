@@ -60,7 +60,7 @@ function MealCalendar() {
   
       const newEvent = {
         id: response.data.id,
-        title: `${mealTimeId} - ${mealTypeId}`, // Fetch names if needed
+        title: `${mealTimeId} - ${mealTypeId}`, 
         start: selectedDate,
         end: selectedDate,
       };
@@ -69,6 +69,7 @@ function MealCalendar() {
     } catch (error) {
       console.error("Error adding event:", error);
     }
+    window.location.reload(); // Refresh the page after adding
   };
 
   const handleDeleteEvent = async (eventId) => {
