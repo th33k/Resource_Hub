@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import './css/UserSlidebar.css';
+import './css/UserSlideBar.css';
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
 import { GiHotMeal } from "react-icons/gi";
