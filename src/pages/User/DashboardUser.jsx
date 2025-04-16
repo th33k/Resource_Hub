@@ -25,8 +25,8 @@ function DashboardUser() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const statsResponse = await axios.get('http://localhost:9090/dashboard/user-stats');
-        const activitiesResponse = await axios.get('http://localhost:9090/dashboard/user-activities');
+        const statsResponse = await axios.get('http://localhost:9090/dashboard/user/user-stats');
+        const activitiesResponse = await axios.get('http://localhost:9090/dashboard/user/user-activities');
 
         setStats(statsResponse.data);
         setRecentActivities(activitiesResponse.data);

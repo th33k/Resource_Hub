@@ -43,25 +43,25 @@ function Dashboard() {
   useEffect(() => {
     // Fetch stats data
     axios
-      .get("http://localhost:9090/dashboard/stats")
+      .get("http://localhost:9090/dashboard/admin/stats")
       .then((response) => setStats(response.data))
       .catch((error) => console.error("Error fetching stats:", error));
 
     // Fetch resources data
     axios
-      .get("http://localhost:9090/dashboard/resources")
+      .get("http://localhost:9090/dashboard/admin/resources")
       .then((response) => setResources(response.data))
       .catch((error) => console.error("Error fetching resources:", error));
 
     // Fetch meal distribution data
     axios
-      .get("http://localhost:9090/dashboard/meal-distribution")
+      .get("http://localhost:9090/dashboard/admin/mealdistribution")
       .then((response) => setMealData(response.data))
       .catch((error) => console.error("Error fetching meal distribution data:", error));
 
     // Fetch resource allocation data
     axios
-      .get("http://localhost:9090/dashboard/resource-allocation")
+      .get("http://localhost:9090/dashboard/admin/resourceallocation")
       .then((response) => setResourceData(response.data))
       .catch((error) => console.error("Error fetching resource allocation data:", error));
   }, []);

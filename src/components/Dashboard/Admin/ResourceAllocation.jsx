@@ -21,10 +21,10 @@ const options = {
 // Updated to accept dynamic data as props
 export const ResourceAllocation = ({ data }) => {
   const chartData = {
-    labels: data.labels || ['IT Equipment', 'Office Supplies', 'Furniture', 'Miscellaneous'],
+    labels: data.map(item => item.category),
     datasets: [
       {
-        data: data.values || [0, 0, 0, 0],
+        data: data.map(item => item.allocated),
         backgroundColor: [
           'rgb(59, 130, 246)',
           'rgb(16, 185, 129)',
