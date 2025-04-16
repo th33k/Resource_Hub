@@ -32,9 +32,12 @@ const getMonthLabels = () => {
   return reorderedLabels;
 };
 
+// Updated to fetch and pass meal distribution and resource allocation data dynamically
 function Dashboard() {
   const [stats, setStats] = useState([]);
   const [resources, setResources] = useState([]);
+  const [mealData, setMealData] = useState([]); // State for meal distribution data
+  const [resourceData, setResourceData] = useState([]); // State for resource allocation data
   const monthLabels = getMonthLabels();
 
   useEffect(() => {
@@ -49,6 +52,18 @@ function Dashboard() {
       .get("http://localhost:9090/dashboard/resources")
       .then((response) => setResources(response.data))
       .catch((error) => console.error("Error fetching resources:", error));
+
+    // Fetch meal distribution data
+    axios
+      .get("http://localhost:9090/dashboard/meal-distribution")
+      .then((response) => setMealData(response.data))
+      .catch((error) => console.error("Error fetching meal distribution data:", error));
+
+    // Fetch resource allocation data
+    axios
+      .get("http://localhost:9090/dashboard/resource-allocation")
+      .then((response) => setResourceData(response.data))
+      .catch((error) => console.error("Error fetching resource allocation data:", error));
   }, []);
 
   return (
@@ -76,10 +91,10 @@ function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* MealDistributionChart takes up 2 columns on large screens, ResourceAllocation takes up 1 column */}
         <div className="lg:col-span-2">
-          <MealDistributionChart />
+          <MealDistributionChart data={mealData} />
         </div>
         <div className="lg:col-span-1">
-          <ResourceAllocation />
+          <ResourceAllocation data={resourceData} />
         </div>
       </div>
 
