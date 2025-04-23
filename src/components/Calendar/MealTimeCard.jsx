@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Popupmealtype from "./popupmealtype";
-import '../css/Calender/MealTimeCard.css';  // Import the CSS file
+import './Calender-CSS/MealTimeCard.css';  // Import the CSS file
 
 const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
   const [popupOpen, setPopupOpen] = React.useState(false);

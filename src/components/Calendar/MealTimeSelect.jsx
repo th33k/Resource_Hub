@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MealTimeCard from "./MealTimeCard";
-import '../css/Calender/MealTimeSelect.css';
+import './Calender-CSS/MealTimeSelect.css';
 
 export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelected }) {
   const [mealTimes, setMealTimes] = useState([]);

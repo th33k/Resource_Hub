@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MealTypeCard from "./MealTypeCard";
-import '../css/Calender/MealTypeSelect.css';
+import './Calender-CSS/MealTypeSelect.css';
 
 export default function MealTypeSelect({ onSelect }) {
   const [mealTypes, setMealTypes] = useState([]);

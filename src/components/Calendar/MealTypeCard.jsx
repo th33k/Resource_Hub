@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import '../css/Calender/MealTypeCard.css';  
+import './Calender-CSS/MealTypeCard.css';  
 
 function MealTypeCard({ id, name, image, onSelect }) {
   return (

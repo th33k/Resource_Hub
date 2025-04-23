@@ -14,7 +14,7 @@ import DashboardUser from "./pages/User/DashboardUser";
 // Admin Pages
 import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
 import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
-import { Users } from "./pages/Admin/Users";
+import { Users } from "./pages/Admin/UserManagement/Users";
 import AssetAdmin from "./pages/Admin/Organization_Assets/AssetAdmin";
 import AssetMonitoringAdmin from "./pages/Admin/Requested_Assets/AssetMonitoringAdmin";
 import MealReport from "./pages/Admin/Reports/MealReport";

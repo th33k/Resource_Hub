@@ -68,11 +68,11 @@ function AddMealType() {
       <div className="mealtimes">
         {mealTypes.length > 0 ? (
           mealTypes.map((meal) => (
-            <MealCard 
-              key={meal.id} 
+            <MealCard
+              key={meal.id}
               mealId={meal.id}
               name={meal.mealName}
-              image={meal.mealImageUrl || '/default-meal.png'} 
+              image={meal.mealImageUrl || '/default-meal.png'}
               onDelete={handleDelete}
             />
           ))

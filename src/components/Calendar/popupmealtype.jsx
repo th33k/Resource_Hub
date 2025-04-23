@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import MealTypeSelect from "./MealTypeSelect";
-import '../css/Calender/PopupMealType.css';
+import './Calender-CSS/PopupMealType.css';
 
 function Popupmealtype({ open, handleClose, onAddEvent }) {
   return (
