@@ -13,29 +13,29 @@ import { Search } from "lucide-react";
 import EditAssetPopup from "../../components/Asset/AssetEdit";
 import DeleteAssetPopup from "../../components/Asset/AssetDelete";
 
-const initialAssets = [
-  { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "008", assetname: "Laptop", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
-  { avatar: "https://randomuser.me/api/portraits/men/1.jpg", name: "Jane Smith", id: "009", assetname: "Monitor", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
-  { avatar: "https://randomuser.me/api/portraits/men/1.jpg", name: "John Doe", id: "010", assetname: "Keyboard", handoverdate: "1.1.2222", datesremaining: "07", category: "Electronics & IT" },
-  { avatar: "https://i.pravatar.cc/50", name: "John Doe", id: "011", assetname: "Pencil", handoverdate: "1.1.2222", datesremaining: "07", category: "Stationary" },
-  { avatar: "https://i.pravatar.cc/50", name: "Jane Doe", id: "012", assetname: "Drill", handoverdate: "1.1.2222", datesremaining: "07", category: "Machines" },
-  { avatar: "https://i.pravatar.cc/50", name: "Mike Smith", id: "013", assetname: "Chair", handoverdate: "1.1.2222", datesremaining: "07", category: "Furniture" },
-  { avatar: "https://i.pravatar.cc/50", name: "Sarah Johnson", id: "014", assetname: "Screwdriver", handoverdate: "1.1.2222", datesremaining: "07", category: "Maintenance Tools" },
-  { avatar: "https://i.pravatar.cc/50", name: "David Brown", id: "015", assetname: "Whiteboard", handoverdate: "1.1.2222", datesremaining: "07", category: "Extra Items" },
-];
-
+// Removed the initialAssets and relying on API data instead
 const AssetMonitoringAdmin = () => {
   const { category } = useParams(); // From URL
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
-  const [assets, setAssets] = useState(initialAssets);
+  const [assets, setAssets] = useState([]); // Start with an empty array
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const uniqueCategories = ["All", ...new Set(initialAssets.map(asset => asset.category))];
+  const uniqueCategories = ["All", ...new Set(assets.map(asset => asset.category))];
+
+  // Fetch assets from backend
+  useEffect(() => {
+    const fetchAssets = async () => {
+      const response = await fetch("http://localhost:9090/assetrequest/details");
+      const data = await response.json();
+      setAssets(data); // Update state with the fetched data
+    };
+    fetchAssets();
+  }, []); // Fetch data on component mount
 
   // Apply URL param as category filter
   useEffect(() => {
@@ -58,8 +58,8 @@ const AssetMonitoringAdmin = () => {
 
   const filteredAssets = assets.filter(asset =>
     (filterCategory === "All" || asset.category === filterCategory) &&
-    (asset.name.toLowerCase().includes(searchText.toLowerCase()) ||
-     asset.assetname.toLowerCase().includes(searchText.toLowerCase()))
+    (asset.username.toLowerCase().includes(searchText.toLowerCase()) ||
+     asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
   );
 
   const handleEditOpen = (asset) => {
@@ -115,7 +115,7 @@ const AssetMonitoringAdmin = () => {
         </FormControl>
       </div>
 
-      <MonitorTable 
+      <MonitorTable
         assets={filteredAssets}
         handleEditOpen={handleEditOpen}
         handleDeleteOpen={handleDeleteOpen}

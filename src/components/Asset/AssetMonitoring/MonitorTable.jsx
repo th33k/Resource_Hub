@@ -38,16 +38,16 @@ const MonitorTable = ({
               <TableCell>
                 <div className="flex items-center gap-3">
                   <Avatar
-                    src={asset.avatar || "https://i.pravatar.cc/50"}
-                    alt={asset.name}
+                    src={asset.profile_picture_url || "https://i.pravatar.cc/50"}
+                    alt={asset.username}
                   />
-                  {asset.name}
+                  {asset.username} {/* Updated from asset.name */}
                 </div>
               </TableCell>
               <TableCell>{asset.id}</TableCell>
-              <TableCell>{asset.assetname}</TableCell>
-              {showHandoverColumns && <TableCell>{asset.handoverdate}</TableCell>}
-              {showHandoverColumns && <TableCell>{asset.datesremaining}</TableCell>}
+              <TableCell>{asset.asset_name}</TableCell> {/* Updated field name */}
+              {showHandoverColumns && <TableCell>{asset.handover_date}</TableCell>} {/* Updated field name */}
+              {showHandoverColumns && <TableCell>{asset.remaining_days}</TableCell>} {/* Updated field name */}
               <TableCell>{asset.category}</TableCell>
               {customColumns.map((col, index) => (
                 <TableCell key={`row-${index}`}>{col.render(asset)}</TableCell>

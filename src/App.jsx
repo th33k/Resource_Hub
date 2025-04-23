@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 // Layouts
 import AdminLayout from "./Layout/AdminLayout/Layout";
 import UserLayout from "./Layout/UserLayout/Layout";
-
+import DashboardUser from "./pages/User/DashboardUser";
 // Admin Pages
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import AddMealTime from "./pages/Admin/AddMealTime";
@@ -16,6 +16,13 @@ import AssetAdmin from "./pages/Admin/AssetAdmin";
 import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
 import AssetHome from "./pages/Admin/AssetHome";
 import MealReport from "./pages/Admin/MealReport";
+import MaintenanceHome from "./pages/Admin/MaintenanceHome";
+import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
+import MealCalander from "./pages/User/MealCalander";
+import AssetRequestUsers from "./pages/User/AssetRequestUsers";
+import DueAssetsUser from "./pages/User/DashboardUser";
+import DueAssetAdmin from "./pages/Admin/DueAssset"
+
 
 // ✅ Private Route Logic
 const PrivateRoute = ({ element, allowedRole }) => {
@@ -57,6 +64,7 @@ function App() {
           <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
           <Route path="Admin-AssetHome" element={<AssetHome />} />
           <Route path="MealReport" element={<MealReport />} />
+          <Route path="admin-dueassets" element={<DueAssetAdmin/>} />
         </Route>
 
         {/* User Routes */}
