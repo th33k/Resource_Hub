@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import AssetTable from "../../components/Asset/OrganizationAssets/AssetTable";
+import AssetTable from "../../../components/Asset/OrganizationAssets/AssetTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import EditAssetPopup from "../../components/Asset/OrganizationAssets/AssetEdit";
-import DeleteAssetPopup from "../../components/Asset/OrganizationAssets/AssetDelete";
-import AssetAdd from "../../components/Asset/OrganizationAssets/AssetAdd"; // ✅ Import your Add Popup
+import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
+import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
+import AssetAdd from "../../../components/Asset/OrganizationAssets/AssetAdd"; // ✅ Import your Add Popup
 import axios from "axios";
-import "../css/AssetAdmin.css";
+import "../../css/AssetAdmin.css";
 
 function AssetAdmin() {
   const [searchText, setSearchText] = useState("");

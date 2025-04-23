@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MonitorTable from "../../components/Asset/AssetMonitoring/MonitorTable";
+import MonitorTable from "../../../components/Asset/AssetMonitoring/MonitorTable";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
@@ -10,8 +10,8 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search } from "lucide-react";
-import EditAssetPopup from "../../components/Asset/OrganizationAssets/AssetEdit";
-import DeleteAssetPopup from "../../components/Asset/OrganizationAssets/AssetDelete";
+import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
+import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const AssetMonitoringAdmin = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch("http://localhost:9090/assetrequest/details");
+      const response = await fetch("http://localhost:9090/assetrequest/dueassets");
       const data = await response.json();
       setAssets(data);
     };
@@ -80,7 +80,7 @@ const AssetMonitoringAdmin = () => {
   return (
     <div>
       <h2 style={{ marginBottom: "20px" }}>
-        Asset Monitoring {filterCategory !== "All" && `: ${filterCategory}`}
+        Due Assets {filterCategory !== "All" && `: ${filterCategory}`}
       </h2>
 
       <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>

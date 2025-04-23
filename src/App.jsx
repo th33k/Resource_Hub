@@ -15,16 +15,16 @@ import DashboardUser from "./pages/User/DashboardUser";
 import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
 import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
 import { Users } from "./pages/Admin/Users";
-import AssetAdmin from "./pages/Admin/AssetAdmin";
-import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
-import MealReport from "./pages/Admin/MealReport";
+import AssetAdmin from "./pages/Admin/Organization_Assets/AssetAdmin";
+import AssetMonitoringAdmin from "./pages/Admin/Requested_Assets/AssetMonitoringAdmin";
+import MealReport from "./pages/Admin/Reports/MealReport";
 import {Settings} from "./pages/Settings";
-import ReportHome from "./pages/Admin/ReportHome"
-import AssetReport from "./pages/Admin/AssetReport"
-import AssetHome from "./pages/Admin/AssetHome";
-import MaintenanceHome from "./pages/Admin/MaintenanceHome";
-import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
-import DueAssetAdmin from "./pages/Admin/DueAssset"
+import ReportHome from "./pages/Admin/Reports/ReportHome"
+import AssetReport from "./pages/Admin/Reports/AssetReport"
+import AssetHome from "./pages/Admin/Requested_Assets/AssetHome";
+import MaintenanceHome from "./pages/Admin/Maintenance/MaintenanceHome";
+import MaintenanceDetails from "./pages/Admin/Maintenance/MaintenanceDetails";
+import DueAssetAdmin from "./pages/Admin/Requested_Assets/DueAssset" 
 
 // User Pages
 import MealCalander from "./pages/User/MealCalander";
@@ -73,15 +73,16 @@ function App() {
           <Route path="MealReport" element={<MealReport />} />
           <Route path="AssetReport" element={<AssetReport />} />
           <Route path="Admin-ReportHome" element={<ReportHome/>}></Route>
+          <Route path="Admin-DueAssets" element={<DueAssetAdmin />} />
         </Route>
 
         {/* User Routes */}
         <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user", "admin"]} />}>
           <Route index element={<DashboardUser />} />
-          <Route path="user-DashboardUser" element={<DashboardUser />} />
-          <Route path="user-mealcalander" element={<MealCalander />} />
-          <Route path="user-assetrequest" element={<AssetRequestUsers />} />
-          <Route path="settings/*" element={<Settings />} />          
+          <Route path="User-DashboardUser" element={<DashboardUser />} />
+          <Route path="User-mealcalander" element={<MealCalander />} />
+          <Route path="User-assetrequest" element={<AssetRequestUsers />} />
+          <Route path="Settings/*" element={<Settings />} />          
         </Route>
       </Routes>
     </BrowserRouter>

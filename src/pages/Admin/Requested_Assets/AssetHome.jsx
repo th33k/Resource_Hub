@@ -1,5 +1,5 @@
-import AssetHomeCard from "../../components/Asset/AssetMonitoring/AssetHomeCard";
-import "../css/AssetHome.css";
+import AssetHomeCard from "../../../components/Asset/AssetMonitoring/AssetHomeCard";
+import "../../css/AssetHome.css";
 import { useNavigate } from "react-router-dom";
 
 function AssetHome() {

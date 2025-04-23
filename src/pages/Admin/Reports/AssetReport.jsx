@@ -1,5 +1,5 @@
 import React from "react";
-import AssetsTable from "../../components/Report/AssetsTable"; // Adjust the import path if necessary
+import AssetsTable from "../../../components/Report/AssetsTable"; // Adjust the import path if necessary
 
 function App() {
   return (

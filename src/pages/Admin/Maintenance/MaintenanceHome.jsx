@@ -1,6 +1,6 @@
 
-import MaintenenHomeCard from "../../components/Maintenance/MaintenanceHomeCard";
-import '../css/MaintenanceHome.css';
+import MaintenenHomeCard from "../../../components/Maintenance/MaintenanceHomeCard";
+import '../../css/MaintenanceHome.css';
 
 
 function Maintenen(){
