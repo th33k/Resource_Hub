@@ -40,7 +40,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
 
   const handleSaveEdit = async (mealId, name, image) => {
     try {
-      const response = await fetch(`http://localhost:9090/mealtime/details/${mealId}`, {
+      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/details/${mealId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

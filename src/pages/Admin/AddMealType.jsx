@@ -18,7 +18,7 @@ function AddMealType() {
 
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`http://localhost:9090/mealtype/details/${mealId}`, {
+      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details/${mealId}`, {
         method: "DELETE",
       });
 
@@ -34,7 +34,7 @@ function AddMealType() {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtype/details');
+      const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal types');
       }

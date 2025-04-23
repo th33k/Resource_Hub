@@ -38,7 +38,7 @@ function AssetAdmin() {
   // Fetch asset data from API on load
   useEffect(() => {
     axios
-      .get("http://localhost:9090/asset/details")
+      .get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/v1.0/details")
       .then((res) => {
         const formattedAssets = res.data.map((asset) => ({
           id: asset.id,

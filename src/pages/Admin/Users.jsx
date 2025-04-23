@@ -21,7 +21,7 @@ export const Users = () => {
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:9090/user/details");
+      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0/details");
       if (!response.ok) throw new Error("Failed to fetch users");
       const data = await response.json();
       setUsers(
@@ -74,7 +74,7 @@ export const Users = () => {
         created_at: new Date().toISOString(),
       };
 
-      const response = await fetch("http://localhost:9090/user/add", {
+      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0/user/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userToAdd),
@@ -92,7 +92,7 @@ export const Users = () => {
     try {
       await Promise.all(
         userIds.map((userId) =>
-          fetch(`http://localhost:9090/user/details/${userId}`, {
+          fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0/user/details/${userId}`, {
             method: "DELETE",
           })
         )

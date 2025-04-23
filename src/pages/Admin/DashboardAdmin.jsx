@@ -43,25 +43,25 @@ function Dashboard() {
   useEffect(() => {
     // Fetch stats data
     axios
-      .get("http://localhost:9090/dashboard/admin/stats")
+      .get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/stats")
       .then((response) => setStats(response.data))
       .catch((error) => console.error("Error fetching stats:", error));
 
     // Fetch resources data
     axios
-      .get("http://localhost:9090/dashboard/admin/resources")
+      .get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/resources")
       .then((response) => setResources(response.data))
       .catch((error) => console.error("Error fetching resources:", error));
 
     // Fetch meal distribution data
     axios
-      .get("http://localhost:9090/dashboard/admin/mealdistribution")
+      .get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/mealdistribution")
       .then((response) => setMealData(response.data))
       .catch((error) => console.error("Error fetching meal distribution data:", error));
 
     // Fetch resource allocation data
     axios
-      .get("http://localhost:9090/dashboard/admin/resourceallocation")
+      .get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/resourceallocation")
       .then((response) => setResourceData(response.data))
       .catch((error) => console.error("Error fetching resource allocation data:", error));
   }, []);

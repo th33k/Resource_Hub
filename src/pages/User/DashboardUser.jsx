@@ -25,8 +25,8 @@ function DashboardUser() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const statsResponse = await axios.get('http://localhost:9090/dashboard/user/user-stats');
-        const activitiesResponse = await axios.get('http://localhost:9090/dashboard/user/user-activities');
+        const statsResponse = await axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/stats');
+        const activitiesResponse = await axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/activities');
 
         setStats(statsResponse.data);
         setRecentActivities(activitiesResponse.data);

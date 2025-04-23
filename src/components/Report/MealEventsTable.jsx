@@ -26,7 +26,7 @@ const MealEventsTable = () => {
 
   // Fetch meal events
   useEffect(() => {
-    fetch("http://localhost:9090/calander/mealevents")
+    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents")
       .then((response) => response.json())
       .then((data) => {
         setMealEvents(data);
@@ -37,7 +37,7 @@ const MealEventsTable = () => {
 
   // Fetch meal times from API
   useEffect(() => {
-    fetch("http://localhost:9090/mealtime/details")
+    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/details")
       .then((response) => response.json())
       .then((data) => {
         const mealNames = data.map((meal) => ({
@@ -51,7 +51,7 @@ const MealEventsTable = () => {
 
   // Fetch meal types from API
   useEffect(() => {
-    fetch("http://localhost:9090/mealtype/details")
+    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details")
       .then((response) => response.json())
       .then((data) => {
         const mealTypeList = data.map((type) => ({
