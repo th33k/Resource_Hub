@@ -19,7 +19,7 @@ import DeleteAssetPopup from "../../components/Asset/AssetDelete";
 import "../css/AssetAdmin.css";
 
 function AssetAdmin() {
-  const [assets, setAssets] = useState([]);
+
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [selectedAsset, setSelectedAsset] = useState(null);
