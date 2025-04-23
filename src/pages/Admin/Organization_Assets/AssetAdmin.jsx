@@ -4,7 +4,7 @@ import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@m
 import { UserPlus, Search } from "lucide-react";
 import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
 import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
-import AssetAdd from "../../../components/Asset/OrganizationAssets/AssetAdd"; // ✅ Import your Add Popup
+import AssetAdd from "../../../components/Asset/OrganizationAssets/AssetAdd";
 import axios from "axios";
 import "../../css/AssetAdmin.css";
 
@@ -46,11 +46,9 @@ function AssetAdmin() {
     setDeleteOpen(true);
   };
 
-  const handleUpdateAsset = (updatedAsset) => {
-    const updatedAssets = assets.map((asset) =>
-      asset.id === updatedAsset.id ? updatedAsset : asset
-    );
-    setAssets(updatedAssets);
+  // ✅ Updated: Re-fetch after edit
+  const handleUpdateAsset = () => {
+    fetchAssets();
     setEditOpen(false);
     setSelectedAsset(null);
   };
@@ -125,7 +123,7 @@ function AssetAdmin() {
             open={editOpen}
             asset={selectedAsset}
             onClose={() => setEditOpen(false)}
-            onUpdate={handleUpdateAsset}
+            onUpdate={handleUpdateAsset} // ✅ Re-fetch after edit
           />
           <DeleteAssetPopup
             open={deleteOpen}
@@ -136,7 +134,6 @@ function AssetAdmin() {
         </>
       )}
 
-      {/* ✅ Add Asset Dialog Component */}
       <AssetAdd
         open={addAssetOpen}
         onClose={() => setAddAssetOpen(false)}

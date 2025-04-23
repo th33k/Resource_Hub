@@ -1,28 +1,84 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from "@mui/material";
-import axios from "axios";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
-  const [updatedAsset, setUpdatedAsset] = useState(asset);
+  const [editedAsset, setEditedAsset] = useState({
+    id: "",
+    name: "",
+    category: "",
+    quantity: "",
+    condition: "",
+    location: "",
+  });
 
   useEffect(() => {
-    setUpdatedAsset(asset); // Ensure dialog is updated when a new asset is selected
+    if (asset) {
+      setEditedAsset({
+        id: asset.id,
+        name: asset.asset_name,
+        category: asset.category,
+        quantity: asset.quantity,
+        condition: asset.condition_type,
+        location: asset.location,
+      });
+    }
   }, [asset]);
 
-  const handleChange = (e) => {
-    setUpdatedAsset({ ...updatedAsset, [e.target.name]: e.target.value });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedAsset((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = async () => {
+  const handleUpdate = async () => {
+    if (
+      !editedAsset.name ||
+      !editedAsset.category ||
+      !editedAsset.quantity ||
+      !editedAsset.condition ||
+      !editedAsset.location
+    ) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     try {
-      const response = await axios.put(
-        `http://localhost:9090/asset/details/${updatedAsset.id}`,
-        updatedAsset
+      const response = await fetch(
+        `http://localhost:9090/asset/details/${editedAsset.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: editedAsset.id,
+            asset_name: editedAsset.name,
+            category: editedAsset.category,
+            quantity: parseInt(editedAsset.quantity),
+            condition_type: editedAsset.condition,
+            location: editedAsset.location,
+          }),
+        }
       );
-      onUpdate(response.data); // Use updated data returned by backend
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const updatedAsset = await response.json();
+      onUpdate(updatedAsset);
+      onClose();
     } catch (error) {
-      console.error("Failed to update asset:", error);
-      alert("Failed to update asset");
+      console.error("Error updating asset:", error);
+      alert("Failed to update asset.");
     }
   };
 
@@ -32,41 +88,69 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
       <DialogContent>
         <TextField
           label="Asset Name"
-          name="name"
+          variant="outlined"
           fullWidth
-          value={updatedAsset.name || ""}
-          onChange={handleChange}
-          margin="dense"
+          margin="normal"
+          name="name"
+          value={editedAsset.name}
+          onChange={handleInputChange}
         />
+        <FormControl variant="outlined" fullWidth margin="normal">
+          <InputLabel>Category</InputLabel>
+          <Select
+            name="category"
+            value={editedAsset.category}
+            onChange={handleInputChange}
+            label="Category"
+          >
+            <MenuItem value="Electronics & IT">IT Equipment</MenuItem>
+            <MenuItem value="Office Supplies">Office Supplies</MenuItem>
+            <MenuItem value="Furniture">Furniture</MenuItem>
+            <MenuItem value="Electrical Appliances">Electrical Appliances</MenuItem>
+            <MenuItem value="Machinery & Tools">Machinery & Tools</MenuItem>
+            <MenuItem value="Miscellaneous">Miscellaneous</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           label="Quantity"
-          name="quantity"
+          variant="outlined"
+          fullWidth
+          margin="normal"
           type="number"
-          fullWidth
-          value={updatedAsset.quantity || ""}
-          onChange={handleChange}
-          margin="dense"
+          name="quantity"
+          value={editedAsset.quantity}
+          onChange={handleInputChange}
         />
-        <TextField
-          label="Condition"
-          name="condition"
-          fullWidth
-          value={updatedAsset.condition || ""}
-          onChange={handleChange}
-          margin="dense"
-        />
+        <FormControl variant="outlined" fullWidth margin="normal">
+          <InputLabel>Condition</InputLabel>
+          <Select
+            name="condition"
+            value={editedAsset.condition}
+            onChange={handleInputChange}
+            label="Condition"
+          >
+            <MenuItem value="Brand New">Brand New</MenuItem>
+            <MenuItem value="Used">Used</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           label="Location"
-          name="location"
+          variant="outlined"
           fullWidth
-          value={updatedAsset.location || ""}
-          onChange={handleChange}
-          margin="dense"
+          margin="normal"
+          name="location"
+          value={editedAsset.location}
+          onChange={handleInputChange}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="secondary">Cancel</Button>
-        <Button onClick={handleSave} color="primary">Save</Button>
+        <Button onClick={onClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleUpdate} color="primary">
+          Update Asset
+        </Button>
+        
       </DialogActions>
     </Dialog>
   );
