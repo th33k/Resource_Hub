@@ -15,15 +15,7 @@ import { Users } from "./pages/Admin/Users";
 import AssetAdmin from "./pages/Admin/AssetAdmin";
 import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
 import AssetHome from "./pages/Admin/AssetHome";
-import MaintenanceHome from "./pages/Admin/MaintenanceHome";
-import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
-import DueAssetsAdmin from "./pages/Admin/DueAssset";
-
-// User Pages
-import DashboardUser from "./pages/User/DashboardUser";
-import MealCalander from "./pages/User/MealCalander";
-import AssetRequestUsers from "./pages/User/AssetRequestUsers";
-import DueAssetsUser from "./pages/User/DueAssetUser";
+import MealReport from "./pages/Admin/MealReport";
 
 // ✅ Private Route Logic
 const PrivateRoute = ({ element, allowedRole }) => {
@@ -63,7 +55,8 @@ function App() {
           <Route path="admin-AssetMonitoring/:category" element={<AssetMonitoringAdmin />} />
           <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
           <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
-          <Route path="Admin-DueAssets" element={<DueAssetsAdmin />} />
+          <Route path="Admin-AssetHome" element={<AssetHome />} />
+          <Route path="MealReport" element={<MealReport />} />
         </Route>
 
         {/* User Routes */}
