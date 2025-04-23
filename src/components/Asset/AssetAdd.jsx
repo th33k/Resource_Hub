@@ -1,8 +1,7 @@
-// AddAssetPopup.js
 import React, { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 
-function AddAssetPopup({ open, onClose, onAdd }) {
+function AssetAdd({ open, onClose, onAdd }) {
   const [newAsset, setNewAsset] = useState({
     name: "",
     category: "",
@@ -16,20 +15,43 @@ function AddAssetPopup({ open, onClose, onAdd }) {
     setNewAsset((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddAsset = () => {
+  const handleAddAsset = async () => {
     if (!newAsset.name || !newAsset.category || !newAsset.quantity || !newAsset.condition || !newAsset.location) {
       alert("Please fill in all fields");
       return;
     }
-    onAdd(newAsset); // Pass new asset to parent component
-    setNewAsset({
-      name: "",
-      category: "",
-      quantity: "",
-      condition: "",
-      location: "",
-    });
-    onClose(); // Close the popup after adding the asset
+    
+    try {
+      const response = await fetch('http://localhost:9090/asset/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          asset_name: newAsset.name,
+          category: newAsset.category,
+          quantity:parseInt( newAsset.quantity),
+          condition_type: newAsset.condition,
+          location: newAsset.location,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      setNewAsset({
+        name: "",
+        category: "",
+        quantity: "",
+        condition: "",
+        location: "",
+      });
+
+      onAdd(); // Notify parent to refresh or handle after asset addition
+      onClose(); // Close the popup after adding the asset
+    } catch (error) {
+      console.error("Error adding asset:", error);
+      alert("Failed to add asset.");
+    }
   };
 
   return (
@@ -99,4 +121,4 @@ function AddAssetPopup({ open, onClose, onAdd }) {
   );
 }
 
-export default AddAssetPopup;
+export default AssetAdd;
