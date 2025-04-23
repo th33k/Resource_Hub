@@ -6,7 +6,7 @@ function DeleteAssetPopup({ open, asset, onClose, onDelete }) {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Delete Asset</DialogTitle>
       <DialogContent>
-        Are you sure you want to delete <strong>{asset.name}</strong>?
+      Are you sure you want to delete <strong>{asset.asset_name}</strong>?
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">Cancel</Button>

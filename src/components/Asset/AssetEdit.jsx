@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from "@mui/material";
+import axios from "axios";
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   const [updatedAsset, setUpdatedAsset] = useState(asset);
 
-  // Handle Input Change
+  useEffect(() => {
+    setUpdatedAsset(asset); // Ensure dialog is updated when a new asset is selected
+  }, [asset]);
+
   const handleChange = (e) => {
     setUpdatedAsset({ ...updatedAsset, [e.target.name]: e.target.value });
   };
 
-  // Save Changes
-  const handleSave = () => {
-    onUpdate(updatedAsset);
+  const handleSave = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:9090/asset/details/${updatedAsset.id}`,
+        updatedAsset
+      );
+      onUpdate(response.data); // Use updated data returned by backend
+    } catch (error) {
+      console.error("Failed to update asset:", error);
+      alert("Failed to update asset");
+    }
   };
 
   return (
@@ -22,7 +34,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           label="Asset Name"
           name="name"
           fullWidth
-          value={updatedAsset.name}
+          value={updatedAsset.name || ""}
           onChange={handleChange}
           margin="dense"
         />
@@ -31,7 +43,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           name="quantity"
           type="number"
           fullWidth
-          value={updatedAsset.quantity}
+          value={updatedAsset.quantity || ""}
           onChange={handleChange}
           margin="dense"
         />
@@ -39,7 +51,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           label="Condition"
           name="condition"
           fullWidth
-          value={updatedAsset.condition}
+          value={updatedAsset.condition || ""}
           onChange={handleChange}
           margin="dense"
         />
@@ -47,7 +59,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           label="Location"
           name="location"
           fullWidth
-          value={updatedAsset.location}
+          value={updatedAsset.location || ""}
           onChange={handleChange}
           margin="dense"
         />

@@ -1,8 +1,7 @@
-// AddAssetPopup.js
 import React, { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 
-function AddAssetPopup({ open, onClose, onAdd }) {
+function AssetAdd({ open, onClose, onAdd }) {
   const [newAsset, setNewAsset] = useState({
     name: "",
     category: "",
@@ -15,7 +14,6 @@ function AddAssetPopup({ open, onClose, onAdd }) {
     const { name, value } = e.target;
     setNewAsset((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const handleAddAsset = async () => {
     if (!newAsset.name || !newAsset.category || !newAsset.quantity || !newAsset.condition || !newAsset.location) {
@@ -30,7 +28,7 @@ function AddAssetPopup({ open, onClose, onAdd }) {
         body: JSON.stringify({
           asset_name: newAsset.name,
           category: newAsset.category,
-          quantity: newAsset.quantity,
+          quantity:parseInt( newAsset.quantity),
           condition_type: newAsset.condition,
           location: newAsset.location,
         }),
@@ -40,7 +38,6 @@ function AddAssetPopup({ open, onClose, onAdd }) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Clear the form fields after successful addition
       setNewAsset({
         name: "",
         category: "",
@@ -124,4 +121,4 @@ function AddAssetPopup({ open, onClose, onAdd }) {
   );
 }
 
-export default AddAssetPopup;
+export default AssetAdd;

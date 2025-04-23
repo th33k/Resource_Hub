@@ -1,26 +1,52 @@
 import AssetHomeCard from "../../components/Asset/AssetHomePage/AssetHomeCard";
-import '../css/AssetHome.css';
+import "../css/AssetHome.css";
 
-function AssetHome(){
-    return (
-      <div>
-        <div className="asset-home">
-          <AssetHomeCard name="Electronic And IT" image="./Asset/Electronic And IT.png" route={"../Admin-assetDetails"} />
-          
-          <AssetHomeCard name="Stationary Items" image="./Asset/Stationary Items.png" route={"../Admin-assetDetails"} />
+function AssetHome() {
+  const categories = [
+    {
+      name: "Electronics & IT",
+      label: "Electronic And IT",
+      image: "./Asset/Electronic And IT.png",
+    },
+    {
+      name: "Stationary",
+      label: "Stationary Items",
+      image: "./Asset/Stationary Items.png",
+    },
+    {
+      name: "Furniture",
+      label: "Furniture",
+      image: "./Asset/Furniture.png",
+    },
+    {
+      name: "Maintenance Tools",
+      label: "Maintenance Tools",
+      image: "./Asset/Maintenance Tools.png",
+    },
+    {
+      name: "Machines",
+      label: "Mechanics",
+      image: "./Asset/Mechanices.png",
+    },
+    {
+      name: "Extra Items",
+      label: "Extra Items",
+      image: "./Asset/Extra Items.png",
+    },
+  ];
 
-          <AssetHomeCard name="Furniture" image="./Asset/Furniture.png" route={"../Admin-assetDetails"} />
-          
-          <AssetHomeCard name="Maintenance Tools" image="./Asset/Maintenance Tools.png" route={"../Admin-assetDetails"} />
-          
-          <AssetHomeCard name="Mechanices" image="./Asset/Mechanices.png" route={"../Admin-assetDetails"} />
-          
-          <AssetHomeCard name="Extra Items" image="./Asset/Extra Items.png" route={"../Admin-assetDetails"} />
-
-          
-        </div>
-      </div>
-    );
+  return (
+    <div className="asset-home">
+      {categories.map((category, index) => (
+        <AssetHomeCard
+          key={index}
+          name={category.label}
+          image={category.image}
+          route={`/admin-AssetMonitoring/${encodeURIComponent(category.name)}`}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default AssetHome;
