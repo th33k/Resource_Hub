@@ -1,5 +1,4 @@
 import AssetHomeCard from "../../components/Asset/AssetHomePage/AssetHomeCard";
-import { Link } from "react-router-dom";
 import "../css/AssetHome.css";
 
 function AssetHome() {
@@ -27,7 +26,7 @@ function AssetHome() {
     {
       name: "Machines",
       label: "Mechanics",
-      image: "./Asset/Mechanices.png", // ✅ fixed typo from "Mechanices"
+      image: "./Asset/Mechanices.png",
     },
     {
       name: "Extra Items",
@@ -39,12 +38,12 @@ function AssetHome() {
   return (
     <div className="asset-home">
       {categories.map((category, index) => (
-        <Link
+        <AssetHomeCard
           key={index}
-          to={`/admin-AssetMonitoring/${encodeURIComponent(category.name)}`}
-        >
-          <AssetHomeCard name={category.label} image={category.image} />
-        </Link>
+          name={category.label}
+          image={category.image}
+          route={`/admin-AssetMonitoring/${encodeURIComponent(category.name)}`}
+        />
       ))}
     </div>
   );

@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AssetTable from "../../components/Asset/AssetTable";
-import {
-  Button,
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl
-} from "@mui/material";
+import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import AssetEdit from "../../components/Asset/AssetEdit";
-import AssetDelete from "../../components/Asset/AssetDelete";
-import AssetAdd from "../../components/Asset/AssetAdd";
+import EditAssetPopup from "../../components/Asset/AssetEdit";
+import DeleteAssetPopup from "../../components/Asset/AssetDelete";
+import AssetAdd from "../../components/Asset/AssetAdd"; // ✅ Import your Add Popup
+import axios from "axios";
 import "../css/AssetAdmin.css";
 
 function AssetAdmin() {
@@ -21,14 +15,11 @@ function AssetAdmin() {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [addAssetOpen, setAddAssetOpen] = useState(false);
-  const [newAsset, setNewAsset] = useState({
-    name: "",
-    category: "Electronics & IT",
-    quantity: 0,
-    condition: "Good",
-    location: "",
-  });
   const [assets, setAssets] = useState([]);
+
+  useEffect(() => {
+    fetchAssets();
+  }, []);
 
   const fetchAssets = () => {
     fetch("http://localhost:9090/asset/details")
@@ -37,16 +28,12 @@ function AssetAdmin() {
       .catch((error) => console.error("Error fetching assets:", error));
   };
 
-  useEffect(() => {
-    fetchAssets();
-  }, []);
-
   const uniqueCategories = ["All", ...new Set(assets.map((asset) => asset.category))];
 
   const filteredAssets = assets.filter(
     (asset) =>
       (filterCategory === "All" || asset.category === filterCategory) &&
-      asset.name.toLowerCase().includes(searchText.toLowerCase()) // fixed here
+      asset.asset_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleEditOpen = (asset) => {
@@ -64,44 +51,21 @@ function AssetAdmin() {
       asset.id === updatedAsset.id ? updatedAsset : asset
     );
     setAssets(updatedAssets);
-    setSelectedAsset(null);
     setEditOpen(false);
-  };
-
-  const handleDeleteAsset = (id) => {
-    const updatedAssets = assets.filter((asset) => asset.id !== id);
-    setAssets(updatedAssets);
     setSelectedAsset(null);
-    setDeleteOpen(false);
   };
 
-  const handleAddAsset = () => {
-    fetch("http://localhost:9090/asset/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newAsset),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Added asset:", data);
-        // Option 1: Push new asset to list (if it has id and all info)
-        // setAssets([...assets, data]);
-
-        // Option 2: Safely re-fetch all assets
-        fetchAssets();
-
-        setAddAssetOpen(false);
-        setNewAsset({
-          name: "",
-          category: "Electronics & IT",
-          quantity: 0,
-          condition: "Good",
-          location: "",
-        });
-      })
-      .catch((error) => console.error("Error adding asset:", error));
+  const handleDeleteAsset = async (id) => {
+    try {
+      await axios.delete(`http://localhost:9090/asset/details/${id}`);
+      setAssets((prevAssets) => prevAssets.filter((asset) => asset.id !== id));
+      setDeleteOpen(false);
+      setSelectedAsset(null);
+      alert("Asset deleted successfully");
+    } catch (error) {
+      console.error("Error deleting asset:", error);
+      alert("Failed to delete asset");
+    }
   };
 
   return (
@@ -121,7 +85,6 @@ function AssetAdmin() {
             InputProps={{ startAdornment: <Search size={20} /> }}
             className="search-bar"
           />
-
           <FormControl variant="outlined" size="small" className="category-dropdown">
             <InputLabel>Filter by Category</InputLabel>
             <Select
@@ -159,13 +122,13 @@ function AssetAdmin() {
 
       {selectedAsset && (
         <>
-          <AssetEdit
+          <EditAssetPopup
             open={editOpen}
             asset={selectedAsset}
             onClose={() => setEditOpen(false)}
             onUpdate={handleUpdateAsset}
           />
-          <AssetDelete
+          <DeleteAssetPopup
             open={deleteOpen}
             asset={selectedAsset}
             onClose={() => setDeleteOpen(false)}
@@ -174,12 +137,11 @@ function AssetAdmin() {
         </>
       )}
 
+      {/* ✅ Add Asset Dialog Component */}
       <AssetAdd
         open={addAssetOpen}
         onClose={() => setAddAssetOpen(false)}
-        onAdd={handleAddAsset}
-        newAsset={newAsset}
-        setNewAsset={setNewAsset}
+        onAdd={fetchAssets} // Refresh asset list after addition
       />
     </>
   );

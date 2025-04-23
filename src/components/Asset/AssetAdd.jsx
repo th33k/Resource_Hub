@@ -28,7 +28,7 @@ function AssetAdd({ open, onClose, onAdd }) {
         body: JSON.stringify({
           asset_name: newAsset.name,
           category: newAsset.category,
-          quantity: newAsset.quantity,
+          quantity:parseInt( newAsset.quantity),
           condition_type: newAsset.condition,
           location: newAsset.location,
         }),
