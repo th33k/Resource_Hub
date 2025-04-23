@@ -14,6 +14,7 @@ import AssetAdmin from "./pages/Admin/AssetAdmin";
 import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
 import MaintenanceHome from "./pages/Admin/MaintenanceHome";
 import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
+import AssetRequestUsers from "./pages/User/AssetRequestUsers";
 import AssetRequestUsers from "./pages/User/AssetRequestUsers"; 
 import MealReport from "./pages/Admin/MealReport";
 import {Settings} from "./pages/Settings";
@@ -55,6 +56,8 @@ function App() {
           <Route path="MealReport" element={<MealReport />} />
           <Route path="AssetReport" element={<AssetReport />} />
           <Route path="Admin-ReportHome" element={<ReportHome/>}></Route>
+          <Route path="Admin-AssetHome" element={<AssetHome />} />
+          <Route path="MealReport" element={<MealReport />} />
         </Route>
 
         <Route path="/" element={<PrivateRoute element={<UserLayout />} allowedRoles={["user", "admin"]} />}>

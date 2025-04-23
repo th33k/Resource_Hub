@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import AssetTable from "../../components/Asset/AssetTable";
 import {
   Button,
@@ -14,12 +13,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import EditAssetPopup from "../../components/Asset/AssetEdit";
-import DeleteAssetPopup from "../../components/Asset/AssetDelete";
-import "../css/AssetAdmin.css";
+import EditAssetPopup from "../../components/Asset/AssetEdit"; 
+import DeleteAssetPopup from "../../components/Asset/AssetDelete"; 
+import '../css/AssetAdmin.css';
 
 function AssetAdmin() {
-  const [assets, setAssets] = useState([]);
+
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [selectedAsset, setSelectedAsset] = useState(null);
@@ -34,30 +33,23 @@ function AssetAdmin() {
     condition: "Good",
     location: "",
   });
+  const [assets, setAssets] = useState([]); // State to store assets from the API
 
-  // Fetch asset data from API on load
+  // Fetch asset data from the API
   useEffect(() => {
-    axios
-      .get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/v1.0/details")
-      .then((res) => {
-        const formattedAssets = res.data.map((asset) => ({
-          id: asset.id,
-          name: asset.asset_name,
-          category: asset.category,
-          quantity: asset.quantity,
-          condition: asset.condition_type,
-          location: asset.location,
-        }));
-        setAssets(formattedAssets);
-      })
-      .catch((err) => console.error("Error fetching assets:", err));
-  }, []);
+    fetch('http://localhost:9090/asset/details')
+      .then(response => response.json())
+      .then(data => setAssets(data))
+      .catch(error => console.error('Error fetching assets:', error));
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
 
-  const uniqueCategories = ["All", ...new Set(assets.map((a) => a.category))];
+  // Get unique categories for filtering
+  const uniqueCategories = ["All", ...new Set(assets.map(asset => asset.category))];
 
-  const filteredAssets = assets.filter((asset) =>
+  // Filter assets based on category or search
+  const filteredAssets = assets.filter(asset => 
     (filterCategory === "All" || asset.category === filterCategory) &&
-    asset.name?.toLowerCase().includes(searchText.toLowerCase())
+    asset.asset_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleEditOpen = (asset) => {
@@ -71,31 +63,40 @@ function AssetAdmin() {
   };
 
   const handleUpdateAsset = (updatedAsset) => {
-    setAssets((prev) =>
-      prev.map((a) => (a.id === updatedAsset.id ? updatedAsset : a))
-    );
+    const updatedAssets = assets.map(asset => asset.id === updatedAsset.id ? updatedAsset : asset);
+    setAssets(updatedAssets);
+    setSelectedAsset(null);
     setEditOpen(false);
   };
 
   const handleDeleteAsset = (id) => {
-    setAssets((prev) => prev.filter((a) => a.id !== id));
+    const updatedAssets = assets.filter(asset => asset.id !== id);
+    setAssets(updatedAssets);
+    setSelectedAsset(null);
     setDeleteOpen(false);
   };
 
   const handleAddAsset = () => {
-    const assetWithId = {
-      ...newAsset,
-      id: Date.now(), // Local only – replace with real API POST if needed
-    };
-    setAssets([...assets, assetWithId]);
-    setAddAssetOpen(false);
-    setNewAsset({
-      name: "",
-      category: "Electronics & IT",
-      quantity: 0,
-      condition: "Good",
-      location: "",
-    });
+    fetch('http://localhost:9090/asset/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newAsset),
+    })
+    .then(response => response.json())
+    .then(data => {
+      setAssets([...assets, data]);
+      setAddAssetOpen(false);
+      setNewAsset({
+        name: "",
+        category: "Electronics & IT",
+        quantity: 0,
+        condition: "Good",
+        location: "",
+      });
+    })
+    .catch(error => console.error('Error adding asset:', error));
   };
 
   return (
