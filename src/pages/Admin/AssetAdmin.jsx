@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import AssetTable from "../../components/Asset/AssetTable";
+import AssetTable from "../../components/Asset/OrganizationAssets/AssetTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import EditAssetPopup from "../../components/Asset/AssetEdit";
-import DeleteAssetPopup from "../../components/Asset/AssetDelete";
+import EditAssetPopup from "../../components/Asset/OrganizationAssets/AssetEdit";
+import DeleteAssetPopup from "../../components/Asset/OrganizationAssets/AssetDelete";
+import AssetAdd from "../../components/Asset/OrganizationAssets/AssetAdd"; // ✅ Import your Add Popup
+import axios from "axios";
 import "../css/AssetAdmin.css";
 
 function AssetAdmin() {
-
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [selectedAsset, setSelectedAsset] = useState(null);
@@ -17,29 +17,23 @@ function AssetAdmin() {
   const [addAssetOpen, setAddAssetOpen] = useState(false);
   const [assets, setAssets] = useState([]);
 
-  // Fetch asset data from API on load
   useEffect(() => {
-    axios
-      .get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/v1.0/details")
-      .then((res) => {
-        const formattedAssets = res.data.map((asset) => ({
-          id: asset.id,
-          name: asset.asset_name,
-          category: asset.category,
-          quantity: asset.quantity,
-          condition: asset.condition_type,
-          location: asset.location,
-        }));
-        setAssets(formattedAssets);
-      })
-      .catch((err) => console.error("Error fetching assets:", err));
+    fetchAssets();
   }, []);
 
-  const uniqueCategories = ["All", ...new Set(assets.map((a) => a.category))];
+  const fetchAssets = () => {
+    fetch("http://localhost:9090/asset/details")
+      .then((response) => response.json())
+      .then((data) => setAssets(data))
+      .catch((error) => console.error("Error fetching assets:", error));
+  };
 
-  const filteredAssets = assets.filter((asset) =>
-    (filterCategory === "All" || asset.category === filterCategory) &&
-    asset.name?.toLowerCase().includes(searchText.toLowerCase())
+  const uniqueCategories = ["All", ...new Set(assets.map((asset) => asset.category))];
+
+  const filteredAssets = assets.filter(
+    (asset) =>
+      (filterCategory === "All" || asset.category === filterCategory) &&
+      asset.asset_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleEditOpen = (asset) => {
@@ -53,10 +47,12 @@ function AssetAdmin() {
   };
 
   const handleUpdateAsset = (updatedAsset) => {
-    setAssets((prev) =>
-      prev.map((a) => (a.id === updatedAsset.id ? updatedAsset : a))
+    const updatedAssets = assets.map((asset) =>
+      asset.id === updatedAsset.id ? updatedAsset : asset
     );
+    setAssets(updatedAssets);
     setEditOpen(false);
+    setSelectedAsset(null);
   };
 
   const handleDeleteAsset = async (id) => {
@@ -65,7 +61,6 @@ function AssetAdmin() {
       setAssets((prevAssets) => prevAssets.filter((asset) => asset.id !== id));
       setDeleteOpen(false);
       setSelectedAsset(null);
-      alert("Asset deleted successfully");
     } catch (error) {
       console.error("Error deleting asset:", error);
       alert("Failed to delete asset");

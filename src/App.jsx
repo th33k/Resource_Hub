@@ -2,19 +2,21 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Login from "./pages/Login";
+
+// layout  Pages
 import AdminLayout from "./Layout/AdminLayout/AdminLayout";
 import UserLayout from "./Layout/UserLayout/UserLayout";
+
+// Dashboard Pages
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import DashboardUser from "./pages/User/DashboardUser";
 
 // Admin Pages
-import DashboardAdmin from "./pages/Admin/DashboardAdmin";
-import AddMealTime from "./pages/Admin/AddMealTime";
-import AddMealType from "./pages/Admin/AddMealType";
+import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
+import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
 import { Users } from "./pages/Admin/Users";
 import AssetAdmin from "./pages/Admin/AssetAdmin";
 import AssetMonitoringAdmin from "./pages/Admin/AssetMonitoringAdmin";
-import AssetRequestUsers from "./pages/User/AssetRequestUsers";
 import MealReport from "./pages/Admin/MealReport";
 import {Settings} from "./pages/Settings";
 import ReportHome from "./pages/Admin/ReportHome"
@@ -22,9 +24,12 @@ import AssetReport from "./pages/Admin/AssetReport"
 import AssetHome from "./pages/Admin/AssetHome";
 import MaintenanceHome from "./pages/Admin/MaintenanceHome";
 import MaintenanceDetails from "./pages/Admin/MaintenanceDetails";
+import DueAssetAdmin from "./pages/Admin/DueAssset"
+
+// User Pages
 import MealCalander from "./pages/User/MealCalander";
 import AssetRequestUsers from "./pages/User/AssetRequestUsers";
-import DueAssetAdmin from "./pages/Admin/DueAssset"
+
 
 
 // ✅ Private Route Logic

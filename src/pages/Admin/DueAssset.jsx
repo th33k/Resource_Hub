@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import MonitorTable from "../../components/Asset/AssetMonitoring/MonitorTable";
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { Search } from "lucide-react";
-import EditAssetPopup from "../../components/Asset/AssetEdit";
-import DeleteAssetPopup from "../../components/Asset/AssetDelete";
+import EditAssetPopup from "../../components/Asset/OrganizationAssets/AssetEdit";
+import DeleteAssetPopup from "../../components/Asset/OrganizationAssets/AssetDelete";
 // import "./css/AssetAdmin.css";
 
 const initialAssets = [

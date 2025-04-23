@@ -75,9 +75,12 @@ function AssetAdd({ open, onClose, onAdd }) {
             onChange={handleInputChange}
             label="Category"
           >
-            <MenuItem value="Electronics & IT">Electronics & IT</MenuItem>
-            <MenuItem value="Stationery">Stationery</MenuItem>
+            <MenuItem value="Electronics & IT">IT Equipment</MenuItem>
+            <MenuItem value="Office Supplies">Office Supplies</MenuItem>
             <MenuItem value="Furniture">Furniture</MenuItem>
+            <MenuItem value="Electrical Appliances">Electrical Appliances</MenuItem>
+            <MenuItem value="Machinery & Tools">Machinery & Tools</MenuItem>
+            <MenuItem value="Miscellaneous">Miscellaneous</MenuItem>
           </Select>
         </FormControl>
         <TextField
@@ -90,15 +93,18 @@ function AssetAdd({ open, onClose, onAdd }) {
           value={newAsset.quantity}
           onChange={handleInputChange}
         />
-        <TextField
-          label="Condition"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="condition"
-          value={newAsset.condition}
-          onChange={handleInputChange}
-        />
+        <FormControl variant="outlined" fullWidth margin="normal">
+          <InputLabel>Condition</InputLabel>
+          <Select
+            name="condition"
+            value={newAsset.condition}
+            onChange={handleInputChange}
+            label="Condition"
+          >
+            <MenuItem value="Brand New">Brand New</MenuItem>
+            <MenuItem value="Used">Used</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           label="Location"
           variant="outlined"

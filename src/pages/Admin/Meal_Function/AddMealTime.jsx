@@ -1,73 +1,73 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import MealCard from "../../components/Meal/MealTypeCard";
-import { MealCardPopup } from '../../components/Meal/AddMealTypePopup';
-import '../css/AddMealTime.css';
+import MealCard from "../../../components/Meal/MealTimeCard";
+import { MealCardPopup } from '../../../components/Meal/AddMealTimePopup';
+import '../../css/AddMealTime.css';
 
-function AddMealType() {
+function AddMealTime() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [mealTypes, setMealTypes] = useState([]);
+  const [mealTimes, setMealTimes] = useState([]);
   const [error, setError] = useState(null);
 
-  const title = "Add New Meal Type";
-  const getSubtitle = () => "Manage meal types for the day";
+  const title = "Add New Meal Time";
+  const getSubtitle = () => "Manage meal times for the day";
 
   const handlePopupOpen = () => setIsPopupOpen(true);
   const handlePopupClose = () => setIsPopupOpen(false);
 
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details/${mealId}`, {
+      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/details/${mealId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        await fetchMealTypes();
+        await fetchMealTimes();
       } else {
-        setError("Failed to delete meal type");
+        setError("Failed to delete meal time");
       }
     } catch (error) {
-      setError(`Error deleting meal type: ${error.message}`);
+      setError(`Error deleting meal time: ${error.message}`);
     }
   };
 
-  const fetchMealTypes = async () => {
+  const fetchMealTimes = async () => {
     try {
-      const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details');
+      const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/details');
       if (!response.ok) {
-        throw new Error('Failed to fetch meal types');
+        throw new Error('Failed to fetch meal times');
       }
       const data = await response.json();
-      setMealTypes(data);
+      setMealTimes(data);
     } catch (error) {
-      setError(`Error fetching meal types: ${error.message}`);
+      setError(`Error fetching meal times: ${error.message}`);
     }
   };
 
   useEffect(() => {
-    fetchMealTypes();
+    fetchMealTimes();
   }, []);
 
   return (
     <div className="mealpage">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Meal types</h1>
+        <h1 className="text-2xl font-semibold">Meal times</h1>
       </div>
       <Button
         variant="contained"
         className="addbtn"
         onClick={handlePopupOpen}
       >
-        New Meal Type
+        New Meal Time
         <span className="addicon"><AddIcon /></span>
       </Button>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <div className="mealtimes">
-        {mealTypes.length > 0 ? (
-          mealTypes.map((meal) => (
+        {mealTimes.length > 0 ? (
+          mealTimes.map((meal) => (
             <MealCard 
               key={meal.id} 
               mealId={meal.id}
@@ -77,7 +77,7 @@ function AddMealType() {
             />
           ))
         ) : (
-          <p>No meal types available</p>
+          <p>No meal times available</p>
         )}
       </div>
 
@@ -86,10 +86,10 @@ function AddMealType() {
         onClose={handlePopupClose}
         title={title}
         subtitle={getSubtitle()}
-        onSubmit={fetchMealTypes}
+        onSubmit={fetchMealTimes}
       />
     </div>
   );
 }
 
-export default AddMealType;
+export default AddMealTime;

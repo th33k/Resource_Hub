@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MonitorTable from "../../components/Asset/AssetMonitoring/MonitorTable";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -10,49 +10,42 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search } from "lucide-react";
-import EditAssetPopup from "../../components/Asset/AssetEdit";
-import DeleteAssetPopup from "../../components/Asset/AssetDelete";
+import EditAssetPopup from "../../components/Asset/OrganizationAssets/AssetEdit";
+import DeleteAssetPopup from "../../components/Asset/OrganizationAssets/AssetDelete";
 
-// Removed the initialAssets and relying on API data instead
 const AssetMonitoringAdmin = () => {
-  const { category } = useParams(); // From URL
   const navigate = useNavigate();
+  const location = useLocation();
+  const passedCategory = location.state?.category || "All";
 
   const [searchText, setSearchText] = useState("");
-  const [filterCategory, setFilterCategory] = useState("All");
-  const [assets, setAssets] = useState([]); // Start with an empty array
+  const [filterCategory, setFilterCategory] = useState(passedCategory);
+  const [assets, setAssets] = useState([]);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const uniqueCategories = ["All", ...new Set(assets.map(asset => asset.category))];
 
-  // Fetch assets from backend
   useEffect(() => {
     const fetchAssets = async () => {
       const response = await fetch("http://localhost:9090/assetrequest/details");
       const data = await response.json();
-      setAssets(data); // Update state with the fetched data
+      setAssets(data);
     };
     fetchAssets();
-  }, []); // Fetch data on component mount
+  }, []);
 
-  // Apply URL param as category filter
   useEffect(() => {
-    if (category) {
-      const decodedCategory = decodeURIComponent(category);
-      setFilterCategory(decodedCategory);
-    } else {
-      setFilterCategory("All");
-    }
-  }, [category]);
+    setFilterCategory(passedCategory);
+  }, [passedCategory]);
 
   const handleCategoryChange = (newCategory) => {
     setFilterCategory(newCategory);
     if (newCategory === "All") {
-      navigate("/admin-AssetMonitoring");
+      navigate("/admin-AssetMonitoring", { state: { category: "All" } });
     } else {
-      navigate(`/admin-AssetMonitoring/${encodeURIComponent(newCategory)}`);
+      navigate("/admin-AssetMonitoring", { state: { category: newCategory } });
     }
   };
 

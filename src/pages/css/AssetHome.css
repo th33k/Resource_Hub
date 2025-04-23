@@ -6,18 +6,26 @@
   
 
 
-/*.asset-home{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 16px;
-    padding: 20px;
-}*/
 
-.asset-home {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  grid-template-rows: repeat(2, auto); /* 2 rows */
-  gap: 40px; /* Space between boxes */
-  padding: 30px; /* Adjusted padding */
-  justify-content: center; /* Center alignment */
-}
+  .asset-home {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding: 30px;
+    justify-content: center;
+  }
+  
+  /* Medium screens (tablets) */
+  @media (max-width: 1215px) {
+    .asset-home {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Small screens (mobile) */
+  @media (max-width: 861px) {
+    .asset-home {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  

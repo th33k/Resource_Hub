@@ -4,11 +4,10 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
 
-function AssetHomeCard({ name, image, route }) {
+function AssetHomeCard({ name, image, onClick }) {
   return (
-    <Link to={route} style={{ textDecoration: "none" }}>
+    <div onClick={onClick} style={{ cursor: "pointer" }}>
       <Card
         sx={{
           width: 250,
@@ -34,9 +33,9 @@ function AssetHomeCard({ name, image, route }) {
             {name}
           </Typography>
         </CardContent>
-        <CardActions sx={{ display: "block", margin: "auto" }}></CardActions>
+        <CardActions></CardActions>
       </Card>
-    </Link>
+    </div>
   );
 }
 

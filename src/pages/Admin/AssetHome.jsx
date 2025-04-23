@@ -1,16 +1,19 @@
-import AssetHomeCard from "../../components/Asset/AssetHomePage/AssetHomeCard";
+import AssetHomeCard from "../../components/Asset/AssetMonitoring/AssetHomeCard";
 import "../css/AssetHome.css";
+import { useNavigate } from "react-router-dom";
 
 function AssetHome() {
+  const navigate = useNavigate();
+
   const categories = [
     {
       name: "Electronics & IT",
-      label: "Electronic And IT",
+      label: "Electronics & IT",
       image: "./Asset/Electronic And IT.png",
     },
     {
-      name: "Stationary",
-      label: "Stationary Items",
+      name: "Office Supplies",
+      label: "Office Supplies",
       image: "./Asset/Stationary Items.png",
     },
     {
@@ -19,31 +22,34 @@ function AssetHome() {
       image: "./Asset/Furniture.png",
     },
     {
-      name: "Maintenance Tools",
-      label: "Maintenance Tools",
+      name: "Electrical Appliances",
+      label: "Electrical Appliances",
       image: "./Asset/Maintenance Tools.png",
     },
     {
-      name: "Machines",
-      label: "Mechanics",
+      name: "Machinery & Tools",
+      label: "Machinery & Tools",
       image: "./Asset/Mechanices.png",
     },
     {
-      name: "Extra Items",
-      label: "Extra Items",
+      name: "Miscellaneous",
+      label: "Miscellaneous",
       image: "./Asset/Extra Items.png",
     },
   ];
 
+  const handleCardClick = (category) => {
+    navigate("/Admin-AssetMonitoring", {
+      state: { category: category.name },
+    });
+  };
+
   return (
     <div className="asset-home">
       {categories.map((category, index) => (
-        <AssetHomeCard
-          key={index}
-          name={category.label}
-          image={category.image}
-          route={`/admin-AssetMonitoring/${encodeURIComponent(category.name)}`}
-        />
+        <div key={index} onClick={() => handleCardClick(category)}>
+          <AssetHomeCard name={category.label} image={category.image} />
+        </div>
       ))}
     </div>
   );
