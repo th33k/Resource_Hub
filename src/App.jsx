@@ -6,6 +6,7 @@ import AdminLayout from "./Layout/AdminLayout/AdminLayout";
 import UserLayout from "./Layout/UserLayout/UserLayout";
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import DashboardUser from "./pages/User/DashboardUser";
+
 // Admin Pages
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import AddMealTime from "./pages/Admin/AddMealTime";
@@ -67,9 +68,6 @@ function App() {
           <Route path="MealReport" element={<MealReport />} />
           <Route path="AssetReport" element={<AssetReport />} />
           <Route path="Admin-ReportHome" element={<ReportHome/>}></Route>
-          <Route path="Admin-AssetHome" element={<AssetHome />} />
-          <Route path="MealReport" element={<MealReport />} />
-          <Route path="admin-dueassets" element={<DueAssetAdmin/>} />
         </Route>
 
         {/* User Routes */}
