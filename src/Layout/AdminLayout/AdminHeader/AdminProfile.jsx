@@ -32,40 +32,60 @@ function Profile() {
   };
 
   const handleLogout = () => {
-    navigate('/login');  
-    handleCloseMenu();  
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("Email");
+    localStorage.removeItem("Username");
+    localStorage.removeItem("Userid");
+    navigate("/login");
+    handleCloseMenu();
   };
 
+
   return (
-    <Box className="profileBox">
+    <Box sx={{
+        backgroundColor: 'rgb(255,255,255,0.4)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '65px',
+        width: '244px',
+        borderRadius: '10px',
+      }}>
       <Tooltip title="Open settings">
-        <IconButton className="profileButton">
-          <Avatar className="profileAvatar" alt="User Avatar" src="https://media.istockphoto.com/id/1309328823/photo/headshot-portrait-of-smiling-male-employee-in-office.jpg?s=612x612&w=0&k=20&c=kPvoBm6qCYzQXMAn9JUtqLREXe9-PlZyMl9i-ibaVuY=" />
-          <Box className="profileText">
-            <Typography className="profileName" sx={{fontSize:"16px"}}>John Doe</Typography>
-            <Typography className="profileEmail" sx={{fontSize:"12px"}}>jhondoe@gmail.com</Typography>
+        <IconButton sx={{ p: 0 }}>
+          <Avatar sx={{
+            height:'50px',
+            width:'50px'
+          }} alt="User Avatar"src={localStorage.getItem("Profile_picture")} />
+          <Box sx={{ ml: 1, textAlign: 'left' }}>
+            <Typography sx={{ fontSize: '14px', color: 'rgb(255,255,255)', fontWeight: 'bold' }}>{localStorage.getItem("Username")}</Typography>
+            <Typography sx={{ fontSize: '12px', color: 'rgb(255,255,255,0.6)' }}>{localStorage.getItem("Email")}</Typography>
           </Box>
-          <ArrowDropDownIcon className="profileArrow" onClick={handleOpenMenu} sx={{fontSize:"35px"}} />
+          <ArrowDropDownIcon 
+            sx={{ color: '#ffffff', fontSize: '40px', cursor: 'pointer' }} 
+            onClick={handleOpenMenu} 
+          />
         </IconButton>
       </Tooltip>
 
       <Menu
-        className="profileMenu"
+        sx={{ mt: '30px' }}
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        disableScrollLock={true} 
       >
         {settings.map((setting) => (
           <MenuItem 
             key={setting.name} 
             onClick={setting.name === 'Logout' ? handleLogout : handleCloseMenu} 
-            className="profileMenuItem"
+            sx={{display:'flex', justifyContent:'center', width:'220px'}}
           >
             {setting.icon}
-            <Typography className="profileMenuText">
+            <Typography sx={{ textAlign: 'center', width:'150px' }}>
               {setting.name}
             </Typography>
           </MenuItem>

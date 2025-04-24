@@ -107,7 +107,7 @@ const MealEventsTable = () => {
           >
             <MenuItem value="">All</MenuItem>
             {mealTimes.map((time) => (
-              <MenuItem key={time.id} value={time.name}> {/* Use name instead of id */}
+              <MenuItem key={time.id} value={time.id}> {/* Use id instead of id */}
                 {time.name}
               </MenuItem>
             ))}
@@ -124,7 +124,7 @@ const MealEventsTable = () => {
           >
             <MenuItem value="">All</MenuItem>
             {mealTypes.map((type) => (
-              <MenuItem key={type.id} value={type.name}> {/* Use name instead of id */}
+              <MenuItem key={type.id} value={type.id}> {/* Use id instead of id */}
                 {type.name}
               </MenuItem>
             ))}
@@ -172,8 +172,8 @@ const MealEventsTable = () => {
           <TableBody>
             {filteredEvents.map((mealEvent, index) => (
               <TableRow key={index}>
-                <TableCell>{mealEvent.meal_time}</TableCell>
-                <TableCell>{mealEvent.meal_type}</TableCell>
+                <TableCell>{mealEvent.meal_time_name}</TableCell>
+                <TableCell>{mealEvent.meal_type_name}</TableCell>
                 <TableCell>{mealEvent.username}</TableCell>
                 <TableCell>{mealEvent.submitted_date}</TableCell>
                 <TableCell>{mealEvent.meal_request_date}</TableCell>

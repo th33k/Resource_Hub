@@ -29,7 +29,7 @@ const AssetMonitoringAdmin = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch("http://localhost:9090/assetrequest/dueassets");
+      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/dueassets");
       const data = await response.json();
       setAssets(data);
     };

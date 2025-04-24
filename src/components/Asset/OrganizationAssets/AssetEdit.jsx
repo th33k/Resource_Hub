@@ -54,7 +54,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
 
     try {
       const response = await fetch(
-        `http://localhost:9090/asset/details/${editedAsset.id}`,
+        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/details/${editedAsset.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

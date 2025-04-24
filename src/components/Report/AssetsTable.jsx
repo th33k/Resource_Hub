@@ -8,7 +8,7 @@ const AssetsTable = () => {
 
   // Fetch data from the API
   useEffect(() => {
-    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/v1.0/details")
+    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/details")
       .then((response) => response.json())
       .then((data) => setassets(data))
       .catch((error) => console.error("Error fetching meal events:", error));

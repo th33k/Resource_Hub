@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 // layout  Pages
 import AdminLayout from "./Layout/AdminLayout/AdminLayout";
 import UserLayout from "./Layout/UserLayout/UserLayout";
+import AdminUserLayout from "./Layout/AdminUserLayout/Layout";
 
 // Dashboard Pages
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
@@ -32,16 +33,17 @@ import AssetRequestUsers from "./pages/User/AssetRequestUsers";
 
 
 
-// ✅ Private Route Logic
-const PrivateRoute = ({ element, allowedRole }) => {
+// PrivateRoute to protect routes
+const PrivateRoute = ({ element, allowedRoles }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   const userRole = localStorage.getItem("userRole");
 
-  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!isAuthenticated || !userRole) {
+    return <Navigate to="/login" replace />;
+  }
 
-  if (allowedRole && userRole !== allowedRole) {
-    const fallback = userRole === "admin" ? "/admin-DashboardAdmin" : "/user-DashboardUser";
-    return <Navigate to={fallback} />;
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
+    return <Navigate to={`/${userRole}-dashboard${userRole.charAt(0).toUpperCase() + userRole.slice(1)}`} />;
   }
 
   return element;
@@ -74,6 +76,15 @@ function App() {
           <Route path="AssetReport" element={<AssetReport />} />
           <Route path="Admin-ReportHome" element={<ReportHome/>}></Route>
           <Route path="Admin-DueAssets" element={<DueAssetAdmin />} />
+        </Route>
+
+        {/*Admin User Routes* */}
+        <Route path="/" element={<PrivateRoute element={<AdminUserLayout />} allowedRoles={["admin"]} />}>
+          <Route index element={<DashboardUser />} />
+          <Route path="AdminUser-DashboardUser" element={<DashboardUser />} />
+          <Route path="AdminUser-mealcalander" element={<MealCalander />} />
+          <Route path="AdminUser-assetrequest" element={<AssetRequestUsers />} />
+          <Route path="Settings/*" element={<Settings />} />          
         </Route>
 
         {/* User Routes */}
