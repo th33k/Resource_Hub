@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import logo from "/Resource Hub Logo.png";
-import Button from "@mui/material/Button";
-import { MdOutlineMenuOpen } from "react-icons/md";
 import Search from "./UserSearch.jsx";
 import clientlogo from "/WSO2 logo.png";
 import NotificationBtn from "./UserNotificationBtn.jsx";
-import SwitchBtn from "./UserSwitchBtn.jsx";
 import "./UserHeader.css";
 import Profile from "./UserProfile.jsx";
 
