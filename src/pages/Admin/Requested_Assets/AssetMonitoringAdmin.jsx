@@ -10,8 +10,6 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search } from "lucide-react";
-import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
-import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -55,27 +53,6 @@ const AssetMonitoringAdmin = () => {
      asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
   );
 
-  const handleEditOpen = (asset) => {
-    setSelectedAsset(asset);
-    setEditOpen(true);
-  };
-
-  const handleDeleteOpen = (asset) => {
-    setSelectedAsset(asset);
-    setDeleteOpen(true);
-  };
-
-  const handleUpdateAsset = (updatedAsset) => {
-    setAssets(prev =>
-      prev.map(asset => asset.id === updatedAsset.id ? updatedAsset : asset)
-    );
-    setEditOpen(false);
-  };
-
-  const handleDeleteAsset = () => {
-    setAssets(prev => prev.filter(asset => asset.id !== selectedAsset.id));
-    setDeleteOpen(false);
-  };
 
   return (
     <div>
@@ -110,26 +87,8 @@ const AssetMonitoringAdmin = () => {
 
       <MonitorTable
         assets={filteredAssets}
-        handleEditOpen={handleEditOpen}
-        handleDeleteOpen={handleDeleteOpen}
       />
 
-      {selectedAsset && (
-        <>
-          <EditAssetPopup
-            open={editOpen}
-            asset={selectedAsset}
-            onClose={() => setEditOpen(false)}
-            onUpdate={handleUpdateAsset}
-          />
-          <DeleteAssetPopup
-            open={deleteOpen}
-            asset={selectedAsset}
-            onClose={() => setDeleteOpen(false)}
-            onDelete={handleDeleteAsset}
-          />
-        </>
-      )}
     </div>
   );
 };

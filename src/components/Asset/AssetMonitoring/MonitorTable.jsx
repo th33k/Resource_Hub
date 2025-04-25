@@ -11,8 +11,6 @@ import {
 
 const MonitorTable = ({
   assets,
-  handleEditOpen,
-  handleDeleteOpen,
   showHandoverColumns = true,
   customColumns = [],
 }) => {

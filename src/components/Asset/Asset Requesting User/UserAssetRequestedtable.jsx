@@ -9,10 +9,9 @@ import {
   Avatar,
 } from "@mui/material";
 
+
 const MonitorTable = ({
   assets,
-  handleEditOpen,
-  handleDeleteOpen,
   showHandoverColumns = true,
   customColumns = [],
 }) => {
