@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MonitorTable from "../../../components/Asset/Asset Requesting User/UserAssetRequestedtable";
+import MonitorTable from "../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
@@ -10,7 +10,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search } from "lucide-react";
-import RequestButton from "../../../components/Asset/Asset Requesting User/RequestButton";
+import RequestButton from "../../../components/Asset/AssetRequestingUser/RequestButton";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
