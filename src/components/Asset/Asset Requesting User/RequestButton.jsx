@@ -67,7 +67,7 @@ function RequestButton({ open, onClose, onRequest }) {
   
       const data = await response.json();
       if (response.ok) {
-        alert("Asset request successfully submitted!");
+        
         onRequest(requestData); // Call onRequest if you need to do something with the data
         setRequestData({
           userName: "",
