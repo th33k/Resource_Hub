@@ -26,9 +26,6 @@ function UserHeader() {
           <div className="userheader__part3">
             <Search />
           </div>
-          <div className="userheader__part4">
-            <SwitchBtn />
-          </div>
           <div className="userheader__part5">
             <NotificationBtn />
           </div>

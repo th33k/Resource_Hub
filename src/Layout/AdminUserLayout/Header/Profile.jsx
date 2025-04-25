@@ -11,6 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import './Header.css';
 
 const settings = [
   { name: 'Profile', icon: <PersonIcon /> },
