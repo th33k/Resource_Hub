@@ -2,46 +2,50 @@ import { Utensils, Box, Wrench } from 'lucide-react';
 import { StatCard } from '../../components/Dashboard/User/StatCard';
 import { RecentActivities } from '../../components/Dashboard/User/RecentActivities';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-
-const getMonthLabels = () => {
-  const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const currentMonth = new Date().getMonth(); // Get the current month index (0 for Jan, 11 for Dec)
-  
-  // Reorder the month labels so the current month is first
-  const reorderedLabels = [
-    ...monthLabels.slice(currentMonth),
-    ...monthLabels.slice(0, currentMonth),
-  ];
-
-  return reorderedLabels;
-};
+import { getMonthLabels } from '../../utils/dateUtils'; // Import the utility function
 
 function DashboardUser() {
-  const [stats, setStats] = useState({ mealsToday: 0, assets: 0, maintenanceRequests: 0 });
+  const [stats, setStats] = useState({ mealsToday: 0, assets: 0, maintenanceRequests: 0, mealsMonthlyData: [], assetsMonthlyData: [], maintenanceMonthlyData: [] });
   const [recentActivities, setRecentActivities] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const statsResponse = await axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/stats');
-        const activitiesResponse = await axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/activities');
-
-        setStats(statsResponse.data);
-        setRecentActivities(activitiesResponse.data);
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const monthLabels = getMonthLabels();
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [statsResponse, activitiesResponse] = await Promise.all([
+        axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/stats'),
+        axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/activities')
+      ]);
+
+      setStats(statsResponse.data);
+      setRecentActivities(activitiesResponse.data);
+    } catch (err) {
+      console.error('Error fetching user dashboard data:', err);
+      setError('Failed to load dashboard data. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return <div className="p-6">Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-500">{error}</div>;
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6"> {/* Added padding consistent with Admin Dashboard */}
       {/* User Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
@@ -80,6 +84,6 @@ function DashboardUser() {
       <QuickActions />
     </div>
   );
-};
+}
 
 export default DashboardUser;

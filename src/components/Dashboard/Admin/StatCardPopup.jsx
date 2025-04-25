@@ -1,14 +1,14 @@
-import { Line } from 'react-chartjs-2';
-import { X } from 'lucide-react';
-import { Dialog } from '@mui/material';
+import { Line } from "react-chartjs-2";
+import { X } from "lucide-react";
+import { Dialog } from "@mui/material";
 
-export const StatCardPopup = ({ 
-  open, 
-  onClose, 
-  title, 
-  subtitle, 
+export const StatCardPopup = ({
+  open,
+  onClose,
+  title,
+  subtitle,
   value,
-  chartData 
+  chartData,
 }) => {
   const options = {
     responsive: true,
@@ -29,26 +29,21 @@ export const StatCardPopup = ({
     datasets: [
       {
         data: chartData?.data || [],
-        borderColor: 'rgb(59, 130, 246)',
+        borderColor: "rgb(59, 130, 246)",
         tension: 0.4,
       },
     ],
   };
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-    >
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <div className="p-6">
         <div className="flex justify-between items-start mb-6">
           <div>
             <h2 className="text-xl font-semibold">{title}</h2>
             <p className="text-gray-500 text-sm">{subtitle}</p>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
