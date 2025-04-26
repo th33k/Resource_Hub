@@ -57,7 +57,7 @@ function RequestButton({ open, onClose, onRequest }) {
     };
   
     try {
-      const response = await fetch("http://localhost:9090/assetrequest/add", {
+      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
