@@ -7,7 +7,7 @@ function AssetSearch({ value, onChange, setAssetId }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:9090/asset/details")
+    axios.get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/details")
       .then((res) => {
         setAssets(res.data);
         setLoading(false);
