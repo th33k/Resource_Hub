@@ -1,4 +1,4 @@
-import ReportHomeCard from "../../../components/Reports/ReportHomeCard"
+import ReportHomeCard from "../../../components/Report/ReportHomeCard"
 import "../../css/ReportHome.css"
 function ReportHome() {
   return (
