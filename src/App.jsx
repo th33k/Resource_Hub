@@ -28,9 +28,9 @@ import MaintenanceDetails from "./pages/Admin/Maintenance/MaintenanceDetails";
 import DueAssetAdmin from "./pages/Admin/Requested_Assets/DueAssset" 
 
 // User Pages
-import MealCalander from "./pages/User/MealCalander";
+import MealCalander from "./pages/User/MealRequest/MealCalander";
 import AssetRequestUsers from "./pages/User/RequestAsset/AssetRequestUsers";
-
+import DueAssetUser from "./pages/User/RequestAsset/DueAssetUser";
 
 
 // PrivateRoute to protect routes
@@ -84,6 +84,7 @@ function App() {
           <Route path="AdminUser-DashboardUser" element={<DashboardUser />} />
           <Route path="AdminUser-mealcalander" element={<MealCalander />} />
           <Route path="AdminUser-assetrequest" element={<AssetRequestUsers />} />
+          <Route path="AdminUser-DueAssets" element={<DueAssetUser />} />
           <Route path="Settings/*" element={<Settings />} />          
         </Route>
 
@@ -93,6 +94,7 @@ function App() {
           <Route path="User-DashboardUser" element={<DashboardUser />} />
           <Route path="User-mealcalander" element={<MealCalander />} />
           <Route path="User-assetrequest" element={<AssetRequestUsers />} />
+          <Route path="User-DueAssets" element={<DueAssetUser />} />
           <Route path="Settings/*" element={<Settings />} />          
         </Route>
       </Routes>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MonitorTable from "../../../components/Asset/Asset Requesting User/UserAssetRequestedtable";
+import MonitorTable from "../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
@@ -12,6 +12,7 @@ import {
 import { Search } from "lucide-react";
 import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
 import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
+import { use } from "react";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -29,7 +30,8 @@ const AssetMonitoringAdmin = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/dueassets");
+      const userId = localStorage.getItem("Userid");
+      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/dueassets/${userId}`);
       const data = await response.json();
       setAssets(data);
     };
