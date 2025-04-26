@@ -22,7 +22,7 @@ function Slidebar() {
         <div className='slidebar'>
             <ul>
                 <li>
-                    <Link to={'AdminUserUser-DashboardUser'}>
+                    <Link to={'AdminUser-DashboardUser'}>
                         <Button className='w-100'>
                             <span className='icon'><MdSpaceDashboard /></span>
                             Dashboard
