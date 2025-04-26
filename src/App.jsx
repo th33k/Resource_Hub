@@ -4,9 +4,9 @@ import "./App.css";
 import Login from "./pages/Login";
 
 // layout  Pages
-import AdminLayout from "./Layout/AdminLayout/AdminLayout";
-import UserLayout from "./Layout/UserLayout/UserLayout";
-import AdminUserLayout from "./Layout/AdminUserLayout/Layout";
+import AdminLayout from "./layouts/AdminLayout/AdminLayout";
+import UserLayout from "./layouts/UserLayout/UserLayout";
+import AdminUserLayout from "./layouts/AdminUserLayout/Layout";
 
 // Dashboard Pages
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
