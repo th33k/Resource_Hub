@@ -27,7 +27,7 @@ const AssetMonitoringAdmin = () => {
   // Fetch assets
   const fetchAssets = async () => {
     const userId = localStorage.getItem("Userid");
-    const response = await fetch(`http://localhost:9090/assetrequest/details/${userId}`);
+    const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/details/${userId}`);
     const data = await response.json();
     setAssets(data);
   };
