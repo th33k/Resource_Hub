@@ -11,49 +11,27 @@ import {
   InputLabel,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
-  const [name, setName] = useState("");
-  const [priorityLevel, setPriorityLevel] = useState("");
   const [description, setDescription] = useState("");
+  const [priorityLevel, setPriorityLevel] = useState("");
   const [status, setStatus] = useState("");
-  const [requestDate, setRequestDate] = useState("");
 
   useEffect(() => {
     if (maintenance) {
-      setName(maintenance.name || "");
-      setPriorityLevel(maintenance.priorityLevel || "");
       setDescription(maintenance.description || "");
+      setPriorityLevel(maintenance.priorityLevel || "");
       setStatus(maintenance.status || "");
-      setRequestDate(maintenance.request_date || "");
     }
   }, [maintenance]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const updatedMaintenanceData = {
-      ...maintenance,
-      name,
-      priorityLevel,
-      description,
-      status,
-      request_date: requestDate,
-    };
-
-    try {
-      const response = await axios.put(
-        `http://localhost:9090/maintenance/details/${maintenance.id}`,
-        updatedMaintenanceData
-      );
-
-      onSave(response.data);
-      window.location.reload(); // Refresh the window after saving
-      onClose(); // Close the dialog after successfully saving
-    } catch (error) {
-      console.error("Failed to update maintenance:", error);
+    if (!description.trim()) {
+      return;
     }
+    onSave({ ...maintenance, description, priorityLevel, status });
+    onClose();
   };
 
   return (
@@ -65,19 +43,15 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
             <TextField
               fullWidth
               label="Name"
-              value={name}
+              value={maintenance?.name || ""}
               disabled
-              required
             />
-
             <TextField
               fullWidth
               label="Request Date"
-              value={requestDate}
+              value={maintenance?.request_date || ""}
               disabled
-              required
             />
-
             <FormControl fullWidth>
               <InputLabel>Priority Level</InputLabel>
               <Select
@@ -90,7 +64,6 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                 <MenuItem value="High">High</MenuItem>
               </Select>
             </FormControl>
-
             <TextField
               fullWidth
               label="Description"
@@ -99,7 +72,6 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
               <Select
@@ -116,7 +88,9 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button type="submit" variant="contained">Save</Button>
+          <Button type="submit" variant="contained">
+            Save
+          </Button>
         </DialogActions>
       </form>
     </Dialog>

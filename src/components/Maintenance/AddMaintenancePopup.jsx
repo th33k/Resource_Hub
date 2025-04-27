@@ -11,8 +11,6 @@ import {
   InputLabel,
 } from "@mui/material";
 import { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
   const [name, setName] = useState("");
@@ -20,64 +18,21 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
   const [description, setDescription] = useState("");
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    setNameError(false);
-    setDescriptionError(false);
-
-    if (!name.trim()) {
-      setNameError(true);
-    }
-    if (!description.trim()) {
-      setDescriptionError(true);
-    }
+    setNameError(!name.trim());
+    setDescriptionError(!description.trim());
 
     if (!name.trim() || !description.trim()) {
       return;
     }
 
-    try {
-      setIsSubmitting(true);
-
-      const userId = localStorage.getItem("Userid");
-      if (!userId) {
-        toast.error("User ID not found. Please login again.");
-        return;
-      }
-
-      const payload = {
-        name,
-        priorityLevel,
-        description,
-        status: "Pending",
-        user_id: parseInt(userId, 10),
-      };
-
-      const response = await axios.post(
-        "http://localhost:9090/maintenance/add",
-        payload
-      );
-
-      if (response.status === 200 || response.status === 202) {
-        toast.success("Maintenance added successfully!");
-        onAdd(response.data);
-        window.location.reload(); // Refresh the window after adding maintenance
-        onClose();
-      } else {
-        toast.error("Failed to add maintenance. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error adding maintenance:", error);
-
-    } finally {
-      setIsSubmitting(false);
-      setName("");
-      setPriorityLevel("Low");
-      setDescription("");
-    }
+    onAdd({ name, priorityLevel, description });
+    setName("");
+    setPriorityLevel("Low");
+    setDescription("");
+    onClose();
   };
 
   return (
@@ -91,11 +46,9 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               label="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              required
               error={nameError}
               helperText={nameError ? "Please enter a name" : ""}
             />
-
             <FormControl fullWidth>
               <InputLabel>Priority Level</InputLabel>
               <Select
@@ -108,14 +61,6 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                 <MenuItem value="High">High</MenuItem>
               </Select>
             </FormControl>
-
-            <TextField
-              fullWidth
-              label="Status"
-              value="Pending"
-              disabled
-            />
-
             <TextField
               fullWidth
               label="Description"
@@ -123,22 +68,15 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              required
               error={descriptionError}
               helperText={descriptionError ? "Please enter a description" : ""}
             />
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose} disabled={isSubmitting}>
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Adding..." : "Add"}
+          <Button onClick={onClose}>Cancel</Button>
+          <Button type="submit" variant="contained">
+            Add
           </Button>
         </DialogActions>
       </form>

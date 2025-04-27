@@ -11,54 +11,24 @@ import {
   Tooltip,
   TablePagination,
 } from "@mui/material";
-import { Pencil, Trash2, Send } from "lucide-react";
-import { EditMaintenance } from "./EditMaintenancePopup";
-import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
-import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import { Pencil, Trash2 } from "lucide-react";
+import { EditMaintenance } from "./EditMaintenancePopup.jsx";
+import { DeleteConfirmDialog } from "./DeleteConfirmDialog.jsx";
 
-export const MainteranceTable = ({ maintanence, onEditMaintanance, onDeleteMaintanance }) => {
-  const [selected, setSelected] = useState([]);
+export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaintenance }) => {
   const [editMaintenance, setEditMaintenance] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleDelete = async () => {
-    try {
-      if (!selected.length) {
-        toast.error("No maintenance selected for deletion.");
-        return;
-      }
-
-      await Promise.all(
-        selected.map((id) =>
-          axios.delete(`http://localhost:9090/maintenance/details/${id}`)
-        )
-      );
-
-      toast.success("Maintenance deleted successfully!");
-      onDeleteMaintanance(selected);
-    } catch (error) {
-      console.error("Failed to delete maintenance:", error);
-      toast.error("Failed to delete maintenance!");
-    } finally {
-      setSelected([]);
-      setIsDeleteDialogOpen(false);
-    }
-  };
-
-  const sendMaintanence = (maintenance) => {
-    toast.success("Sent Successfully!");
-  };
-
   return (
     <>
-      <Paper className="relative">
+      <Paper>
         <TableContainer>
           <Table>
             <TableHead>
-              <TableRow style={{ backgroundColor: "#BDE0FC", color: "#333" }}>
+              <TableRow style={{ backgroundColor: "#BDE0FC" }}>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell>Priority Level</TableCell>
@@ -66,16 +36,15 @@ export const MainteranceTable = ({ maintanence, onEditMaintanance, onDeleteMaint
                 <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
-
             <TableBody>
-              {maintanence
+              {maintenance
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((maintenance) => (
-                  <TableRow key={maintenance.id} hover>
-                    <TableCell>{maintenance.name}</TableCell>
-                    <TableCell>{maintenance.description}</TableCell>
-                    <TableCell>{maintenance.priorityLevel}</TableCell>
-                    <TableCell align="center">{maintenance.status}</TableCell>
+                .map((item) => (
+                  <TableRow key={item.id} hover>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.priorityLevel}</TableCell>
+                    <TableCell align="center">{item.status}</TableCell>
                     <TableCell align="center">
                       <div className="flex justify-center gap-2">
                         <Tooltip title="Edit Maintenance">
@@ -83,34 +52,22 @@ export const MainteranceTable = ({ maintanence, onEditMaintanance, onDeleteMaint
                             variant="outlined"
                             color="primary"
                             startIcon={<Pencil size={20} />}
-                            onClick={() => setEditMaintenance(maintenance)}
+                            onClick={() => setEditMaintenance(item)}
                           >
                             Edit
                           </Button>
                         </Tooltip>
-
                         <Tooltip title="Delete Maintenance">
                           <Button
                             variant="outlined"
                             color="error"
                             startIcon={<Trash2 size={20} />}
                             onClick={() => {
-                              setSelected([maintenance.id]);
+                              setSelectedId(item.id);
                               setIsDeleteDialogOpen(true);
                             }}
                           >
                             Delete
-                          </Button>
-                        </Tooltip>
-
-                        <Tooltip title="Send">
-                          <Button
-                            variant="outlined"
-                            color="success"
-                            startIcon={<Send size={20} />}
-                            onClick={() => sendMaintanence(maintenance)}
-                          >
-                            Send
                           </Button>
                         </Tooltip>
                       </div>
@@ -120,10 +77,9 @@ export const MainteranceTable = ({ maintanence, onEditMaintanance, onDeleteMaint
             </TableBody>
           </Table>
         </TableContainer>
-
         <TablePagination
           component="div"
-          count={maintanence.length}
+          count={maintenance.length}
           page={page}
           onPageChange={(_, newPage) => setPage(newPage)}
           rowsPerPage={rowsPerPage}
@@ -140,7 +96,7 @@ export const MainteranceTable = ({ maintanence, onEditMaintanance, onDeleteMaint
           open={!!editMaintenance}
           onClose={() => setEditMaintenance(null)}
           onSave={(editedMaintenance) => {
-            onEditMaintanance(editedMaintenance);
+            onEditMaintenance(editedMaintenance);
             setEditMaintenance(null);
           }}
         />
@@ -148,11 +104,12 @@ export const MainteranceTable = ({ maintanence, onEditMaintanance, onDeleteMaint
 
       <DeleteConfirmDialog
         open={isDeleteDialogOpen}
-        userCount={selected.length}
         onClose={() => setIsDeleteDialogOpen(false)}
-        onConfirm={handleDelete}
+        onConfirm={() => {
+          onDeleteMaintenance(selectedId);
+          setIsDeleteDialogOpen(false);
+        }}
       />
-      <ToastContainer />
     </>
   );
 };
