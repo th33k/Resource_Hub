@@ -24,7 +24,7 @@ const MaintenanceDetails = () => {
 
   const fetchMaintenanceData = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/maintenance/details");
+      const response = await axios.get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details");
       setMaintenance(response.data);
     } catch (error) {
       console.error("Failed to fetch maintenance data:", error);
@@ -53,7 +53,7 @@ const MaintenanceDetails = () => {
         user_id: parseInt(userId),
       };
 
-      const response = await axios.post("http://localhost:9090/maintenance/add", payload);
+      const response = await axios.post("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/add", payload);
       toast.success(response.data.message);
       fetchMaintenanceData();
       setIsAddMaintenanceOpen(false);
@@ -65,7 +65,7 @@ const MaintenanceDetails = () => {
 
   const handleDeleteMaintenance = async (maintenanceId) => {
     try {
-      await axios.delete(`http://localhost:9090/maintenance/details/${maintenanceId}`);
+      await axios.delete(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details/${maintenanceId}`);
       toast.success("Maintenance deleted successfully!");
       fetchMaintenanceData();
     } catch (error) {
@@ -77,7 +77,7 @@ const MaintenanceDetails = () => {
   const handleEditMaintenance = async (editedMaintenance) => {
     try {
       const response = await axios.put(
-        `http://localhost:9090/maintenance/details/${editedMaintenance.id}`,
+        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details/${editedMaintenance.id}`,
         editedMaintenance
       );
       toast.success(response.data.message);

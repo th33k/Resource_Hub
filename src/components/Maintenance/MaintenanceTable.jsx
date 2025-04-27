@@ -11,7 +11,7 @@ import {
   Tooltip,
   TablePagination,
 } from "@mui/material";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2,SendHorizontal } from "lucide-react";
 import { EditMaintenance } from "./EditMaintenancePopup.jsx";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog.jsx";
 
@@ -41,7 +41,7 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item) => (
                   <TableRow key={item.id} hover>
-                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.username}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell>{item.priorityLevel}</TableCell>
                     <TableCell align="center">{item.status}</TableCell>
@@ -68,6 +68,16 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
                             }}
                           >
                             Delete
+                          </Button>
+                        </Tooltip>
+                        <Tooltip title="Send Maintenance">
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            startIcon={<SendHorizontal size={20} />}
+                            // onClick={() => setEditMaintenance(item)}
+                          >
+                            Send
                           </Button>
                         </Tooltip>
                       </div>
