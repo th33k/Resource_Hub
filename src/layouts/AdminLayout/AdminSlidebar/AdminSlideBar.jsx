@@ -102,9 +102,9 @@ function Slidebar() {
                     </Button>
                     <div className={`submenuWrapper ${activeTab === 5 && isToggleSubmenu === true ? 'collapsed show' : 'collapsed'}`}> 
                         <ul className="submenu">
-                        <li><Link to="AssetReport">Asset Report</Link></li>
-                            <li><Link to="MealReport">Meal Report</Link></li>
-                            <li><Link to="#">Maintenance report</Link></li>
+                        <li><Link to="Admin-AssetReport">Asset Report</Link></li>
+                            <li><Link to="Admin-MealReport">Meal Report</Link></li>
+                            <li><Link to="Admin-MaintenanceReport">Maintenance Report</Link></li>
                         </ul>
                     </div>
                 </li>

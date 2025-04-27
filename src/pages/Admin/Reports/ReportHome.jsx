@@ -6,20 +6,20 @@ function ReportHome() {
       <div className="Report">
         <ReportHomeCard 
           name="Meals" 
-          image="/Maintenance/11.png" 
-          route={"../Admin-ReportMeals"} 
+          image="/Report/meal.png" 
+          route={"../Admin-MealReport"} 
         />
        
         <ReportHomeCard 
           name="Assets" 
-          image="/Maintenance/12.png" 
-          route={"../Admin-ReportAssets"} 
+          image="/Report/asset.png" 
+          route={"../Admin-AssetReport"} 
         />
 
         <ReportHomeCard
           name="Maintenance"
-          image="/Maintenance/11.png"
-          route={"../Admin-ReportMaintenance"}
+          image="/Report/maintenance.png"
+          route={"../Admin-MaintenanceReport"}
         />
       </div>
     </div>

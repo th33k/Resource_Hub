@@ -71,7 +71,7 @@ function Login() {
             required
           />
           <div className="form-options">
-            <label><a href="/reset-password">Forgot password?</a></label>
+            <label><a href="/ForgotPassword">Forgot password?</a></label>
           </div>
           <button type="submit" disabled={isLoading}>
             {isLoading ? 'Signing In...' : 'SIGN IN'}
