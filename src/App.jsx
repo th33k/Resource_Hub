@@ -27,13 +27,13 @@ import AssetHome from "./pages/Admin/Requested_Assets/AssetHome";
 import MaintenanceHome from "./pages/Admin/Maintenance/MaintenanceHome";
 import MaintenanceDetails from "./pages/Admin/Maintenance/MaintenanceDetails";
 import DueAssetAdmin from "./pages/Admin/Requested_Assets/DueAssset" 
-import MaintenanceDetailsUser  from "./pages/User/MaintenanceDetailsUser";
+
 
 // User Pages
 import MealCalander from "./pages/User/MealRequest/MealCalander";
 import AssetRequestUsers from "./pages/User/RequestAsset/AssetRequestUsers";
 import DueAssetUser from "./pages/User/RequestAsset/DueAssetUser";
-
+import MaintenanceDetailsUser  from "./pages/User/Maintenance/MaintenanceDetailsUser";
 
 // PrivateRoute to protect routes
 const PrivateRoute = ({ element, allowedRoles }) => {

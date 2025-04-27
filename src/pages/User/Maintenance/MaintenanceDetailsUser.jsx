@@ -8,8 +8,8 @@ import {
   FormControl,
 } from "@mui/material";
 import { Plus, Search } from "lucide-react";
-import { MainteranceTable } from "../../components/Maintenance/MaintenanceTableUser.jsx";
-import { AddMainterancePopup } from "../../components/Maintenance/AddMaintenancePopup.jsx";
+import { MainteranceTable } from "../../../components/Maintenance/MaintenanceTableUser.jsx";
+import { AddMainterancePopup } from "../../../components/Maintenance/AddMaintenancePopup.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
