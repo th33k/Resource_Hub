@@ -1,25 +1,64 @@
-import { Users, Utensils, Box, Wrench } from 'lucide-react';
-import { StatCard } from '../../components/Dashboard/Admin/StatCard';
-import { ResourceCard } from '../../components/Dashboard/Admin/ResourceCard';
-import { MealDistributionChart } from '../../components/Dashboard/Admin/MealDistributionChart';
-import { ResourceAllocation } from '../../components/Dashboard/Admin/ResourceAllocation';
+import { Users, Utensils, Box, Wrench } from "lucide-react";
+import { StatCard } from "../../components/Dashboard/Admin/StatCard";
+import { ResourceCard } from "../../components/Dashboard/Admin/ResourceCard";
+import { MealDistributionChart } from "../../components/Dashboard/Admin/MealDistributionChart";
+import { ResourceAllocation } from "../../components/Dashboard/Admin/ResourceAllocation";
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { getMonthLabels } from "../../utils/dateUtils"; // Import the utility function
 
-
-const getMonthLabels = () => {
-  const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const currentMonth = new Date().getMonth(); // Get the current month index (0 for Jan, 11 for Dec)
-  
-  // Reorder the month labels so the current month is first
-  const reorderedLabels = [
-    ...monthLabels.slice(currentMonth),
-    ...monthLabels.slice(0, currentMonth),
-  ];
-
-  return reorderedLabels;
+// Map icon names (strings) to actual icon components
+const iconMap = {
+  Users: <Users className="text-blue-500" />,
+  Utensils: <Utensils className="text-green-500" />,
+  Box: <Box className="text-yellow-500" />,
+  Wrench: <Wrench className="text-red-500" />,
 };
 
+// Updated to fetch and pass meal distribution and resource allocation data dynamically
 function Dashboard() {
+  const [stats, setStats] = useState([]);
+  const [resources, setResources] = useState([]);
+  const [mealData, setMealData] = useState([]); // State for meal distribution data
+  const [resourceData, setResourceData] = useState([]); // State for resource allocation data
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const monthLabels = getMonthLabels();
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [statsRes, resourcesRes, mealRes, resourceAllocRes] = await Promise.all([
+        axios.get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/stats"),
+        axios.get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/resources"),
+        axios.get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/mealdistribution"),
+        axios.get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-admin-b74/v1.0/resourceallocation")
+      ]);
+
+      setStats(statsRes.data);
+      setResources(resourcesRes.data);
+      setMealData(mealRes.data);
+      setResourceData(resourceAllocRes.data);
+    } catch (err) {
+      console.error("Error fetching admin dashboard data:", err);
+      setError("Failed to load dashboard data. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return <div className="p-6">Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen space-y-6 p-6">
@@ -28,93 +67,42 @@ function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Total Employees"
-          value="452"
-          icon={<Users className="text-blue-500" />}
-          chartData={{
-            labels: monthLabels,
-            data: [420, 435, 440, 448, 452, 450, 445, 440, 435, 430, 425, 420],
-          }}
-        />
-        <StatCard
-          title="Today Total meals"
-          value="360"
-          icon={<Utensils className="text-green-500" />}
-          chartData={{
-            labels: monthLabels,
-            data: [380, 410, 425, 440, 460, 450, 440, 430, 420, 410, 400, 390],
-          }}
-        />
-        <StatCard
-          title="Due Assets"
-          value="30"
-          icon={<Box className="text-yellow-500" />}
-          chartData={{
-            labels: monthLabels,
-            data: [25, 28, 32, 35, 30, 28, 27, 30, 32, 35, 30, 28],
-          }}
-        />
-        <StatCard
-          title="New Maintenance"
-          value="10"
-          icon={<Wrench className="text-red-500" />}
-          chartData={{
-            labels: monthLabels,
-            data: [8, 12, 15, 11, 10, 9, 10, 11, 12, 13, 14, 10],
-          }}
-        />
+        {stats.map((stat, index) => (
+          <StatCard
+            key={index}
+            title={stat.title}
+            value={stat.value}
+            icon={iconMap[stat.icon] || <Box />} // Use the icon component from the map, provide a default
+            chartData={{
+              labels: monthLabels,
+              data: stat.monthlyData,
+            }}
+          />
+        ))}
       </div>
 
-      {/* Rest of the dashboard content */}
+      {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* MealDistributionChart takes up 2 columns on large screens, ResourceAllocation takes up 1 column */}
         <div className="lg:col-span-2">
-          <MealDistributionChart />
+          <MealDistributionChart data={mealData} />
         </div>
         <div className="lg:col-span-1">
-          <ResourceAllocation />
+          <ResourceAllocation data={resourceData} />
         </div>
       </div>
 
       {/* Resource Cards */}
+      <h2 className="text-xl font-semibold pt-4">Resource Overview</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ResourceCard
-          title="Materials And IT"
-          total={50}
-          highPriority={12}
-          progress={75}
-        />
-        <ResourceCard
-          title="Stationary"
-          total={30}
-          highPriority={8}
-          progress={60}
-        />
-        <ResourceCard
-          title="Wellness"
-          total={40}
-          highPriority={15}
-          progress={85}
-        />
-        <ResourceCard
-          title="Facilities"
-          total={25}
-          highPriority={5}
-          progress={45}
-        />
-        <ResourceCard
-          title="Maintenance Tools"
-          total={60}
-          highPriority={20}
-          progress={70}
-        />
-        <ResourceCard
-          title="Extra Items"
-          total={15}
-          highPriority={3}
-          progress={30}
-        />
+        {resources.map((resource, index) => (
+          <ResourceCard
+            key={index}
+            title={resource.title}
+            total={resource.total}
+            highPriority={resource.highPriority}
+            progress={resource.progress}
+          />
+        ))}
       </div>
     </div>
   );

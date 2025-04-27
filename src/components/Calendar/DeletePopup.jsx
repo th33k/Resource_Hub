@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography"; 
-import '../css/Calender/DeletePopup.css';  
+import './Calender-CSS/DeletePopup.css';  
 
 function DeletePopup({ open, handleClose, onDelete, eventTitle }) {
   return (

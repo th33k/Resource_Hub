@@ -1,0 +1,31 @@
+
+.addicon {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  
+
+
+
+  .asset-home {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding: 30px;
+    justify-content: center;
+  }
+  
+  /* Medium screens (tablets) */
+  @media (max-width: 1215px) {
+    .asset-home {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Small screens (mobile) */
+  @media (max-width: 861px) {
+    .asset-home {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  

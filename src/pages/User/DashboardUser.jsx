@@ -1,59 +1,103 @@
-import { Utensils, Box, Wrench } from 'lucide-react';
+import { Utensils, Box, Wrench, CalendarDays, PackageCheck } from 'lucide-react'; // Import any needed icons
 import { StatCard } from '../../components/Dashboard/User/StatCard';
 import { RecentActivities } from '../../components/Dashboard/User/RecentActivities';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
+import { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { getMonthLabels } from '../../utils/dateUtils'; // Import the utility function
 
-const getMonthLabels = () => {
-  const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const currentMonth = new Date().getMonth(); // Get the current month index (0 for Jan, 11 for Dec)
-  
-  // Reorder the month labels so the current month is first
-  const reorderedLabels = [
-    ...monthLabels.slice(currentMonth),
-    ...monthLabels.slice(0, currentMonth),
-  ];
-
-  return reorderedLabels;
-};
-
-const recentActivities = [
-  { date: '2024-02-20', action: 'Requested maintenance for laptop' },
-  { date: '2024-02-19', action: 'Checked out office supplies' },
-  { date: '2024-02-18', action: 'Booked lunch meal' },
+// Define actions for the user dashboard outside the component
+const customUserActions = [
+  {
+    icon: CalendarDays, // Example: Use a different icon
+    title: "View Meal Calendar",
+    description: "Check your booked meals",
+    iconColor: "text-blue-500", // Example: Different color
+    path: "/user/mealcalander" // Updated path if needed
+  },
+  {
+    icon: PackageCheck, // Example: Another icon
+    title: "Check Due Assets",
+    description: "View assets nearing return date",
+    iconColor: "text-purple-500",
+    path: "/user/due-assets" // Example: New path
+  },
+  {
+    icon: Wrench,
+    title: "Report Issue",
+    description: "Submit maintenance request",
+    iconColor: "text-red-500",
+    path: "/user/maintenance"
+  }
 ];
 
 function DashboardUser() {
+  const [stats, setStats] = useState({ mealsToday: 0, assets: 0, maintenanceRequests: 0, mealsMonthlyData: [], assetsMonthlyData: [], maintenanceMonthlyData: [] });
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const monthLabels = getMonthLabels();
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [statsResponse, activitiesResponse] = await Promise.all([
+        axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/stats'),
+        axios.get('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/dashboard-user-033/v1.0/activities')
+      ]);
+
+      setStats(statsResponse.data);
+      setRecentActivities(activitiesResponse.data);
+    } catch (err) {
+      console.error('Error fetching user dashboard data:', err);
+      setError('Failed to load dashboard data. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return <div className="p-6">Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-500">{error}</div>;
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6"> {/* Added padding consistent with Admin Dashboard */}
       {/* User Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="My Meals Today"
-          value="2"
+          value={stats.mealsToday}
           icon={<Utensils className="text-green-500" />}
           chartData={{
             labels: monthLabels,
-            data: [1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2], // Sample data for meals
+            data: stats.mealsMonthlyData || [],
           }}
         />
         <StatCard
           title="My Assets"
-          value="3"
+          value={stats.assets}
           icon={<Box className="text-yellow-500" />}
           chartData={{
             labels: monthLabels,
-            data: [2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], // Sample data for assets
+            data: stats.assetsMonthlyData || [],
           }}
         />
         <StatCard
           title="My Maintenance Requests"
-          value="1"
+          value={stats.maintenanceRequests}
           icon={<Wrench className="text-red-500" />}
           chartData={{
             labels: monthLabels,
-            data: [0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1], // Sample data for maintenance requests
+            data: stats.maintenanceMonthlyData || [],
           }}
         />
       </div>
@@ -61,10 +105,10 @@ function DashboardUser() {
       {/* Recent Activities */}
       <RecentActivities activities={recentActivities} />
 
-      {/* Quick Actions */}
-      <QuickActions />
+      {/* Quick Actions - Pass the custom actions defined outside */}
+      <QuickActions actions={customUserActions} />
     </div>
   );
-};
+}
 
 export default DashboardUser;

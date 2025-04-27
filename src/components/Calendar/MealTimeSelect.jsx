@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MealTimeCard from "./MealTimeCard";
-import '../css/Calender/MealTimeSelect.css';
+import './Calender-CSS/MealTimeSelect.css';
 
 export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelected }) {
   const [mealTimes, setMealTimes] = useState([]);
@@ -12,7 +12,7 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtime');
+      const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal times');
       }
@@ -31,10 +31,11 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
         {mealTimes.map((meal) => (
           <MealTimeCard
             key={meal.id}
+            id={meal.id}
             name={meal.mealName}
             image={meal.mealImageUrl || '/default-meal.png'}
-            onSelect={(mealType) => onAddEvent(meal.mealName, mealType)}
-            isDisabled={isMealSelected(meal.mealName)}
+            onSelect={(mealType) => onAddEvent(meal.id, mealType)}
+            isDisabled={isMealSelected(meal.id)}
           />
         ))}
       </div>

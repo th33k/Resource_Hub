@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import MealTypeSelect from "./MealTypeSelect";
-import '../css/Calender/Popupmealtype.css';
+import './Calender-CSS/PopupMealType.css';
 
 function Popupmealtype({ open, handleClose, onAddEvent }) {
   return (
@@ -18,7 +18,7 @@ function Popupmealtype({ open, handleClose, onAddEvent }) {
       <Box
         className="popup-box2" sx={{overflowY: "auto"}}
       >
-        <MealTypeSelect onSelect={(mealType) => onAddEvent(mealType)} />
+        <MealTypeSelect onSelect={(mealTypeId) => onAddEvent(mealTypeId)} />
       </Box>
     </Modal>
   );

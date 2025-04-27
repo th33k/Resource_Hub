@@ -1,34 +1,37 @@
-import { Utensils, Box, Wrench } from 'lucide-react';
-import { QuickAction } from './QuickAction';
+import { useNavigate } from 'react-router-dom';
 
-export const QuickActions = () => {
-  const handleAction = (action) => {
-    console.log(`Handling ${action} action`);
+// Accept actions as a prop
+export const QuickActions = ({ actions }) => {
+  const navigate = useNavigate();
+
+  // Handler to navigate to the specified path
+  const handleAction = (path) => {
+    if (path) {
+      navigate(path); // Use navigate to change the route
+    } else {
+      console.warn("Action triggered with no path defined.");
+    }
   };
+
+  // Render actions dynamically if provided, otherwise show a message or default actions
+  if (!actions || actions.length === 0) {
+    return <div className="p-4 text-gray-500">No quick actions available.</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <QuickAction
-        icon={Utensils}
-        title="Book Meal"
-        description="Reserve your next meal"
-        iconColor="text-green-500"
-        onClick={() => handleAction('meal')}
-      />
-      <QuickAction
-        icon={Box}
-        title="Request Asset"
-        description="Submit new asset request"
-        iconColor="text-yellow-500"
-        onClick={() => handleAction('asset')}
-      />
-      <QuickAction
-        icon={Wrench}
-        title="Report Issue"
-        description="Submit maintenance request"
-        iconColor="text-red-500"
-        onClick={() => handleAction('maintenance')}
-      />
+      {actions.map((action, index) => (
+        <button
+          key={index} // Use index as key, or a unique ID if available
+          onClick={() => handleAction(action.path)}
+          className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left w-full flex flex-col items-start" // Added flex for alignment
+        >
+          {/* Render the icon component passed in the action object */}
+          {action.icon && <action.icon className={`${action.iconColor || 'text-gray-500'} mb-2`} size={24} />}
+          <h3 className="font-medium mb-1 text-base">{action.title}</h3> {/* Adjusted margin and text size */}
+          <p className="text-sm text-gray-600">{action.description}</p>
+        </button>
+      ))}
     </div>
   );
-};
+}

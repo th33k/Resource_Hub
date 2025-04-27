@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MealTypeCard from "./MealTypeCard";
-import '../css/Calender/MealTypeSelect.css';
+import './Calender-CSS/MealTypeSelect.css';
 
 export default function MealTypeSelect({ onSelect }) {
   const [mealTypes, setMealTypes] = useState([]);
@@ -12,7 +12,7 @@ export default function MealTypeSelect({ onSelect }) {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch('http://localhost:9090/mealtype/mealtype');
+      const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details');
       if (!response.ok) {
         throw new Error('Failed to fetch meal types');
       }
@@ -31,8 +31,9 @@ export default function MealTypeSelect({ onSelect }) {
         {mealTypes.map((mealType) => (
           <MealTypeCard
             key={mealType.id}
+            id={mealType.id}
             name={mealType.mealName}
-            image={mealType.mealImageUrl || '/default-meal.png'}
+            image={mealType.mealImageUrl}
             onSelect={() => onSelect(mealType.mealName)}
           />
         ))}

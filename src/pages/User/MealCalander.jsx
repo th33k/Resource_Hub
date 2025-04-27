@@ -21,12 +21,13 @@ function MealCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/calander/mealevents");
+      const response = await axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${localStorage.getItem("Userid")}`);
       const formattedEvents = response.data.map(event => ({
         id: event.id,
-        title: `${event.meal_time} - ${event.meal_type}`,
+        title: `${event.meal_time_name} - ${event.meal_type_name}`,
         start: event.meal_request_date,
-        end: event.meal_request_date
+        end: event.meal_request_date,
+        meal_id: event.meal_time_id 
       }));
       setEventData(formattedEvents);
     } catch (error) {
@@ -47,37 +48,38 @@ function MealCalendar() {
     }
   };
 
-  const handleAddEvent = async (mealTime, mealType) => {
+  const handleAddEvent = async (mealTimeId, mealTypeId) => {
     try {
-      const response = await axios.post("http://localhost:9090/calander/mealevents/add", {
-        meal_time: mealTime,
-        meal_type: mealType,
-        user_id: 1,
+      const response = await axios.post("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/add", {
+        meal_time: mealTimeId, 
+        meal_type: mealTypeId, 
+        user_id: parseInt(localStorage.getItem("Userid")),
         submitted_date: today,
-        meal_request_date: selectedDate
+        meal_request_date: selectedDate,
       });
-
+  
       const newEvent = {
         id: response.data.id,
-        title: `${mealTime} - ${mealType}`,
+        title: `${mealTimeId} - ${mealTypeId}`, 
         start: selectedDate,
-        end: selectedDate
+        end: selectedDate,
       };
-      setEventData([...eventData, newEvent]);
+      setEventData((prevEvents) => [...prevEvents, newEvent]);
       setPopupOpen(false);
-      window.location.reload(); 
     } catch (error) {
       console.error("Error adding event:", error);
     }
+  
+    await fetchEvents(); // Refresh the page after adding
   };
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:9090/calander/mealevents/${eventId}`);
+      await axios.delete(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${eventId}`);
       const updatedEvents = eventData.filter(event => event.id !== eventId);
       setEventData(updatedEvents);
       setDeletePopupOpen(false);
-      window.location.reload(); // Refresh the page after deleting
+      await fetchEvents(); // Refresh the page after deleting
     } catch (error) {
       console.error("Error deleting event:", error);
     }
@@ -90,9 +92,9 @@ function MealCalendar() {
     }
   };
 
-  const isMealSelected = (mealTime) => {
-    return eventData.some(event => 
-      event.start === selectedDate && event.title.includes(mealTime)
+  const isMealSelected = (mealId) => {
+    return eventData.some(event =>
+      event.start === selectedDate && event.meal_id === mealId
     );
   };
 

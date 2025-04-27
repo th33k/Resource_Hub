@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
-import '../css/Meal/AddMealPopup.css';
+import './Meal-CSS/AddMealPopup.css';
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
@@ -57,7 +57,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
 
     if (imageUrl && mealName) {
       try {
-        const response = await fetch('http://localhost:9090/mealtype/add', {
+        const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
