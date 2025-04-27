@@ -103,7 +103,7 @@ function Slidebar() {
                         <ul className="submenu">
                         <li><Link to="AssetReport">Asset Report</Link></li>
                             <li><Link to="MealReport">Meal Report</Link></li>
-                            <li><Link to="#">Maintenance report</Link></li>
+                            <li><Link to="MaintenanceReport">Maintenance Report</Link></li>
                         </ul>
                     </div>
                 </li>

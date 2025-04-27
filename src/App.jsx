@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
 
 // layout  Pages
 import AdminLayout from "./Layout/AdminLayout/AdminLayout";
@@ -22,6 +23,7 @@ import MealReport from "./pages/Admin/Reports/MealReport";
 import {Settings} from "./pages/Settings";
 import ReportHome from "./pages/Admin/Reports/ReportHome"
 import AssetReport from "./pages/Admin/Reports/AssetReport"
+import MaintenanceReport from "./pages/Admin/Reports/MaintenanceReport"
 import AssetHome from "./pages/Admin/Requested_Assets/AssetHome";
 import MaintenanceHome from "./pages/Admin/Maintenance/MaintenanceHome";
 import MaintenanceDetails from "./pages/Admin/Maintenance/MaintenanceDetails";
@@ -55,6 +57,7 @@ function App() {
       <Routes>
         {/* Public Route */}
         <Route path="/login" element={<Login />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
 
         {/* Admin Routes */}
         <Route
@@ -72,8 +75,9 @@ function App() {
           <Route path="admin-AssetMonitoring/:category" element={<AssetMonitoringAdmin />} />
           <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
           <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
-          <Route path="MealReport" element={<MealReport />} />
-          <Route path="AssetReport" element={<AssetReport />} />
+          <Route path="Admin-MealReport" element={<MealReport />} />
+          <Route path="Admin-AssetReport" element={<AssetReport />} />
+          <Route path="Admin-MaintenanceReport" element={<MaintenanceReport />} />
           <Route path="Admin-ReportHome" element={<ReportHome/>}></Route>
           <Route path="Admin-DueAssets" element={<DueAssetAdmin />} />
         </Route>
