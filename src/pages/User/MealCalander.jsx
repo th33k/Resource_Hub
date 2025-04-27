@@ -1,0 +1,140 @@
+import React, { useState, useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import "../css/MealCalendar.css";
+import Popup from "../../components/Calendar/popup";
+import DeletePopup from "../../components/Calendar/DeletePopup";
+import axios from "axios";
+
+function MealCalendar() {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [eventData, setEventData] = useState([]);
+  const today = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${localStorage.getItem("Userid")}`);
+      const formattedEvents = response.data.map(event => ({
+        id: event.id,
+        title: `${event.meal_time_name} - ${event.meal_type_name}`,
+        start: event.meal_request_date,
+        end: event.meal_request_date,
+        meal_id: event.meal_time_id 
+      }));
+      setEventData(formattedEvents);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  const isPastDate = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
+  const dayClickAction = (info) => {
+    if (!isPastDate(info.date)) {
+      setSelectedDate(info.dateStr);
+      setPopupOpen(true);
+    }
+  };
+
+  const handleAddEvent = async (mealTimeId, mealTypeId) => {
+    try {
+      const response = await axios.post("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/add", {
+        meal_time: mealTimeId, 
+        meal_type: mealTypeId, 
+        user_id: parseInt(localStorage.getItem("Userid")),
+        submitted_date: today,
+        meal_request_date: selectedDate,
+      });
+  
+      const newEvent = {
+        id: response.data.id,
+        title: `${mealTimeId} - ${mealTypeId}`, 
+        start: selectedDate,
+        end: selectedDate,
+      };
+      setEventData((prevEvents) => [...prevEvents, newEvent]);
+      setPopupOpen(false);
+    } catch (error) {
+      console.error("Error adding event:", error);
+    }
+  
+    await fetchEvents(); // Refresh the page after adding
+  };
+
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      await axios.delete(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${eventId}`);
+      const updatedEvents = eventData.filter(event => event.id !== eventId);
+      setEventData(updatedEvents);
+      setDeletePopupOpen(false);
+      await fetchEvents(); // Refresh the page after deleting
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
+  };
+
+  const handleEventClick = (info) => {
+    if (!isPastDate(info.event.start)) {
+      setSelectedEvent(info.event);
+      setDeletePopupOpen(true);
+    }
+  };
+
+  const isMealSelected = (mealId) => {
+    return eventData.some(event =>
+      event.start === selectedDate && event.meal_id === mealId
+    );
+  };
+
+  return (
+    <div>
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        height={"80vh"}
+        headerToolbar={{
+          left: "prev,next",
+          center: "title",
+          right: "today",
+        }}
+        dateClick={dayClickAction}
+        events={eventData}
+        eventClick={handleEventClick}
+        dayCellClassNames={(arg) => {
+          if (isPastDate(arg.date)) {
+            return 'fc-day-disabled';
+          }
+          return '';
+        }}
+      />
+
+      <Popup
+        open={popupOpen}
+        handleClose={() => setPopupOpen(false)}
+        selectedDate={selectedDate}
+        onAddEvent={handleAddEvent}
+        isMealSelected={isMealSelected}
+      />
+
+      <DeletePopup
+        open={deletePopupOpen}
+        handleClose={() => setDeletePopupOpen(false)}
+        onDelete={() => selectedEvent && handleDeleteEvent(selectedEvent.id)}
+        eventTitle={selectedEvent ? selectedEvent.title : ''}
+      />
+    </div>
+  );
+}
+
+export default MealCalendar;

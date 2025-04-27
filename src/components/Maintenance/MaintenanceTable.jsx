@@ -7,51 +7,50 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Checkbox,
-  TablePagination,
   Button,
   Tooltip,
+  TablePagination,
 } from "@mui/material";
 import { Pencil, Trash2, Send } from "lucide-react";
-import { EditMaintanence } from "./EditMaintenacePopup";
-import { DeleteConfirmDialog } from "./DeleteMaintenancePopup";
-import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
+import { EditMaintenance } from "./EditMaintenancePopup";
+import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
-export const MainteranceTable = ({
-  maintanence,
-  userType,
-  onEditUser,
-  onDeleteUsers,
-}) => {
+export const MainteranceTable = ({ maintanence, onEditMaintanance, onDeleteMaintanance }) => {
   const [selected, setSelected] = useState([]);
-  const [editUser, setEditUser] = useState(null);
+  const [editMaintenance, setEditMaintenance] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [sortDirection, setSortDirection] = useState("asc");
-  const [sortColumn, setSortColumn] = useState("name");
 
-  const handleDelete = () => {
-    onDeleteUsers(selected);
-    setSelected([]);
-    setIsDeleteDialogOpen(false);
+  const handleDelete = async () => {
+    try {
+      if (!selected.length) {
+        toast.error("No maintenance selected for deletion.");
+        return;
+      }
+
+      await Promise.all(
+        selected.map((id) =>
+          axios.delete(`http://localhost:9090/maintenance/details/${id}`)
+        )
+      );
+
+      toast.success("Maintenance deleted successfully!");
+      onDeleteMaintanance(selected);
+    } catch (error) {
+      console.error("Failed to delete maintenance:", error);
+      toast.error("Failed to delete maintenance!");
+    } finally {
+      setSelected([]);
+      setIsDeleteDialogOpen(false);
+    }
   };
 
-  const sendMaintanence = (user) => {
+  const sendMaintanence = (maintenance) => {
     toast.success("Sent Successfully!");
-   // Store notification in database
   };
-
-  const sortsedMaintanance = [...maintanence].sort((a, b) => {
-    const aValue = a[sortColumn];
-    const bValue = b[sortColumn];
-
-    if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-    if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
-    return 0;
-  });
 
   return (
     <>
@@ -60,35 +59,10 @@ export const MainteranceTable = ({
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#BDE0FC", color: "#333" }}>
-                <TableCell onClick={() => handleSort("name")}>User</TableCell>
-
-                <TableCell onClick={() => handleSort("userType")}>
-                  Description
-                  {sortColumn === "userType" && (
-                    <span>
-                      {sortDirection === "asc" ? (
-                        <ArrowUpward />
-                      ) : (
-                        <ArrowDownward />
-                      )}
-                    </span>
-                  )}
-                </TableCell>
-
-                <TableCell onClick={() => handleSort("additionalDetails")}>
-                  Priority Level
-                  {sortColumn === "additionalDetails" && (
-                    <span>
-                      {sortDirection === "asc" ? (
-                        <ArrowUpward />
-                      ) : (
-                        <ArrowDownward />
-                      )}
-                    </span>
-                  )}
-                </TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Priority Level</TableCell>
                 <TableCell align="center">Status</TableCell>
-
                 <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -96,53 +70,32 @@ export const MainteranceTable = ({
             <TableBody>
               {maintanence
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((user) => (
-                  <TableRow key={user.id} hover>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={user.profilePicture}
-                          alt={user.name}
-                          className="w-8 h-8 rounded-full"
-                        />
-                        {user.name}
-                      </div>
-                    </TableCell>
-
-                    <TableCell>
-                      <span className={`px-2 py-1 text-sm `}>
-                        {user.description}
-                      </span>
-                    </TableCell>
-
-                    <TableCell>{user.priorityLevel}</TableCell>
-
-                    <TableCell>
-                      <div className="flex justify-center gap-2">
-                        {user.status}
-                      </div>
-                    </TableCell>
-
+                .map((maintenance) => (
+                  <TableRow key={maintenance.id} hover>
+                    <TableCell>{maintenance.name}</TableCell>
+                    <TableCell>{maintenance.description}</TableCell>
+                    <TableCell>{maintenance.priorityLevel}</TableCell>
+                    <TableCell align="center">{maintenance.status}</TableCell>
                     <TableCell align="center">
                       <div className="flex justify-center gap-2">
-                        <Tooltip title="Edit User">
+                        <Tooltip title="Edit Maintenance">
                           <Button
                             variant="outlined"
                             color="primary"
                             startIcon={<Pencil size={20} />}
-                            onClick={() => setEditUser(user)}
+                            onClick={() => setEditMaintenance(maintenance)}
                           >
                             Edit
                           </Button>
                         </Tooltip>
 
-                        <Tooltip title="Delete User">
+                        <Tooltip title="Delete Maintenance">
                           <Button
                             variant="outlined"
                             color="error"
                             startIcon={<Trash2 size={20} />}
                             onClick={() => {
-                              setSelected(user.id);
+                              setSelected([maintenance.id]);
                               setIsDeleteDialogOpen(true);
                             }}
                           >
@@ -155,10 +108,7 @@ export const MainteranceTable = ({
                             variant="outlined"
                             color="success"
                             startIcon={<Send size={20} />}
-                            onClick={() => {
-                              setSelected(user.id);
-                              sendMaintanence(user);
-                            }}
+                            onClick={() => sendMaintanence(maintenance)}
                           >
                             Send
                           </Button>
@@ -181,18 +131,17 @@ export const MainteranceTable = ({
             setRowsPerPage(parseInt(event.target.value, 10));
             setPage(0);
           }}
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
         />
       </Paper>
 
-      {editUser && (
-        <EditMaintanence
-          user={editUser}
-          open={!!editUser}
-          onClose={() => setEditUser(null)}
-          onSave={(editedUser) => {
-            onEditUser(editedUser);
-            setEditUser(null);
+      {editMaintenance && (
+        <EditMaintenance
+          maintenance={editMaintenance}
+          open={!!editMaintenance}
+          onClose={() => setEditMaintenance(null)}
+          onSave={(editedMaintenance) => {
+            onEditMaintanance(editedMaintenance);
+            setEditMaintenance(null);
           }}
         />
       )}
