@@ -9,36 +9,35 @@ function Maintenen(){
     return (
       <div>
         <div className="maintenen">
-          <MaintenenHomeCard name="Tech Support" image="/Maintenance/11.png" route={"../Admin-maintenanceDetails"} />
+          <MaintenenHomeCard 
+          name="Tech  Support" 
+          image="/Maintenance/TechSupport.png" 
+          route={"../admin-maintenanceDetails"} />
        
-          <MaintenenHomeCard name="Tech Support" image="/Maintenance/12.png" route={"../Admin-maintenanceDetails"} />
+          <MaintenenHomeCard 
+          name="General Maintenance" 
+          image="/Maintenance/genaralmaintanance.png" 
+          route={"../admin-maintenanceDetails"} />
 
           <MaintenenHomeCard
-            name="Maintenance"
-            image="/Maintenance/11.png"
-            route={"../Admin-maintenanceDetails"}
+            name="Cleaning and Hygiene"
+            image="/Maintenance/hand.png"
+            route={"../admin-maintenanceDetails"}
           />
           <MaintenenHomeCard
-            name="Tech
-
-Support"
-            image="/Maintenance/11.png"
-            route={"../Admin-maintenanceDetails"}
+            name="Furniture and Fixtures"
+            image="/Maintenance/FeernituresAndPictures.png"
+            route={"../admin-maintenanceDetails"}
           />
           <MaintenenHomeCard
-            name="Furniture &
-
-Fixtures
-"
-            image="/Maintenance/11.png"
-            route={"../Admin-maintenanceDetails"}
+            name="Safety and Security"
+            image="/Maintenance/officer.png"
+            route={"../admin-maintenanceDetails"}
           />
           <MaintenenHomeCard
-            name="Safety &
-
-Security"
-            image="/Maintenance/11.png"
-            route={"../Admin-maintenanceDetails"}
+            name="Lighting and Power"
+            image="/Maintenance/bulb.png"
+            route={"../admin-maintenanceDetails"}
           />
         </div>
       </div>

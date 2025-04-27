@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MonitorTable from "../../../components/Asset/AssetMonitoring/MonitorTable";
+import MonitorTable from "../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
@@ -10,6 +10,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search } from "lucide-react";
+import RequestButton from "../../../components/Asset/AssetRequestingUser/RequestButton";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -19,32 +20,29 @@ const AssetMonitoringAdmin = () => {
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState(passedCategory);
   const [assets, setAssets] = useState([]);
-  const [selectedAsset, setSelectedAsset] = useState(null);
-  const [editOpen, setEditOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [requestOpen, setRequestOpen] = useState(false);
 
   const uniqueCategories = ["All", ...new Set(assets.map(asset => asset.category))];
 
+  // Fetch assets
+  const fetchAssets = async () => {
+    const userId = localStorage.getItem("Userid");
+    const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/details/${userId}`);
+    const data = await response.json();
+    setAssets(data);
+  };
+
   useEffect(() => {
-    const fetchAssets = async () => {
-      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/details");
-      const data = await response.json();
-      setAssets(data);
-    };
-    fetchAssets();
+    fetchAssets(); // Initial fetch when the component mounts
   }, []);
 
   useEffect(() => {
-    setFilterCategory(passedCategory);
+    setFilterCategory(passedCategory); // Update filter category based on URL state
   }, [passedCategory]);
 
   const handleCategoryChange = (newCategory) => {
     setFilterCategory(newCategory);
-    if (newCategory === "All") {
-      navigate("/admin-AssetMonitoring", { state: { category: "All" } });
-    } else {
-      navigate("/admin-AssetMonitoring", { state: { category: newCategory } });
-    }
+    navigate("/admin-AssetMonitoring", { state: { category: newCategory } });
   };
 
   const filteredAssets = assets.filter(asset =>
@@ -53,6 +51,14 @@ const AssetMonitoringAdmin = () => {
      asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
   );
 
+  const handleRequestOpen = () => setRequestOpen(true);
+  const handleRequestClose = () => setRequestOpen(false);
+
+  const handleRequestSubmit = () => {
+    // Re-fetch the asset data after the request is made
+    fetchAssets(); // Ensure the list is updated
+    setRequestOpen(false); // Close the request dialog
+  };
 
   return (
     <div>
@@ -60,7 +66,7 @@ const AssetMonitoringAdmin = () => {
         Asset Monitoring {filterCategory !== "All" && `: ${filterCategory}`}
       </h2>
 
-      <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
+      <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px', alignItems: 'center' }}>
         <TextField
           label="Search by Name or Asset"
           variant="outlined"
@@ -83,12 +89,24 @@ const AssetMonitoringAdmin = () => {
             ))}
           </Select>
         </FormControl>
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleRequestOpen}
+          style={{ whiteSpace: "nowrap", fontWeight: "bold" }}
+        >
+          Request Asset
+        </Button>
       </div>
 
-      <MonitorTable
-        assets={filteredAssets}
-      />
+      <MonitorTable assets={filteredAssets} />
 
+      <RequestButton
+        open={requestOpen}
+        onClose={handleRequestClose}
+        onRequest={handleRequestSubmit} // Pass the refetch function to RequestButton
+      />
     </div>
   );
 };

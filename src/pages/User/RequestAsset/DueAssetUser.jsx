@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MonitorTable from "../../../components/Asset/AssetMonitoring/MonitorTable";
+import MonitorTable from "../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
@@ -10,6 +10,9 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search } from "lucide-react";
+import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
+import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
+import { use } from "react";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -27,7 +30,8 @@ const AssetMonitoringAdmin = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/details");
+      const userId = localStorage.getItem("Userid");
+      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/dueassets/${userId}`);
       const data = await response.json();
       setAssets(data);
     };
@@ -53,11 +57,32 @@ const AssetMonitoringAdmin = () => {
      asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
   );
 
+  const handleEditOpen = (asset) => {
+    setSelectedAsset(asset);
+    setEditOpen(true);
+  };
+
+  const handleDeleteOpen = (asset) => {
+    setSelectedAsset(asset);
+    setDeleteOpen(true);
+  };
+
+  const handleUpdateAsset = (updatedAsset) => {
+    setAssets(prev =>
+      prev.map(asset => asset.id === updatedAsset.id ? updatedAsset : asset)
+    );
+    setEditOpen(false);
+  };
+
+  const handleDeleteAsset = () => {
+    setAssets(prev => prev.filter(asset => asset.id !== selectedAsset.id));
+    setDeleteOpen(false);
+  };
 
   return (
     <div>
       <h2 style={{ marginBottom: "20px" }}>
-        Asset Monitoring {filterCategory !== "All" && `: ${filterCategory}`}
+        Due Assets {filterCategory !== "All" && `: ${filterCategory}`}
       </h2>
 
       <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
@@ -87,8 +112,26 @@ const AssetMonitoringAdmin = () => {
 
       <MonitorTable
         assets={filteredAssets}
+        handleEditOpen={handleEditOpen}
+        handleDeleteOpen={handleDeleteOpen}
       />
 
+      {selectedAsset && (
+        <>
+          <EditAssetPopup
+            open={editOpen}
+            asset={selectedAsset}
+            onClose={() => setEditOpen(false)}
+            onUpdate={handleUpdateAsset}
+          />
+          <DeleteAssetPopup
+            open={deleteOpen}
+            asset={selectedAsset}
+            onClose={() => setDeleteOpen(false)}
+            onDelete={handleDeleteAsset}
+          />
+        </>
+      )}
     </div>
   );
 };

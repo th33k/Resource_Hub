@@ -5,9 +5,9 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 
 // layout  Pages
-import AdminLayout from "./Layout/AdminLayout/AdminLayout";
-import UserLayout from "./Layout/UserLayout/UserLayout";
-import AdminUserLayout from "./Layout/AdminUserLayout/Layout";
+import AdminLayout from "./layouts/AdminLayout/AdminLayout";
+import UserLayout from "./layouts/UserLayout/UserLayout";
+import AdminUserLayout from "./layouts/AdminUserLayout/Layout";
 
 // Dashboard Pages
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
@@ -18,6 +18,7 @@ import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
 import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
 import { Users } from "./pages/Admin/UserManagement/Users";
 import AssetAdmin from "./pages/Admin/Organization_Assets/AssetAdmin";
+import Notification from "./pages/Notification";
 import AssetMonitoringAdmin from "./pages/Admin/Requested_Assets/AssetMonitoringAdmin";
 import MealReport from "./pages/Admin/Reports/MealReport";
 import {Settings} from "./pages/Settings";
@@ -29,11 +30,12 @@ import MaintenanceHome from "./pages/Admin/Maintenance/MaintenanceHome";
 import MaintenanceDetails from "./pages/Admin/Maintenance/MaintenanceDetails";
 import DueAssetAdmin from "./pages/Admin/Requested_Assets/DueAssset" 
 
+
 // User Pages
-import MealCalander from "./pages/User/MealCalander";
-import AssetRequestUsers from "./pages/User/AssetRequestUsers";
-
-
+import MealCalander from "./pages/User/MealRequest/MealCalander";
+import AssetRequestUsers from "./pages/User/RequestAsset/AssetRequestUsers";
+import DueAssetUser from "./pages/User/RequestAsset/DueAssetUser";
+import MaintenanceDetailsUser  from "./pages/User/Maintenance/MaintenanceDetailsUser";
 
 // PrivateRoute to protect routes
 const PrivateRoute = ({ element, allowedRoles }) => {
@@ -75,6 +77,7 @@ function App() {
           <Route path="admin-AssetMonitoring/:category" element={<AssetMonitoringAdmin />} />
           <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
           <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
+          <Route path="Admin-Notification" element={<Notification />} />
           <Route path="Admin-MealReport" element={<MealReport />} />
           <Route path="Admin-AssetReport" element={<AssetReport />} />
           <Route path="Admin-MaintenanceReport" element={<MaintenanceReport />} />
@@ -88,6 +91,10 @@ function App() {
           <Route path="AdminUser-DashboardUser" element={<DashboardUser />} />
           <Route path="AdminUser-mealcalander" element={<MealCalander />} />
           <Route path="AdminUser-assetrequest" element={<AssetRequestUsers />} />
+          <Route path="AdminUser-DueAssets" element={<DueAssetUser />} />
+          <Route path="AdminUser-Notification" element={<Notification />} />
+          <Route path="AdminUser-MaintenanceDetails" element={<MaintenanceDetailsUser />} />
+          <Route path="AdminUser-MaintenanceHome" element={<MaintenanceHome />} />
           <Route path="Settings/*" element={<Settings />} />          
         </Route>
 
@@ -97,7 +104,12 @@ function App() {
           <Route path="User-DashboardUser" element={<DashboardUser />} />
           <Route path="User-mealcalander" element={<MealCalander />} />
           <Route path="User-assetrequest" element={<AssetRequestUsers />} />
+          <Route path="User-DueAssets" element={<DueAssetUser />} />
+          <Route path="User-Notification" element={<Notification />} />
+          <Route path="User-MaintenanceDetails" element={<MaintenanceDetailsUser />} />
+          <Route path="User-MaintenanceHome" element={<MaintenanceHome />} />
           <Route path="Settings/*" element={<Settings />} />          
+          
         </Route>
       </Routes>
     </BrowserRouter>

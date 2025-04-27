@@ -9,6 +9,7 @@ import {
   Avatar,
 } from "@mui/material";
 
+
 const MonitorTable = ({
   assets,
   showHandoverColumns = true,
