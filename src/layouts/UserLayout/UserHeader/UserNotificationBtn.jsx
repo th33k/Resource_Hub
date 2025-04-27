@@ -17,13 +17,15 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   }));
 
 function UserNotificationBtn(){
-    return(
-    <IconButton aria-label="cart" className="menu">
-      <StyledBadge  badgeContent={10} color="secondary" >
+  return(
+    <Link to="/User-Notification" style={{ textDecoration: "none", color: "inherit" }}>
+    <IconButton aria-label="notifications" className="menu">
+      <Badge badgeContent={10} color="secondary">
         <NotificationsIcon />
-      </StyledBadge>
+      </Badge>
     </IconButton>
-    )
+  </Link>
+  )
 }
 
 export default UserNotificationBtn

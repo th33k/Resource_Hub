@@ -3,6 +3,7 @@ import * as React from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import { Link } from "react-router-dom";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -17,11 +18,13 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 function NotificationBtn(){
     return(
-    <IconButton aria-label="cart" className="menu">
-      <StyledBadge  badgeContent={10} color="secondary" >
-        <NotificationsIcon />
-      </StyledBadge>
-    </IconButton>
+      <Link to="/Admin-Notification" style={{ textDecoration: "none", color: "inherit" }}>
+      <IconButton aria-label="notifications" className="menu">
+        <Badge badgeContent={10} color="secondary">
+          <NotificationsIcon />
+        </Badge>
+      </IconButton>
+    </Link>
     )
 }
 

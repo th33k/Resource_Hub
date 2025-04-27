@@ -17,6 +17,7 @@ import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
 import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
 import { Users } from "./pages/Admin/UserManagement/Users";
 import AssetAdmin from "./pages/Admin/Organization_Assets/AssetAdmin";
+import Notification from "./pages/Notification";
 import AssetMonitoringAdmin from "./pages/Admin/Requested_Assets/AssetMonitoringAdmin";
 import MealReport from "./pages/Admin/Reports/MealReport";
 import {Settings} from "./pages/Settings";
@@ -26,6 +27,7 @@ import AssetHome from "./pages/Admin/Requested_Assets/AssetHome";
 import MaintenanceHome from "./pages/Admin/Maintenance/MaintenanceHome";
 import MaintenanceDetails from "./pages/Admin/Maintenance/MaintenanceDetails";
 import DueAssetAdmin from "./pages/Admin/Requested_Assets/DueAssset" 
+import MaintenanceDetailsUser  from "./pages/User/MaintenanceDetailsUser";
 
 // User Pages
 import MealCalander from "./pages/User/MealRequest/MealCalander";
@@ -72,6 +74,7 @@ function App() {
           <Route path="admin-AssetMonitoring/:category" element={<AssetMonitoringAdmin />} />
           <Route path="Admin-maintenanceHome" element={<MaintenanceHome />} />
           <Route path="Admin-maintenanceDetails" element={<MaintenanceDetails />} />
+          <Route path="Admin-Notification" element={<Notification />} />
           <Route path="MealReport" element={<MealReport />} />
           <Route path="AssetReport" element={<AssetReport />} />
           <Route path="Admin-ReportHome" element={<ReportHome/>}></Route>
@@ -85,6 +88,9 @@ function App() {
           <Route path="AdminUser-mealcalander" element={<MealCalander />} />
           <Route path="AdminUser-assetrequest" element={<AssetRequestUsers />} />
           <Route path="AdminUser-DueAssets" element={<DueAssetUser />} />
+          <Route path="AdminUser-Notification" element={<Notification />} />
+          <Route path="AdminUser-MaintenanceDetails" element={<MaintenanceDetailsUser />} />
+          <Route path="AdminUser-MaintenanceHome" element={<MaintenanceHome />} />
           <Route path="Settings/*" element={<Settings />} />          
         </Route>
 
@@ -95,7 +101,11 @@ function App() {
           <Route path="User-mealcalander" element={<MealCalander />} />
           <Route path="User-assetrequest" element={<AssetRequestUsers />} />
           <Route path="User-DueAssets" element={<DueAssetUser />} />
+          <Route path="User-Notification" element={<Notification />} />
+          <Route path="User-MaintenanceDetails" element={<MaintenanceDetailsUser />} />
+          <Route path="User-MaintenanceHome" element={<MaintenanceHome />} />
           <Route path="Settings/*" element={<Settings />} />          
+          
         </Route>
       </Routes>
     </BrowserRouter>

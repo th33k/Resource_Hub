@@ -6,8 +6,9 @@
   
 .maintenen {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(3, 2fr); 
     gap: 16px;
-    padding: 20px;
+    padding: 10px;
+    padding-left: 100px;
   }
 

@@ -8,8 +8,8 @@ import {
   FormControl,
 } from "@mui/material";
 import { Plus, Search } from "lucide-react";
-import { MainteranceTable } from "../../../components/Maintenance/MaintenanceTable.jsx";
-import { AddMainterancePopup } from "../../../components/Maintenance/AddMaintenancePopup.jsx";
+import { MainteranceTable } from "../../components/Maintenance/MaintenanceTableUser.jsx";
+import { AddMainterancePopup } from "../../components/Maintenance/AddMaintenancePopup.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -236,40 +236,6 @@ const MaintenanceDetails = () => {
     setIsAddMaintananceOpen(false);
   };
 
-  const handleEditMaintanance = (editedMaintanence) => {
-    setMaintanence((prev) =>
-      prev.map((maintanence) =>
-        maintanence.id === editedMaintanence.id
-          ? editedMaintanence
-          : maintanence
-      )
-    );
-  };
-
-  const handleDeleteMaintanance = (maintanenceId) => {
-    const idsArray = Array.isArray(maintanenceId)
-      ? maintanenceId
-      : [maintanenceId];
-
-    setMaintanence((prev) =>
-      prev.filter((maintanence) => !idsArray.includes(maintanence.id))
-    );
-    toast.success("Delete successfully!");
-  };
-
-  const handleSendMaintanance = (maintanenceId) => {
-    if (maintanence.find((maintanen) => maintanen.id === maintanenceId)) {
-      const maintan = maintanence.find(
-        (maintanence) => maintanence.id === maintanenceId
-      );
-
-      const updatedNotifications = [...notification, maintan];
-      setNotification(updatedNotifications);
-      console.log("Updated notifications:", updatedNotifications);
-    }
-
-  };
-
   const filteredMaintanance = maintanence.filter((maintanence) => {
     const searchMatch = maintanence.name
       .toLowerCase()
@@ -348,9 +314,6 @@ const MaintenanceDetails = () => {
 
         <MainteranceTable
           maintanence={filteredMaintanance}
-          onEditMaintanance={handleEditMaintanance}
-          onDeleteMaintanance={handleDeleteMaintanance}
-          onSendMaintanance={handleSendMaintanance}
         />
 
         <AddMainterancePopup
