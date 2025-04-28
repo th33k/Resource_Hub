@@ -57,7 +57,7 @@ const MaintenanceTable = () => {
                 <TableCell>{maintenance.id}</TableCell>
                 <TableCell>{maintenance.user_id}</TableCell>
                 <TableCell>{maintenance.description}</TableCell>
-                <TableCell>{maintenance.priority_level}</TableCell>
+                <TableCell>{maintenance.priorityLevel}</TableCell>
                 <TableCell>{maintenance.status}</TableCell>
                 <TableCell>{maintenance.request_date}</TableCell>
               </TableRow>

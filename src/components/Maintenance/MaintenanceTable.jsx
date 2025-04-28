@@ -11,9 +11,11 @@ import {
   Tooltip,
   TablePagination,
 } from "@mui/material";
-import { Pencil, Trash2,SendHorizontal } from "lucide-react";
+import { Pencil, Trash2, SendHorizontal } from "lucide-react";
 import { EditMaintenance } from "./EditMaintenancePopup.jsx";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog.jsx";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaintenance }) => {
   const [editMaintenance, setEditMaintenance] = useState(null);
@@ -21,6 +23,49 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
   const [selectedId, setSelectedId] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  // Function to call addnotification endpoint
+  const handleSendNotification = async (maintenanceItem) => {
+    try {
+      const response = await fetch("http://localhost:9090/maintenance/addnotification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: parseInt(maintenanceItem.user_id),
+          maintenance_id: parseInt(maintenanceItem.id),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to add notification: ${response.status} ${errorText}`);
+      }
+
+      const result = await response.json();
+      toast.success(result.message || "Notification sent successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.error("Error adding notification:", error);
+      toast.error(`Failed to send notification: ${error.message}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  };
 
   return (
     <>
@@ -70,12 +115,12 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
                             Delete
                           </Button>
                         </Tooltip>
-                        <Tooltip title="Send Maintenance">
+                        <Tooltip title="Send Notification">
                           <Button
                             variant="outlined"
                             color="primary"
                             startIcon={<SendHorizontal size={20} />}
-                            // onClick={() => setEditMaintenance(item)}
+                            onClick={() => handleSendNotification(item)}
                           >
                             Send
                           </Button>
@@ -102,8 +147,8 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
 
       {editMaintenance && (
         <EditMaintenance
-          maintenance={editMaintenance}
-          open={!!editMaintenance}
+        maintenance={editMaintenance}
+        open={!!editMaintenance}
           onClose={() => setEditMaintenance(null)}
           onSave={(editedMaintenance) => {
             onEditMaintenance(editedMaintenance);
@@ -119,6 +164,19 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
           onDeleteMaintenance(selectedId);
           setIsDeleteDialogOpen(false);
         }}
+      />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
     </>
   );
