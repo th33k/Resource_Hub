@@ -10,6 +10,11 @@ import {
   Button,
   Tooltip,
   TablePagination,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import { Pencil, Trash2, SendHorizontal } from "lucide-react";
 import { EditMaintenance } from "./EditMaintenancePopup.jsx";
@@ -17,26 +22,53 @@ import { DeleteConfirmDialog } from "./DeleteConfirmDialog.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// New SendConfirmDialog Component
+const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Confirm Notification</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to send this notification?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={onConfirm} color="primary" autoFocus>
+          Send
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaintenance }) => {
   const [editMaintenance, setEditMaintenance] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
+  const [selectedMaintenance, setSelectedMaintenance] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   // Function to call addnotification endpoint
   const handleSendNotification = async (maintenanceItem) => {
     try {
-      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/addnotification", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: parseInt(maintenanceItem.user_id),
-          maintenance_id: parseInt(maintenanceItem.id),
-        }),
-      });
+      const response = await fetch(
+        "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/addnotification",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: parseInt(maintenanceItem.user_id),
+            maintenance_id: parseInt(maintenanceItem.id),
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -65,6 +97,21 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
         theme: "colored",
       });
     }
+  };
+
+  // Handle opening the send confirmation dialog
+  const handleOpenSendDialog = (maintenanceItem) => {
+    setSelectedMaintenance(maintenanceItem);
+    setIsSendDialogOpen(true);
+  };
+
+  // Handle confirming the send action
+  const handleConfirmSend = () => {
+    if (selectedMaintenance) {
+      handleSendNotification(selectedMaintenance);
+    }
+    setIsSendDialogOpen(false);
+    setSelectedMaintenance(null);
   };
 
   return (
@@ -120,7 +167,7 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
                             variant="outlined"
                             color="primary"
                             startIcon={<SendHorizontal size={20} />}
-                            onClick={() => handleSendNotification(item)}
+                            onClick={() => handleOpenSendDialog(item)}
                           >
                             Send
                           </Button>
@@ -147,8 +194,8 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
 
       {editMaintenance && (
         <EditMaintenance
-        maintenance={editMaintenance}
-        open={!!editMaintenance}
+          maintenance={editMaintenance}
+          open={!!editMaintenance}
           onClose={() => setEditMaintenance(null)}
           onSave={(editedMaintenance) => {
             onEditMaintenance(editedMaintenance);
@@ -164,6 +211,12 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
           onDeleteMaintenance(selectedId);
           setIsDeleteDialogOpen(false);
         }}
+      />
+
+      <SendConfirmDialog
+        open={isSendDialogOpen}
+        onClose={() => setIsSendDialogOpen(false)}
+        onConfirm={handleConfirmSend}
       />
 
       <ToastContainer
