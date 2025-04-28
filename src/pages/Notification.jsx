@@ -10,7 +10,7 @@ function MaintenanceNotification2() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch("http://localhost:9090/maintenance/notification");
+        const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/notification");
         if (!response.ok) {
           throw new Error(`Failed to fetch notifications: ${response.status}`);
         }

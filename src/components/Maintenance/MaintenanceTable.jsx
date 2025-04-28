@@ -27,7 +27,7 @@ export const MaintenanceTable = ({ maintenance, onEditMaintenance, onDeleteMaint
   // Function to call addnotification endpoint
   const handleSendNotification = async (maintenanceItem) => {
     try {
-      const response = await fetch("http://localhost:9090/maintenance/addnotification", {
+      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/addnotification", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
