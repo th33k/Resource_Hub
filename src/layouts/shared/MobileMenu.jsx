@@ -1,0 +1,72 @@
+import React from 'react';
+import { Menu, MenuItem, Badge } from '@mui/material';
+import {
+  Notifications as NotificationsIcon,
+  Brightness4 as DarkIcon,
+  Brightness7 as LightIcon,
+  Settings as SettingsIcon,
+  ShoppingCart as CartIcon,
+} from '@mui/icons-material';
+import { useThemeContext } from '../../theme/ThemeProvider';
+
+const MobileMenu = ({ 
+  anchorEl, 
+  isOpen, 
+  onClose, 
+  toggleMode, 
+  notificationCount = 0, 
+  showCart = false, 
+  cartCount = 0 
+}) => {
+  const { mode } = useThemeContext();
+  
+  return (
+    <Menu
+      anchorEl={anchorEl}
+      id="mobile-menu"
+      keepMounted
+      open={isOpen}
+      onClose={onClose}
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.16))",
+          mt: 1.5,
+          width: 200,
+        },
+      }}
+      transformOrigin={{ horizontal: "right", vertical: "top" }}
+      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+    >
+      <MenuItem onClick={toggleMode}>
+        {mode === "dark" ? (
+          <LightIcon sx={{ mr: 2 }} />
+        ) : (
+          <DarkIcon sx={{ mr: 2 }} />
+        )}
+        {mode === "dark" ? "Light Mode" : "Dark Mode"}
+      </MenuItem>
+
+      {showCart && (
+        <MenuItem>
+          <CartIcon sx={{ mr: 2 }} />
+          Cart
+          <Badge badgeContent={cartCount} color="error" sx={{ ml: 1 }} />
+        </MenuItem>
+      )}
+
+      <MenuItem>
+        <NotificationsIcon sx={{ mr: 2 }} />
+        Notifications
+        <Badge badgeContent={notificationCount} color="error" sx={{ ml: 1 }} />
+      </MenuItem>
+
+      <MenuItem>
+        <SettingsIcon sx={{ mr: 2 }} />
+        Settings
+      </MenuItem>
+    </Menu>
+  );
+};
+
+export default MobileMenu;

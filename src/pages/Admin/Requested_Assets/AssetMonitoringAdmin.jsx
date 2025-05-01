@@ -10,6 +10,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search } from "lucide-react";
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -55,41 +56,44 @@ const AssetMonitoringAdmin = () => {
 
 
   return (
-    <div>
-      <h2 style={{ marginBottom: "20px" }}>
-        Asset Monitoring {filterCategory !== "All" && `: ${filterCategory}`}
-      </h2>
+    <AdminLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">
+          Asset Monitoring {filterCategory !== "All" && `: ${filterCategory}`}
+        </h1>
 
-      <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-        <TextField
-          label="Search by Name or Asset"
-          variant="outlined"
-          size="small"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          InputProps={{ startAdornment: <Search size={20} /> }}
-          style={{ flex: 1 }}
-        />
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-4 flex-1">
+            <TextField
+              label="Search by Name or Asset"
+              variant="outlined"
+              size="small"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{ startAdornment: <Search size={20} /> }}
+              className="min-w-[240px] flex-1"
+            />
 
-        <FormControl variant="outlined" size="small" style={{ minWidth: 200 }}>
-          <InputLabel>Filter by Category</InputLabel>
-          <Select
-            value={filterCategory}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-            label="Filter by Category"
-          >
-            {uniqueCategories.map(cat => (
-              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            <FormControl variant="outlined" size="small" style={{ minWidth: 200 }}>
+              <InputLabel>Filter by Category</InputLabel>
+              <Select
+                value={filterCategory}
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                label="Filter by Category"
+              >
+                {uniqueCategories.map(cat => (
+                  <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <MonitorTable assets={filteredAssets} />
+        </div>
       </div>
-
-      <MonitorTable
-        assets={filteredAssets}
-      />
-
-    </div>
+    </AdminLayout>
   );
 };
 

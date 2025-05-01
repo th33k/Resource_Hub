@@ -11,13 +11,17 @@ import {
   TablePagination,
   Button,
   Tooltip,
+  useTheme,
+  Box,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { Pencil, Trash2 } from "lucide-react";
 import { EditUserDialog } from "./EditUserDialog";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
 
 export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
+  const theme = useTheme();
   const [selected, setSelected] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -55,7 +59,8 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
 
   const handleSort = (column) => {
     const isSameColumn = column === sortColumn;
-    const newSortDirection = isSameColumn && sortDirection === "asc" ? "desc" : "asc";
+    const newSortDirection =
+      isSameColumn && sortDirection === "asc" ? "desc" : "asc";
 
     setSortColumn(column);
     setSortDirection(newSortDirection);
@@ -72,34 +77,94 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
 
   return (
     <>
-      <Paper className="relative">
+      <Paper
+        className="relative"
+        elevation={theme.palette.mode === "dark" ? 2 : 1}
+      >
         <TableContainer>
           <Table>
             <TableHead>
-              <TableRow style={{ backgroundColor: "#e0e0e0", color: "#333" }}>
+              <TableRow
+                sx={{
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? theme.palette.background.paper
+                      : theme.palette.grey[100],
+                  "& .MuiTableCell-root": {
+                    color: theme.palette.text.primary,
+                    fontWeight: 600,
+                  },
+                }}
+              >
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={users.length > 0 && selected.length === users.length}
-                    indeterminate={selected.length > 0 && selected.length < users.length}
+                    checked={
+                      users.length > 0 && selected.length === users.length
+                    }
+                    indeterminate={
+                      selected.length > 0 && selected.length < users.length
+                    }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell onClick={() => handleSort("email")}>
+                <TableCell
+                  onClick={() => handleSort("email")}
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
                   User
                   {sortColumn === "email" && (
-                    <span>{sortDirection === "asc" ? <ArrowUpward /> : <ArrowDownward />}</span>
+                    <span className="ml-1">
+                      {sortDirection === "asc" ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      )}
+                    </span>
                   )}
                 </TableCell>
-                <TableCell onClick={() => handleSort("userType")}>
+                <TableCell
+                  onClick={() => handleSort("userType")}
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
                   User Type
                   {sortColumn === "userType" && (
-                    <span>{sortDirection === "asc" ? <ArrowUpward /> : <ArrowDownward />}</span>
+                    <span className="ml-1">
+                      {sortDirection === "asc" ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      )}
+                    </span>
                   )}
                 </TableCell>
-                <TableCell onClick={() => handleSort("additionalDetails")}>
+                <TableCell
+                  onClick={() => handleSort("additionalDetails")}
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
                   Additional Details
                   {sortColumn === "additionalDetails" && (
-                    <span>{sortDirection === "asc" ? <ArrowUpward /> : <ArrowDownward />}</span>
+                    <span className="ml-1">
+                      {sortDirection === "asc" ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      )}
+                    </span>
                   )}
                 </TableCell>
                 <TableCell align="center">Actions</TableCell>
@@ -112,9 +177,19 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                   <TableRow
                     key={user.id}
                     hover
-                    style={{
-                      backgroundColor: selected.includes(user.id) ? "#c6e2f3" : "#fff",
-                      borderBottom: "1px solid #e0e0e0",
+                    sx={{
+                      backgroundColor: selected.includes(user.id)
+                        ? theme.palette.mode === "dark"
+                          ? alpha(theme.palette.primary.dark, 0.2)
+                          : alpha(theme.palette.primary.light, 0.2)
+                        : "transparent",
+                      "&:hover": {
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? alpha(theme.palette.action.hover, 0.1)
+                            : theme.palette.action.hover,
+                      },
+                      borderBottom: `1px solid ${theme.palette.divider}`,
                     }}
                   >
                     <TableCell padding="checkbox">
@@ -135,10 +210,24 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                     </TableCell>
                     <TableCell>
                       <span
-                        className={`px-2 py-1 rounded-full text-sm ${user.userType === "Admin"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-gray-100 text-gray-800"
-                          }`}
+                        style={{
+                          padding: "4px 8px",
+                          borderRadius: "12px",
+                          fontSize: "0.75rem",
+                          fontWeight: 600,
+                          backgroundColor:
+                            user.userType === "Admin"
+                              ? theme.palette.mode === "dark"
+                                ? alpha(theme.palette.primary.main, 0.2)
+                                : alpha(theme.palette.primary.main, 0.1)
+                              : theme.palette.mode === "dark"
+                              ? alpha(theme.palette.grey[700], 0.5)
+                              : alpha(theme.palette.grey[300], 0.8),
+                          color:
+                            user.userType === "Admin"
+                              ? theme.palette.primary.main
+                              : theme.palette.text.secondary,
+                        }}
                       >
                         {user.userType}
                       </span>
@@ -150,8 +239,12 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                           <Button
                             variant="outlined"
                             color="primary"
-                            startIcon={<Pencil size={20} />}
+                            size="small"
+                            startIcon={<Pencil size={18} />}
                             onClick={() => setEditUser(user)}
+                            sx={{
+                              borderRadius: theme.shape.borderRadius,
+                            }}
                           >
                             Edit
                           </Button>
@@ -160,10 +253,14 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                           <Button
                             variant="outlined"
                             color="error"
-                            startIcon={<Trash2 size={20} />}
+                            size="small"
+                            startIcon={<Trash2 size={18} />}
                             onClick={() => {
                               setSelected([user.id]);
                               setIsDeleteDialogOpen(true);
+                            }}
+                            sx={{
+                              borderRadius: theme.shape.borderRadius,
                             }}
                           >
                             Delete
@@ -177,32 +274,60 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
           </Table>
         </TableContainer>
 
-        <TablePagination
-          component="div"
-          count={users.length}
-          page={page}
-          onPageChange={(_, newPage) => setPage(newPage)}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={(event) => {
-            setRowsPerPage(parseInt(event.target.value, 10));
-            setPage(0);
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
           }}
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
-        />
-
-        {selected.length > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 bg-blue-50 p-2 flex justify-between items-center">
-            <span className="text-blue-800">{selected.length} users selected</span>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<Trash2 size={20} />}
-              onClick={() => setIsDeleteDialogOpen(true)}
+        >
+          {selected.length > 0 && (
+            <Box
+              sx={{
+                backgroundColor:
+                  theme.palette.mode === "dark"
+                    ? alpha(theme.palette.primary.dark, 0.15)
+                    : alpha(theme.palette.primary.light, 0.15),
+                padding: "8px 16px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderTop: `1px solid ${theme.palette.divider}`,
+                borderBottom: `1px solid ${theme.palette.divider}`,
+              }}
             >
-              Delete Selected
-            </Button>
-          </div>
-        )}
+              <span
+                style={{ color: theme.palette.primary.main, fontWeight: 500 }}
+              >
+                {selected.length} users selected
+              </span>
+              <Button
+                variant="contained"
+                color="error"
+                size="small"
+                startIcon={<Trash2 size={18} />}
+                onClick={() => setIsDeleteDialogOpen(true)}
+                sx={{
+                  borderRadius: theme.shape.borderRadius,
+                }}
+              >
+                Delete Selected
+              </Button>
+            </Box>
+          )}
+
+          <TablePagination
+            component="div"
+            count={users.length}
+            page={page}
+            onPageChange={(_, newPage) => setPage(newPage)}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={(event) => {
+              setRowsPerPage(parseInt(event.target.value, 10));
+              setPage(0);
+            }}
+            rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          />
+        </Box>
       </Paper>
 
       {editUser && (

@@ -12,9 +12,9 @@ import {
 import { Search } from "lucide-react";
 import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
 import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
-import { use } from "react";
+import UserLayout from "../../../layouts/User/UserLayout";
 
-const AssetMonitoringAdmin = () => {
+const DueAssetUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const passedCategory = location.state?.category || "All";
@@ -80,60 +80,62 @@ const AssetMonitoringAdmin = () => {
   };
 
   return (
-    <div>
-      <h2 style={{ marginBottom: "20px" }}>
-        Due Assets {filterCategory !== "All" && `: ${filterCategory}`}
-      </h2>
+    <UserLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h2 className="text-2xl font-semibold">
+          Due Assets {filterCategory !== "All" && `: ${filterCategory}`}
+        </h2>
 
-      <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-        <TextField
-          label="Search by Name or Asset"
-          variant="outlined"
-          size="small"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          InputProps={{ startAdornment: <Search size={20} /> }}
-          style={{ flex: 1 }}
+        <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
+          <TextField
+            label="Search by Name or Asset"
+            variant="outlined"
+            size="small"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            InputProps={{ startAdornment: <Search size={20} /> }}
+            style={{ flex: 1 }}
+          />
+
+          <FormControl variant="outlined" size="small" style={{ minWidth: 200 }}>
+            <InputLabel>Filter by Category</InputLabel>
+            <Select
+              value={filterCategory}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              label="Filter by Category"
+            >
+              {uniqueCategories.map(cat => (
+                <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <MonitorTable
+          assets={filteredAssets}
+          handleEditOpen={handleEditOpen}
+          handleDeleteOpen={handleDeleteOpen}
         />
 
-        <FormControl variant="outlined" size="small" style={{ minWidth: 200 }}>
-          <InputLabel>Filter by Category</InputLabel>
-          <Select
-            value={filterCategory}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-            label="Filter by Category"
-          >
-            {uniqueCategories.map(cat => (
-              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        {selectedAsset && (
+          <>
+            <EditAssetPopup
+              open={editOpen}
+              asset={selectedAsset}
+              onClose={() => setEditOpen(false)}
+              onUpdate={handleUpdateAsset}
+            />
+            <DeleteAssetPopup
+              open={deleteOpen}
+              asset={selectedAsset}
+              onClose={() => setDeleteOpen(false)}
+              onDelete={handleDeleteAsset}
+            />
+          </>
+        )}
       </div>
-
-      <MonitorTable
-        assets={filteredAssets}
-        handleEditOpen={handleEditOpen}
-        handleDeleteOpen={handleDeleteOpen}
-      />
-
-      {selectedAsset && (
-        <>
-          <EditAssetPopup
-            open={editOpen}
-            asset={selectedAsset}
-            onClose={() => setEditOpen(false)}
-            onUpdate={handleUpdateAsset}
-          />
-          <DeleteAssetPopup
-            open={deleteOpen}
-            asset={selectedAsset}
-            onClose={() => setDeleteOpen(false)}
-            onDelete={handleDeleteAsset}
-          />
-        </>
-      )}
-    </div>
+    </UserLayout>
   );
 };
 
-export default AssetMonitoringAdmin;
+export default DueAssetUser;

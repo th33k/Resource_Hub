@@ -1,13 +1,18 @@
 import React from "react";
-import MaintenanceTable from "../../../components/Report/MaintenanceTable"; // Adjust the import path if necessary
+import MaintenanceTable from "../../../components/Report/MaintenanceTable"; 
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 
-function App() {
+function MaintenanceReport() {
   return (
-    <div>
-      <h1>Maintenance</h1>
-      <MaintenanceTable />
-    </div>
+    <AdminLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">Maintenance Reports</h1>
+        <div className="mt-6">
+          <MaintenanceTable />
+        </div>
+      </div>
+    </AdminLayout>
   );
 }
 
-export default App;
+export default MaintenanceReport;

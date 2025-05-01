@@ -14,8 +14,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { MaintenanceTableUser } from "../../../components/Maintenance/MaintenanceTableUser";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import UserLayout from "../../../layouts/User/UserLayout";
 
-const MaintenanceDetails = () => {
+const MaintenanceDetailsUser = () => {
   const [maintenance, setMaintenance] = useState([]);
   const [isAddMaintenanceOpen, setIsAddMaintenanceOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -71,62 +72,63 @@ const MaintenanceDetails = () => {
   });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Maintenance</h1>
+    <UserLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">Maintenance</h1>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <TextField
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            InputProps={{ startAdornment: <Search size={20} /> }}
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{ startAdornment: <Search size={20} /> }}
+            />
+            <FormControl variant="outlined" size="small" sx={{ width: "150px" }}>
+              <InputLabel>Filter by Priority</InputLabel>
+              <Select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                label="Filter by Priority"
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Low">Low</MenuItem>
+                <MenuItem value="Medium">Medium</MenuItem>
+                <MenuItem value="High">High</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Plus size={20} />}
+            onClick={() => setIsAddMaintenanceOpen(true)}
+          >
+            Add New Maintenance
+          </Button>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
+          <MaintenanceTableUser
+            maintenance={filteredMaintenance}
           />
-          <FormControl variant="outlined" size="small" style={{ marginLeft: "10px", width: "150px" }}>
-            <InputLabel>Filter by Priority</InputLabel>
-            <Select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              label="Filter by Priority"
-            >
-              <MenuItem value="All">All</MenuItem>
-              <MenuItem value="Low">Low</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
-              <MenuItem value="High">High</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<Plus size={20} />}
-          onClick={() => setIsAddMaintenanceOpen(true)}
-        >
-          Add New Maintenance
-        </Button>
-      </div>
+        )}
 
-      {loading ? (
-        <div className="flex justify-center items-center">
-          <CircularProgress />
-        </div>
-      ) : (
-        <MaintenanceTableUser
-          maintenance={filteredMaintenance}
-
+        <AddMaintenancePopup
+          open={isAddMaintenanceOpen}
+          onClose={() => setIsAddMaintenanceOpen(false)}
+          onAdd={handleAddMaintenance}
         />
-      )}
-
-      <AddMaintenancePopup
-        open={isAddMaintenanceOpen}
-        onClose={() => setIsAddMaintenanceOpen(false)}
-        onAdd={handleAddMaintenance}
-      />
-      <ToastContainer />
-    </div>
+        <ToastContainer />
+      </div>
+    </UserLayout>
   );
 };
 
-export default MaintenanceDetails;
+export default MaintenanceDetailsUser;

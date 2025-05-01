@@ -1,13 +1,18 @@
 import React from "react";
-import MealEventsTable from "../../../components/Report/MealEventsTable"; // Adjust the import path if necessary
+import MealEventsTable from "../../../components/Report/MealEventsTable";
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 
-function App() {
+function MealReport() {
   return (
-    <div>
-      <h1>Meal Events</h1>
-      <MealEventsTable />
-    </div>
+    <AdminLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">Meal Reports</h1>
+        <div className="mt-6">
+          <MealEventsTable />
+        </div>
+      </div>
+    </AdminLayout>
   );
 }
 
-export default App;
+export default MealReport;

@@ -1,13 +1,18 @@
 import React from "react";
-import AssetsTable from "../../../components/Report/AssetsTable"; // Adjust the import path if necessary
+import AssetsTable from "../../../components/Report/AssetsTable";
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 
-function App() {
+function AssetReport() {
   return (
-    <div>
-      <h1>Assets</h1>
-      <AssetsTable />
-    </div>
+    <AdminLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">Asset Reports</h1>
+        <div className="mt-6">
+          <AssetsTable />
+        </div>
+      </div>
+    </AdminLayout>
   );
 }
 
-export default App;
+export default AssetReport;

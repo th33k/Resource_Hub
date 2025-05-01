@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { SettingsLayout } from './SettingsLayout';
 import { Input, Button } from './FormElements';
 import { Shield, Smartphone, Key, History, QrCode } from 'lucide-react';
-import { showSuccessToast, showErrorToast, showLoadingToast, ConfirmDialog } from './Feedback';
-import { toast } from 'react-hot-toast';
+import { showSuccessToast, showErrorToast, showLoadingToast, dismissToast, ConfirmDialog } from './Feedback';
 
 interface Session {
   id: string;
@@ -61,7 +60,7 @@ export const SecuritySettings = () => {
         'Please try again later. If the problem persists, contact support.'
       );
     } finally {
-      toast.dismiss(loadingToast);
+      dismissToast(loadingToast);
     }
   };
 
@@ -86,7 +85,7 @@ export const SecuritySettings = () => {
         'Please try again later. If the problem persists, contact support.'
       );
     } finally {
-      toast.dismiss(loadingToast);
+      dismissToast(loadingToast);
     }
   };
 
@@ -117,7 +116,7 @@ export const SecuritySettings = () => {
         'Please try again later'
       );
     } finally {
-      toast.dismiss(loadingToast);
+      dismissToast(loadingToast);
     }
   };
 
@@ -150,7 +149,7 @@ export const SecuritySettings = () => {
         'Please check the code and try again'
       );
     } finally {
-      toast.dismiss(loadingToast);
+      dismissToast(loadingToast);
     }
   };
 

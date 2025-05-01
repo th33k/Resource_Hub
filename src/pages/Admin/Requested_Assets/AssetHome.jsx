@@ -1,4 +1,6 @@
+import React from "react";
 import AssetHomeCard from "../../../components/Asset/AssetMonitoring/AssetHomeCard";
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 import "../../css/AssetHome.css";
 import { useNavigate } from "react-router-dom";
 
@@ -9,32 +11,32 @@ function AssetHome() {
     {
       name: "Electronics & IT",
       label: "Electronics & IT",
-      image: "./Asset/Electronic And IT.png",
+      image: "/Asset/Electronic And IT.png",
     },
     {
       name: "Office Supplies",
       label: "Office Supplies",
-      image: "./Asset/Stationary Items.png",
+      image: "/Asset/Stationary Items.png",
     },
     {
       name: "Furniture",
       label: "Furniture",
-      image: "./Asset/Furniture.png",
+      image: "/Asset/Furniture.png",
     },
     {
       name: "Electrical Appliances",
       label: "Electrical Appliances",
-      image: "./Asset/Maintenance Tools.png",
+      image: "/Asset/Maintenance Tools.png",
     },
     {
       name: "Machinery & Tools",
       label: "Machinery & Tools",
-      image: "./Asset/Mechanices.png",
+      image: "/Asset/Mechanices.png",
     },
     {
       name: "Miscellaneous",
       label: "Miscellaneous",
-      image: "./Asset/Extra Items.png",
+      image: "/Asset/Extra Items.png",
     },
   ];
 
@@ -45,13 +47,18 @@ function AssetHome() {
   };
 
   return (
-    <div className="asset-home">
-      {categories.map((category, index) => (
-        <div key={index} onClick={() => handleCardClick(category)}>
-          <AssetHomeCard name={category.label} image={category.image} />
+    <AdminLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">Asset Categories</h1>
+        <div className="asset-home grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+          {categories.map((category, index) => (
+            <div key={index} onClick={() => handleCardClick(category)}>
+              <AssetHomeCard name={category.label} image={category.image} />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+    </AdminLayout>
   );
 }
 

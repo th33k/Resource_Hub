@@ -7,6 +7,7 @@ import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/Asset
 import AssetAdd from "../../../components/Asset/OrganizationAssets/AssetAdd";
 import axios from "axios";
 import "../../css/AssetAdmin.css";
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 
 function AssetAdmin() {
   const [searchText, setSearchText] = useState("");
@@ -66,80 +67,82 @@ function AssetAdmin() {
   };
 
   return (
-    <>
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Assets</h1>
-      </div>
-
-      <div className="search-filter-section">
-        <div className="search-filter-container">
-          <TextField
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            InputProps={{ startAdornment: <Search size={20} /> }}
-            className="search-bar"
-          />
-          <FormControl variant="outlined" size="small" className="category-dropdown">
-            <InputLabel>Filter by Category</InputLabel>
-            <Select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              label="Filter by Category"
-            >
-              {uniqueCategories.map((category) => (
-                <MenuItem key={category} value={category}>
-                  {category}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+    <AdminLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold">Assets</h1>
         </div>
 
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<UserPlus size={20} />}
-          className="add-asset-btn"
-          onClick={() => setAddAssetOpen(true)}
-        >
-          Add New Asset
-        </Button>
-      </div>
+        <div className="search-filter-section">
+          <div className="search-filter-container">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{ startAdornment: <Search size={20} /> }}
+              className="search-bar"
+            />
+            <FormControl variant="outlined" size="small" className="category-dropdown">
+              <InputLabel>Filter by Category</InputLabel>
+              <Select
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                label="Filter by Category"
+              >
+                {uniqueCategories.map((category) => (
+                  <MenuItem key={category} value={category}>
+                    {category}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
 
-      <div className="table-container">
-        <AssetTable
-          assets={filteredAssets}
-          handleEditOpen={handleEditOpen}
-          handleDeleteOpen={handleDeleteOpen}
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<UserPlus size={20} />}
+            className="add-asset-btn"
+            onClick={() => setAddAssetOpen(true)}
+          >
+            Add New Asset
+          </Button>
+        </div>
+
+        <div className="table-container">
+          <AssetTable
+            assets={filteredAssets}
+            handleEditOpen={handleEditOpen}
+            handleDeleteOpen={handleDeleteOpen}
+          />
+        </div>
+
+        {selectedAsset && (
+          <>
+            <EditAssetPopup
+              open={editOpen}
+              asset={selectedAsset}
+              onClose={() => setEditOpen(false)}
+              onUpdate={handleUpdateAsset} // ✅ Re-fetch after edit
+            />
+            <DeleteAssetPopup
+              open={deleteOpen}
+              asset={selectedAsset}
+              onClose={() => setDeleteOpen(false)}
+              onDelete={handleDeleteAsset}
+            />
+          </>
+        )}
+
+        <AssetAdd
+          open={addAssetOpen}
+          onClose={() => setAddAssetOpen(false)}
+          onAdd={fetchAssets} // Refresh asset list after addition
         />
       </div>
-
-      {selectedAsset && (
-        <>
-          <EditAssetPopup
-            open={editOpen}
-            asset={selectedAsset}
-            onClose={() => setEditOpen(false)}
-            onUpdate={handleUpdateAsset} // ✅ Re-fetch after edit
-          />
-          <DeleteAssetPopup
-            open={deleteOpen}
-            asset={selectedAsset}
-            onClose={() => setDeleteOpen(false)}
-            onDelete={handleDeleteAsset}
-          />
-        </>
-      )}
-
-      <AssetAdd
-        open={addAssetOpen}
-        onClose={() => setAddAssetOpen(false)}
-        onAdd={fetchAssets} // Refresh asset list after addition
-      />
-    </>
+    </AdminLayout>
   );
 }
 

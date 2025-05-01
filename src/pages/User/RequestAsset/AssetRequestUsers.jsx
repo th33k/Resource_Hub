@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import { Search } from "lucide-react";
 import RequestButton from "../../../components/Asset/AssetRequestingUser/RequestButton";
+import UserLayout from "../../../layouts/User/UserLayout";
 
-const AssetMonitoringAdmin = () => {
+const AssetRequestUsers = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const passedCategory = location.state?.category || "All";
@@ -61,54 +62,56 @@ const AssetMonitoringAdmin = () => {
   };
 
   return (
-    <div>
-      <h2 style={{ marginBottom: "20px" }}>
-        Asset Monitoring {filterCategory !== "All" && `: ${filterCategory}`}
-      </h2>
+    <UserLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">Asset Requests</h1>
+        
+        <div className="search-filter-section flex items-center justify-between gap-4 mt-4">
+          <TextField
+            label="Search by Name or Asset"
+            variant="outlined"
+            size="small"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            InputProps={{ startAdornment: <Search size={20} /> }}
+            sx={{ flex: 1 }}
+          />
+        
+          <FormControl variant="outlined" size="small" style={{ minWidth: 200 }}>
+            <InputLabel>Filter by Category</InputLabel>
+            <Select
+              value={filterCategory}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              label="Filter by Category"
+            >
+              {uniqueCategories.map(cat => (
+                <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-      <div className="search-filter-section" style={{ display: 'flex', gap: '20px', marginBottom: '20px', alignItems: 'center' }}>
-        <TextField
-          label="Search by Name or Asset"
-          variant="outlined"
-          size="small"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          InputProps={{ startAdornment: <Search size={20} /> }}
-          style={{ flex: 1 }}
-        />
-
-        <FormControl variant="outlined" size="small" style={{ minWidth: 200 }}>
-          <InputLabel>Filter by Category</InputLabel>
-          <Select
-            value={filterCategory}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-            label="Filter by Category"
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleRequestOpen}
+            style={{ whiteSpace: "nowrap", fontWeight: "bold" }}
           >
-            {uniqueCategories.map(cat => (
-              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            Request Asset
+          </Button>
+        </div>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleRequestOpen}
-          style={{ whiteSpace: "nowrap", fontWeight: "bold" }}
-        >
-          Request Asset
-        </Button>
+        <div className="mt-6">
+          <MonitorTable assets={filteredAssets} />
+        </div>
+
+        <RequestButton
+          open={requestOpen}
+          onClose={handleRequestClose}
+          onRequest={handleRequestSubmit}
+        />
       </div>
-
-      <MonitorTable assets={filteredAssets} />
-
-      <RequestButton
-        open={requestOpen}
-        onClose={handleRequestClose}
-        onRequest={handleRequestSubmit} // Pass the refetch function to RequestButton
-      />
-    </div>
+    </UserLayout>
   );
 };
 
-export default AssetMonitoringAdmin;
+export default AssetRequestUsers;

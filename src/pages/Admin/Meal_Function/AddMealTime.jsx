@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MealCard from "../../../components/Meal/MealTimeCard";
 import { MealCardPopup } from '../../../components/Meal/AddMealTimePopup';
 import '../../css/AddMealTime.css';
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 
 function AddMealTime() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -50,45 +51,46 @@ function AddMealTime() {
   }, []);
 
   return (
-    <div className="mealpage">
-      <div className="flex justify-between items-center">
+    <AdminLayout>
+      <div className="min-h-screen space-y-6 p-6">
         <h1 className="text-2xl font-semibold">Meal times</h1>
+        
+        <Button
+          variant="contained"
+          className="addbtn"
+          onClick={handlePopupOpen}
+        >
+          New Meal Time
+          <span className="addicon"><AddIcon /></span>
+        </Button>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <div className="mealtimes">
+          {mealTimes.length > 0 ? (
+            mealTimes.map((meal) => (
+              <MealCard 
+                key={meal.id} 
+                mealId={meal.id}
+                name={meal.mealName}
+                image={meal.mealImageUrl || '/default-meal.png'} 
+                onDelete={handleDelete}
+              />
+            ))
+          ) : (
+            <p>No meal times available</p>
+          )}
+        </div>
+
+        <MealCardPopup
+          open={isPopupOpen}
+          onClose={handlePopupClose}
+          title={title}
+          subtitle={getSubtitle()}
+          onSubmit={fetchMealTimes}
+        />
       </div>
-      <Button
-        variant="contained"
-        className="addbtn"
-        onClick={handlePopupOpen}
-      >
-        New Meal Time
-        <span className="addicon"><AddIcon /></span>
-      </Button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <div className="mealtimes">
-        {mealTimes.length > 0 ? (
-          mealTimes.map((meal) => (
-            <MealCard 
-              key={meal.id} 
-              mealId={meal.id}
-              name={meal.mealName}
-              image={meal.mealImageUrl || '/default-meal.png'} 
-              onDelete={handleDelete}
-            />
-          ))
-        ) : (
-          <p>No meal times available</p>
-        )}
-      </div>
-
-      <MealCardPopup
-        open={isPopupOpen}
-        onClose={handlePopupClose}
-        title={title}
-        subtitle={getSubtitle()}
-        onSubmit={fetchMealTimes}
-      />
-    </div>
+    </AdminLayout>
   );
 }
 

@@ -6,6 +6,7 @@ import "../../css/MealCalendar.css";
 import Popup from "../../../components/Calendar/popup";
 import DeletePopup from "../../../components/Calendar/DeletePopup";
 import axios from "axios";
+import UserLayout from "../../../layouts/User/UserLayout";
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -99,41 +100,46 @@ function MealCalendar() {
   };
 
   return (
-    <div>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        height={"80vh"}
-        headerToolbar={{
-          left: "prev,next",
-          center: "title",
-          right: "today",
-        }}
-        dateClick={dayClickAction}
-        events={eventData}
-        eventClick={handleEventClick}
-        dayCellClassNames={(arg) => {
-          if (isPastDate(arg.date)) {
-            return 'fc-day-disabled';
-          }
-          return '';
-        }}
-      />
+    <UserLayout>
+      <div className="min-h-screen space-y-6 p-6">
+        <h1 className="text-2xl font-semibold">Meal Calendar</h1>
+        <div>
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            height={"80vh"}
+            headerToolbar={{
+              left: "prev,next",
+              center: "title",
+              right: "today",
+            }}
+            dateClick={dayClickAction}
+            events={eventData}
+            eventClick={handleEventClick}
+            dayCellClassNames={(arg) => {
+              if (isPastDate(arg.date)) {
+                return 'fc-day-disabled';
+              }
+              return '';
+            }}
+          />
 
-      <Popup
-        open={popupOpen}
-        handleClose={() => setPopupOpen(false)}
-        selectedDate={selectedDate}
-        onAddEvent={handleAddEvent}
-        isMealSelected={isMealSelected}
-      />
+          <Popup
+            open={popupOpen}
+            handleClose={() => setPopupOpen(false)}
+            selectedDate={selectedDate}
+            onAddEvent={handleAddEvent}
+            isMealSelected={isMealSelected}
+          />
 
-      <DeletePopup
-        open={deletePopupOpen}
-        handleClose={() => setDeletePopupOpen(false)}
-        onDelete={() => selectedEvent && handleDeleteEvent(selectedEvent.id)}
-        eventTitle={selectedEvent ? selectedEvent.title : ''}
-      />
-    </div>
+          <DeletePopup
+            open={deletePopupOpen}
+            handleClose={() => setDeletePopupOpen(false)}
+            onDelete={() => selectedEvent && handleDeleteEvent(selectedEvent.id)}
+            eventTitle={selectedEvent ? selectedEvent.title : ''}
+          />
+        </div>
+      </div>
+    </UserLayout>
   );
 }
 

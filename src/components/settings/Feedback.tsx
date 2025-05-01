@@ -82,6 +82,11 @@ export const showLoadingToast = (message: string, description?: string) => {
   );
 };
 
+// Add a dismiss toast function to export
+export const dismissToast = (id: string) => {
+  toast.dismiss(id);
+};
+
 interface ConfirmDialogProps {
   isOpen: boolean;
   onClose: () => void;
