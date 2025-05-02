@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import MealCard from "../../../components/Meal/MealTypeCard";
-import { MealCardPopup } from '../../../components/Meal/AddMealTypePopup';
+import MealCard from "../../../components/Meal/MealType/MealTypeCard";
+import { MealCardPopup } from '../../../components/Meal/MealType/AddMealTypePopup';
 import '../../css/AddMealType.css';
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
 

@@ -26,7 +26,6 @@ import MealReport from "./pages/Admin/Reports/MealReport";
 import MaintenanceReport from "./pages/Admin/Reports/MaintenanceReport";
 import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
 import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
-import MealTypes from "./pages/Admin/Meals/MealTypes";
 import { Users } from "./pages/Admin/UserManagement/Users";
 
 // User Pages
@@ -158,14 +157,6 @@ function App() {
                 element={
                   <ProtectedRoute requiredRole="Admin">
                     <AddMealType />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin-mealtypes"
-                element={
-                  <ProtectedRoute requiredRole="Admin">
-                    <MealTypes />
                   </ProtectedRoute>
                 }
               />

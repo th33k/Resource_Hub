@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
-import './Meal-CSS/AddMealPopup.css';
+import '../Meal-CSS/AddMealPopup.css';
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');

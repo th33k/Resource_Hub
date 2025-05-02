@@ -9,7 +9,7 @@ import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import EditPopup from './EditMealTypePopup';
 import DeletePopup from './DeleteMealTypePopup';
-import "./Meal-CSS/Mealcard.css";
+import "../Meal-CSS/Mealcard.css";
 
 function MealCard({ mealId, name, image, onEdit, onDelete }) {
   const [openEdit, setOpenEdit] = React.useState(false);
