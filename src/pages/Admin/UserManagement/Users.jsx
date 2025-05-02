@@ -8,48 +8,49 @@ import {
   FormControl,
 } from "@mui/material";
 import { UserPlus, Search } from "lucide-react";
-import AdminLayout from '../../../layouts/Admin/AdminLayout';
+import AdminLayout from "../../../layouts/Admin/AdminLayout";
 import { UserTable } from "../../../components/Users/UserTable.jsx";
 import { AddUserDialog } from "../../../components/Users/AddUserDialog.jsx";
+import { EditUserDialog } from "../../../components/Users/EditUserDialog.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_BASE_URL = "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0";
-
 export const Users = () => {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterType, setFilterType] = useState("All");
   const [loading, setLoading] = useState(true);
 
   const apiRequest = async (url, method, body = null) => {
-    const token = localStorage.getItem('authToken');
-    
+    const token = localStorage.getItem("authToken");
     const options = {
       method,
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        ...(token && { "Authorization": `Bearer ${token}` })
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
+      ...(body && { body: JSON.stringify(body) }),
     };
 
-    if (body) {
-      options.body = JSON.stringify(body);
-    }
-
     try {
-      const response = await fetch(`${API_BASE_URL}${url}`, options);
-      
+      const response = await fetch(url, options);
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`${response.status}: ${errorText || response.statusText}`);
+        throw new Error(
+          `${response.status}: ${errorText || response.statusText}`
+        );
       }
-      
-      if (method !== 'DELETE' && response.headers.get('content-length') !== '0') {
+
+      if (
+        method !== "DELETE" &&
+        response.headers.get("content-length") !== "0" &&
+        response.headers.get("content-type")?.includes("application/json")
+      ) {
         return await response.json();
       }
-      
       return true;
     } catch (error) {
       console.error(`API Request Error (${method} ${url}):`, error);
@@ -57,31 +58,24 @@ export const Users = () => {
     }
   };
 
-  const tryEndpoints = async (endpoints, method, body = null) => {
-    for (let i = 0; i < endpoints.length; i++) {
-      try {
-        return await apiRequest(endpoints[i], method, body);
-      } catch (error) {
-        if (i === endpoints.length - 1) throw error;
-      }
-    }
-  };
-
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await apiRequest('/details', 'GET');
-      setUsers(data.map(user => ({
-        id: user.id.toString(),
-        email: user.email,
-        userType: user.usertype,
-        additionalDetails: user.additional_details,
-        profilePicture: user.profile_picture_url || 
-                        `https://ui-avatars.com/api/?name=${user.username}`,
-        username: user.username,
-        phoneNumber: user.phone_number,
-        createdAt: user.created_at,
-      })));
+      const data = await apiRequest("http://localhost:9090/user/details", "GET");
+      setUsers(
+        data.map((user) => ({
+          id: user.id.toString(), // ID is stored as a string
+          email: user.email,
+          userType: user.usertype,
+          additionalDetails: user.additional_details,
+          profilePicture:
+            user.profile_picture_url ||
+            `https://ui-avatars.com/api/?name=${user.username || user.email.split("@")[0]}`,
+          username: user.username,
+          phoneNumber: user.phone_number,
+          createdAt: user.created_at,
+        }))
+      );
     } catch (error) {
       toast.error(`Failed to load users: ${error.message}`);
     } finally {
@@ -95,23 +89,29 @@ export const Users = () => {
 
   const formatUserData = (user) => ({
     username: user.username || user.email.split("@")[0],
-    profile_picture_url: user.profilePicture || 
-                        `https://ui-avatars.com/api/?name=${user.email.split("@")[0]}`,
+    profile_picture_url:
+      user.profilePicture ||
+      `https://ui-avatars.com/api/?name=${user.email.split("@")[0]}`,
     usertype: user.userType,
     email: user.email,
     phone_number: user.phoneNumber || "",
     additional_details: user.additionalDetails || "",
-    ...(user.id && { id: user.id }),
-    ...(user.created_at ? { created_at: user.created_at } : 
-       !user.id && { created_at: new Date().toISOString() }),
+    ...(user.id && { id: parseInt(user.id) }), // Ensure ID is an integer
+    ...(user.created_at
+      ? { created_at: user.created_at }
+      : !user.id && { created_at: new Date().toISOString() }),
   });
 
   const handleAddUser = async (newUser) => {
     try {
-      await apiRequest('/user/add', 'POST', formatUserData(newUser));
+      const response = await apiRequest(
+        "http://localhost:9090/user/add",
+        "POST",
+        formatUserData(newUser)
+      );
       await fetchUsers();
       setIsAddUserOpen(false);
-      toast.success("User added successfully");
+      toast.success(response.message || "User added successfully");
     } catch (error) {
       toast.error(`Failed to add user: ${error.message}`);
     }
@@ -119,16 +119,23 @@ export const Users = () => {
 
   const handleEditUser = async (editedUser) => {
     try {
-      await tryEndpoints([
-        `/user/update/${editedUser.id}`,
-        `/user/${editedUser.id}`
-      ], 'PUT', formatUserData(editedUser));
-      
-      setUsers(prev => 
-        prev.map(user => user.id === editedUser.id ? editedUser : user)
+      const userId = parseInt(editedUser.id); // Convert user ID to integer
+      if (isNaN(userId)) {
+        throw new Error("Invalid user ID");
+      }
+
+      await apiRequest(
+        `http://localhost:9090/user/details/${userId}`,
+        "PUT",
+        formatUserData(editedUser)
       );
-      
+
+      setUsers((prev) =>
+        prev.map((user) => (user.id === editedUser.id ? editedUser : user))
+      );
+
       toast.success("User updated successfully");
+      setIsEditUserOpen(false);
     } catch (error) {
       toast.error(`Failed to update user: ${error.message}`);
       fetchUsers();
@@ -137,33 +144,28 @@ export const Users = () => {
 
   const handleDeleteUsers = async (userIds) => {
     try {
-      const deletePromises = userIds.map(userId => 
-        tryEndpoints([`/user/${userId}`, `/user/details/${userId}`], 'DELETE')
+      const deletePromises = userIds.map((userId) =>
+        apiRequest(`http://localhost:9090/user/details/${parseInt(userId)}`, "DELETE") // Parse userId for DELETE
       );
-      
       await Promise.allSettled(deletePromises);
       await fetchUsers();
-      
-      const successCount = userIds.length - users.filter(u => userIds.includes(u.id)).length;
-      
-      if (successCount === userIds.length) {
-        toast.success(`${successCount} user${successCount !== 1 ? 's' : ''} deleted successfully`);
-      } else {
-        toast.warning(`Deleted ${successCount} out of ${userIds.length} selected users`);
-      }
+      toast.success(
+        `${userIds.length} user${userIds.length !== 1 ? "s" : ""} deleted successfully`
+      );
     } catch (error) {
       toast.error(`Failed to delete users: ${error.message}`);
-      fetchUsers();
+      await fetchUsers();
     }
   };
 
-  const filteredUsers = useMemo(() =>
-    users.filter(({ email, additionalDetails, userType }) => {
-      const searchMatch = [email, additionalDetails].some(field =>
-        field?.toLowerCase().includes(searchText.toLowerCase())
-      );
-      return searchMatch && (filterType === "All" || userType === filterType);
-    }),
+  const filteredUsers = useMemo(
+    () =>
+      users.filter(({ email, additionalDetails, userType }) => {
+        const searchMatch = [email, additionalDetails].some((field) =>
+          field?.toLowerCase().includes(searchText.toLowerCase())
+        );
+        return searchMatch && (filterType === "All" || userType === filterType);
+      }),
     [users, searchText, filterType]
   );
 
@@ -171,20 +173,20 @@ export const Users = () => {
     <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-semibold">User management</h1>
+          <h1 className="text-2xl font-semibold">User Management</h1>
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="flex items-center">
+          <div className="flex items-center space-x-2">
             <TextField
               label="Search"
               variant="outlined"
               size="small"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              InputProps={{ startAdornment: <Search size={20} /> }}
+              InputProps={{ startAdornment: <Search size={20} className="mr-2" /> }}
             />
-            <FormControl variant="outlined" size="small" className="w-40 ml-2">
+            <FormControl variant="outlined" size="small" className="w-40">
               <InputLabel>Filter by Type</InputLabel>
               <Select
                 value={filterType}
@@ -200,7 +202,6 @@ export const Users = () => {
           <Button
             variant="contained"
             color="primary"
-            className="font-bold"
             startIcon={<UserPlus size={20} />}
             onClick={() => setIsAddUserOpen(true)}
           >
@@ -213,8 +214,11 @@ export const Users = () => {
         ) : (
           <UserTable
             users={filteredUsers}
-            onEditUser={handleEditUser}
             onDeleteUsers={handleDeleteUsers}
+            onEditUser={(user) => {
+              setEditingUser(user);
+              setIsEditUserOpen(true);
+            }}
           />
         )}
 
@@ -223,8 +227,15 @@ export const Users = () => {
           onClose={() => setIsAddUserOpen(false)}
           onAdd={handleAddUser}
         />
-        
-        <ToastContainer 
+
+        <EditUserDialog
+          open={isEditUserOpen}
+          onClose={() => setIsEditUserOpen(false)}
+          onSave={handleEditUser}
+          user={editingUser || { email: "", userType: "User", additionalDetails: "" }}
+        />
+
+        <ToastContainer
           position="top-right"
           autoClose={3000}
           hideProgressBar={false}
@@ -239,3 +250,5 @@ export const Users = () => {
     </AdminLayout>
   );
 };
+
+export default Users;

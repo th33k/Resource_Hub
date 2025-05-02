@@ -1,17 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ProfileSection = () => {
   const [formData, setFormData] = useState({
-    name: 'John Doe',
-    picture: 'https://avatar.iran.liara.run/public/boy?username=Ash',
-    bio: 'Software enthusiast',
+    name: '',
+    picture: '',
+    bio: '',
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = localStorage.getItem('Userid'); // Get userId from localStorage
+        if (!userId) {
+          throw new Error('User ID not found in localStorage');
+        }
+
+        const response = await fetch(`http://localhost:9090/settings/details/${userId}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user details');
+        }
+
+        const data = await response.json();
+        if (data.length > 0) {
+          const profile = data[0]; // Assuming single profile returned
+          setFormData({
+            name: profile.username || '',
+            picture: profile.profile_picture_url || '',
+            bio: profile.additional_details || '',
+          });
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim()) {
       alert('Name is required');
@@ -21,13 +60,39 @@ const ProfileSection = () => {
       alert('Bio cannot exceed 100 characters');
       return;
     }
-    alert('Profile updated successfully!');
-    console.log('Profile:', formData);
+
+    try {
+      const userId = localStorage.getItem('Userid');
+      if (!userId) {
+        throw new Error('User ID not found in localStorage');
+      }
+
+      const response = await fetch(`http://localhost:9090/settings/profile/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: formData.name,
+          profile_picture_url: formData.picture,
+          additional_details: formData.bio,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to update profile');
+      }
+
+      alert('Profile updated successfully!');
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="mb-8 p-4 bg-white rounded-lg shadow">
-      {/* Centered Title and Image */}
       <div className="flex flex-col items-center mb-4">
         <h2 className="text-gray-700 text-xl font-semibold mb-2">Profile</h2>
         {formData.picture && (
@@ -39,8 +104,6 @@ const ProfileSection = () => {
           />
         )}
       </div>
-
-      {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">Name</label>
@@ -73,8 +136,6 @@ const ProfileSection = () => {
             rows="3"
           />
         </div>
-
-        {/* Centered Button */}
         <div className="flex justify-center">
           <button
             type="submit"

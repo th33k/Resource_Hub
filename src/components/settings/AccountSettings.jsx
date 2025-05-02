@@ -1,79 +1,161 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 
 const AccountSection = () => {
   const [formData, setFormData] = useState({
-    phone: "+1234567890",
-    email: "john.doe@example.com",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    phone: '',
+    email: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
+  const [verify, setVerify] = useState({ type: '', code: '' });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [verify, setVerify] = useState({ type: "", code: "" });
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = localStorage.getItem('Userid');
+        if (!userId) {
+          throw new Error('User ID not founds in localStorage');
+        }
+
+        const response = await fetch(`http://localhost:9090/settings/details/${userId}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user details');
+        }
+
+        const data = await response.json();
+        if (data.length > 0) {
+          const profile = data[0];
+          setFormData((prev) => ({
+            ...prev,
+            email: profile.email || '',
+            phone: profile.phone_number || '',
+          }));
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleContactSubmit = (e, type) => {
+  const handleContactSubmit = async (e, type) => {
     e.preventDefault();
     const value = formData[type];
-    if (type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      alert("Invalid email");
+    if (type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      alert('Invalid email');
       return;
     }
-    if (type === "phone" && !/^\+?[1-9]\d{1,14}$/.test(value)) {
-      alert("Invalid phone number");
+    if (type === 'phone' && !/^\+?[1-9]\d{1,14}$/.test(value)) {
+      alert('Invalid phone number');
       return;
     }
-    setVerify({ type, code: "" });
-    alert(`Verification code sent to ${value}. Enter code: 1234`);
+
+    try {
+      const userId = localStorage.getItem('Userid');
+      if (!userId) {
+        throw new Error('User ID not found in localStorage');
+      }
+
+      const endpoint = type === 'email' ? 'email' : 'phone';
+      const payload = type === 'email' ? { email: value } : { phone_number: value };
+
+      const response = await fetch(`http://localhost:9090/settings/${endpoint}/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || `Failed to update ${type}`);
+      }
+
+      alert(`${type.charAt(0).toUpperCase() + type.slice(1)} updated successfully!`);
+      setVerify({ type: '', code: '' });
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    }
+  };
+
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.newPassword.length < 8) {
+      alert('Password must be at least 8 characters');
+      return;
+    }
+    if (formData.newPassword !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    try {
+      const userId = localStorage.getItem('Userid');
+      if (!userId) {
+        throw new Error('User ID not found in localStorage');
+      }
+
+      const response = await fetch(`http://localhost:9090/settings/password/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          current_password: formData.currentPassword,
+          new_password: formData.newPassword,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to update password');
+      }
+
+      alert('Password updated successfully!');
+      setFormData({
+        ...formData,
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    }
   };
 
   const handleVerify = (e) => {
     e.preventDefault();
-    if (verify.code !== "1234") {
-      alert("Invalid code");
+    if (verify.code !== '1234') {
+      alert('Invalid code');
       return;
     }
-    alert(`${verify.type} updated successfully!`);
-    setVerify({ type: "", code: "" });
+    alert(`${verify.type} verified successfully!`);
+    setVerify({ type: '', code: '' });
   };
 
-  const handlePasswordSubmit = (e) => {
-    e.preventDefault();
-    if (formData.newPassword.length < 8) {
-      alert("Password must be at least 8 characters");
-      return;
-    }
-    if (formData.newPassword !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-    alert("Password updated successfully!");
-    setFormData({
-      ...formData,
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    });
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="p-4 bg-white rounded-lg shadow">
-      <h2 className="text-gray-700 text-xl font-semibold mb-4 text-center">
-        Account
-      </h2>
+      <h2 className="text-gray-700 text-xl font-semibold mb-4 text-center">Account</h2>
       <div className="space-y-6">
         {/* Phone */}
         <div>
-          <form
-            onSubmit={(e) => handleContactSubmit(e, "phone")}
-            className="space-y-2"
-          >
-            <label className="block text-sm font-medium text-gray-700">
-              Phone Number
-            </label>
+          <form onSubmit={(e) => handleContactSubmit(e, 'phone')} className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Phone Number</label>
             <input
               type="tel"
               name="phone"
@@ -94,13 +176,8 @@ const AccountSection = () => {
         </div>
         {/* Email */}
         <div>
-          <form
-            onSubmit={(e) => handleContactSubmit(e, "email")}
-            className="space-y-2"
-          >
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+          <form onSubmit={(e) => handleContactSubmit(e, 'email')} className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               name="email"
@@ -119,13 +196,35 @@ const AccountSection = () => {
             </div>
           </form>
         </div>
-
+        {/* Verification Code (if applicable) */}
+        {verify.type && (
+          <div>
+            <form onSubmit={handleVerify} className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Enter Verification Code for {verify.type}
+              </label>
+              <input
+                type="text"
+                value={verify.code}
+                onChange={(e) => setVerify({ ...verify, code: e.target.value })}
+                className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Verify
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
         {/* Password */}
         <div>
           <form onSubmit={handlePasswordSubmit} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Current Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Current Password</label>
             <input
               type="password"
               name="currentPassword"
@@ -134,9 +233,7 @@ const AccountSection = () => {
               className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
-            <label className="block text-sm font-medium text-gray-700">
-              New Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700">New Password</label>
             <input
               type="password"
               name="newPassword"
@@ -145,9 +242,7 @@ const AccountSection = () => {
               className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
-            <label className="block text-sm font-medium text-gray-700">
-              Confirm New Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
             <input
               type="password"
               name="confirmPassword"
@@ -156,12 +251,14 @@ const AccountSection = () => {
               className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
+            <div className="flex justify-center">
             <button
               type="submit"
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
               Update Password
-            </button>
+              </button>
+            </div>
           </form>
         </div>
       </div>
