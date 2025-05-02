@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './AccountSection.css';
 
 const AccountSection = () => {
   const [formData, setFormData] = useState({
@@ -8,44 +9,31 @@ const AccountSection = () => {
     newPassword: '',
     confirmPassword: '',
   });
-  const [verify, setVerify] = useState({ type: '', code: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch user data on component mount
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('Userid');
-        if (!userId) {
-          throw new Error('User ID not founds in localStorage');
-        }
+        if (!userId) throw new Error('User ID not found');
 
-        const response = await fetch(`http://localhost:9090/settings/details/${userId}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        });
+        const response = await fetch(`http://localhost:9090/settings/details/${userId}`);
+        if (!response.ok) throw new Error('Failed to fetch user details');
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch user details');
-        }
-
-        const data = await response.json();
-        if (data.length > 0) {
-          const profile = data[0];
-          setFormData((prev) => ({
-            ...prev,
-            email: profile.email || '',
-            phone: profile.phone_number || '',
-          }));
-        }
+        const [profile] = await response.json();
+        setFormData((prev) => ({
+          ...prev,
+          email: profile.email || '',
+          phone: profile.phone_number || '',
+        }));
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -67,9 +55,7 @@ const AccountSection = () => {
 
     try {
       const userId = localStorage.getItem('Userid');
-      if (!userId) {
-        throw new Error('User ID not found in localStorage');
-      }
+      if (!userId) throw new Error('User ID not found');
 
       const endpoint = type === 'email' ? 'email' : 'phone';
       const payload = type === 'email' ? { email: value } : { phone_number: value };
@@ -80,13 +66,9 @@ const AccountSection = () => {
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || `Failed to update ${type}`);
-      }
+      if (!response.ok) throw new Error((await response.json()).message || `Failed to update ${type}`);
 
       alert(`${type.charAt(0).toUpperCase() + type.slice(1)} updated successfully!`);
-      setVerify({ type: '', code: '' });
     } catch (err) {
       alert(`Error: ${err.message}`);
     }
@@ -105,9 +87,7 @@ const AccountSection = () => {
 
     try {
       const userId = localStorage.getItem('Userid');
-      if (!userId) {
-        throw new Error('User ID not found in localStorage');
-      }
+      if (!userId) throw new Error('User ID not found');
 
       const response = await fetch(`http://localhost:9090/settings/password/${userId}`, {
         method: 'PUT',
@@ -118,149 +98,76 @@ const AccountSection = () => {
         }),
       });
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to update password');
-      }
+      if (!response.ok) throw new Error((await response.json()).message || 'Failed to update password');
 
       alert('Password updated successfully!');
-      setFormData({
-        ...formData,
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      });
+      setFormData({ ...formData, currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
       alert(`Error: ${err.message}`);
     }
   };
 
-  const handleVerify = (e) => {
-    e.preventDefault();
-    if (verify.code !== '1234') {
-      alert('Invalid code');
-      return;
-    }
-    alert(`${verify.type} verified successfully!`);
-    setVerify({ type: '', code: '' });
-  };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="loading">Loading...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow">
-      <h2 className="text-gray-700 text-xl font-semibold mb-4 text-center">Account</h2>
-      <div className="space-y-6">
+    <div className="account-section">
+      <h2>Account</h2>
+      <div className="form-container">
         {/* Phone */}
-        <div>
-          <form onSubmit={(e) => handleContactSubmit(e, 'phone')} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                Update Phone
-              </button>
-            </div>
-          </form>
-        </div>
+        <form onSubmit={(e) => handleContactSubmit(e, 'phone')} className="form-group">
+          <label>Phone Number</label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Update Phone</button>
+        </form>
+
         {/* Email */}
-        <div>
-          <form onSubmit={(e) => handleContactSubmit(e, 'email')} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                Update Email
-              </button>
-            </div>
-          </form>
-        </div>
-        {/* Verification Code (if applicable) */}
-        {verify.type && (
-          <div>
-            <form onSubmit={handleVerify} className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Enter Verification Code for {verify.type}
-              </label>
-              <input
-                type="text"
-                value={verify.code}
-                onChange={(e) => setVerify({ ...verify, code: e.target.value })}
-                className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <div className="flex justify-center">
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  Verify
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
+        <form onSubmit={(e) => handleContactSubmit(e, 'email')} className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Update Email</button>
+        </form>
+
         {/* Password */}
-        <div>
-          <form onSubmit={handlePasswordSubmit} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Current Password</label>
-            <input
-              type="password"
-              name="currentPassword"
-              value={formData.currentPassword}
-              onChange={handleChange}
-              className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <label className="block text-sm font-medium text-gray-700">New Password</label>
-            <input
-              type="password"
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-              className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="bg-gray-100 text-gray-700 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <div className="flex justify-center">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Update Password
-              </button>
-            </div>
-          </form>
-        </div>
+        <form onSubmit={handlePasswordSubmit} className="form-group">
+          <label>Current Password</label>
+          <input
+            type="password"
+            name="currentPassword"
+            value={formData.currentPassword}
+            onChange={handleChange}
+            required
+          />
+          <label>New Password</label>
+          <input
+            type="password"
+            name="newPassword"
+            value={formData.newPassword}
+            onChange={handleChange}
+            required
+          />
+          <label>Confirm New Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Update Password</button>
+        </form>
       </div>
     </div>
   );

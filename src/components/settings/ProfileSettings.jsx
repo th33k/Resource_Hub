@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './ProfileSection.css';
 
 const ProfileSection = () => {
   const [formData, setFormData] = useState({
@@ -9,40 +10,28 @@ const ProfileSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch user data on component mount
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem('Userid'); // Get userId from localStorage
-        if (!userId) {
-          throw new Error('User ID not found in localStorage');
-        }
+        const userId = localStorage.getItem('Userid');
+        if (!userId) throw new Error('User ID not found');
 
-        const response = await fetch(`http://localhost:9090/settings/details/${userId}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
+        const response = await fetch(`http://localhost:9090/settings/details/${userId}`);
+        if (!response.ok) throw new Error('Failed to fetch user details');
+
+        const [profile] = await response.json();
+        setFormData({
+          name: profile.username || '',
+          picture: profile.profile_picture_url || '',
+          bio: profile.additional_details || '',
         });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch user details');
-        }
-
-        const data = await response.json();
-        if (data.length > 0) {
-          const profile = data[0]; // Assuming single profile returned
-          setFormData({
-            name: profile.username || '',
-            picture: profile.profile_picture_url || '',
-            bio: profile.additional_details || '',
-          });
-        }
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -63,9 +52,7 @@ const ProfileSection = () => {
 
     try {
       const userId = localStorage.getItem('Userid');
-      if (!userId) {
-        throw new Error('User ID not found in localStorage');
-      }
+      if (!userId) throw new Error('User ID not found');
 
       const response = await fetch(`http://localhost:9090/settings/profile/${userId}`, {
         method: 'PUT',
@@ -77,10 +64,7 @@ const ProfileSection = () => {
         }),
       });
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to update profile');
-      }
+      if (!response.ok) throw new Error((await response.json()).message || 'Failed to update profile');
 
       alert('Profile updated successfully!');
     } catch (err) {
@@ -88,62 +72,51 @@ const ProfileSection = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="loading">Loading...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
 
   return (
-    <div className="mb-8 p-4 bg-white rounded-lg shadow">
-      <div className="flex flex-col items-center mb-4">
-        <h2 className="text-gray-700 text-xl font-semibold mb-2">Profile</h2>
+    <div className="profile-section">
+      <div className="header">
+        <h2>Profile</h2>
         {formData.picture && (
           <img
             src={formData.picture}
             alt="Profile"
-            className="w-16 h-16 rounded-full"
             onError={() => alert('Invalid image URL')}
           />
         )}
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+      <form onSubmit={handleSubmit} className="form-container">
+        <div className="form-group">
+          <label>Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full p-2 border rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Profile Picture URL</label>
+        <div className="form-group">
+          <label>Profile Picture URL</label>
           <input
             type="url"
             name="picture"
             value={formData.picture}
             onChange={handleChange}
-            className="w-full p-2 border rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Bio</label>
+        <div className="form-group">
+          <label>Bio</label>
           <textarea
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            className="w-full p-2 border rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows="3"
           />
         </div>
-        <div className="flex justify-center">
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Save Profile
-          </button>
-        </div>
+        <button type="submit">Save Profile</button>
       </form>
     </div>
   );
