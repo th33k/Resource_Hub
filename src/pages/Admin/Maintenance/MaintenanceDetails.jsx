@@ -14,7 +14,7 @@ import { AddMaintenancePopup } from "../../../components/Maintenance/AddMaintena
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import AdminLayout from "../../../layouts/Admin/AdminLayout.jsx";
 
 const MaintenanceDetails = () => {
   const [maintenance, setMaintenance] = useState([]);
@@ -25,7 +25,9 @@ const MaintenanceDetails = () => {
 
   const fetchMaintenanceData = async () => {
     try {
-      const response = await axios.get("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details");
+      const response = await axios.get(
+        "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details"
+      );
       setMaintenance(response.data);
     } catch (error) {
       console.error("Failed to fetch maintenance data:", error);
@@ -54,7 +56,10 @@ const MaintenanceDetails = () => {
         user_id: parseInt(userId),
       };
 
-      const response = await axios.post("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/add", payload);
+      const response = await axios.post(
+        "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/add",
+        payload
+      );
       toast.success(response.data.message);
       fetchMaintenanceData();
       setIsAddMaintenanceOpen(false);
@@ -66,7 +71,9 @@ const MaintenanceDetails = () => {
 
   const handleDeleteMaintenance = async (maintenanceId) => {
     try {
-      await axios.delete(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details/${maintenanceId}`);
+      await axios.delete(
+        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details/${maintenanceId}`
+      );
       toast.success("Maintenance deleted successfully!");
       fetchMaintenanceData();
     } catch (error) {
@@ -90,18 +97,26 @@ const MaintenanceDetails = () => {
   };
 
   const filteredMaintenance = maintenance.filter((item) => {
-    const searchMatch = item.name.toLowerCase().includes(searchText.toLowerCase());
+    const searchMatch = item.name
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
     const typeMatch = filterType === "All" || item.priorityLevel === filterType;
     return searchMatch && typeMatch;
   });
 
   return (
     <AdminLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="space-y-6">
         <h1 className="text-2xl font-semibold">Maintenance</h1>
 
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
             <TextField
               label="Search"
               variant="outlined"
@@ -110,7 +125,11 @@ const MaintenanceDetails = () => {
               onChange={(e) => setSearchText(e.target.value)}
               InputProps={{ startAdornment: <Search size={20} /> }}
             />
-            <FormControl variant="outlined" size="small" sx={{ width: "150px" }}>
+            <FormControl
+              variant="outlined"
+              size="small"
+              style={{ marginLeft: "10px", width: "150px" }}
+            >
               <InputLabel>Filter by Priority</InputLabel>
               <Select
                 value={filterType}

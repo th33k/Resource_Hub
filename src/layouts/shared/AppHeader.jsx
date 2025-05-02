@@ -25,6 +25,7 @@ import ModeToggle from "./ModeToggle";
 import ThemeToggle from "./ThemeToggle";
 import ProfileMenu from "./ProfileMenu";
 import MobileMenu from "./MobileMenu";
+import { Link } from "react-router-dom";
 
 const AppHeader = ({
   title = "Dashboard",
@@ -114,7 +115,8 @@ const AppHeader = ({
 
           {!isMobile ? (
             <>
-              <Tooltip title="Notifications">
+             <Link to={"/notifications"} style={{ textDecoration: "none" }}>
+             <Tooltip title="Notifications">
                 <IconButton
                   size="large"
                   color="inherit"
@@ -128,6 +130,7 @@ const AppHeader = ({
                   </Badge>
                 </IconButton>
               </Tooltip>
+             </Link>
 
               {showSettings && (
                 <Tooltip title="Settings">

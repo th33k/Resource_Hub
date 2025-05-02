@@ -6,9 +6,8 @@ const AdminHeader = () => {
     <AppHeader
       title="Resource Hub" // Updated title
       logo="/Resource Hub Logo.png" // Updated logo path
-      showCart={false}
-      notificationCount={2}
-      showSettings={true}
+      notificationCount={0}
+      showSettings={false}
       showOrdersInProfile={false}
     />
   );

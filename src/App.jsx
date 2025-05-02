@@ -42,6 +42,7 @@ import { Settings } from "./pages/Settings";
 
 // Components
 import ProtectedRoute from "./components/ProtectedRoute";
+import React from "react";
 
 function App() {
   return (

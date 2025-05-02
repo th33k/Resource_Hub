@@ -6,9 +6,7 @@ const UserHeader = () => {
     <AppHeader
       title="Resource Hub" // Updated title
       logo="/Resource Hub Logo.png" // Updated logo path
-      showCart={true}
-      cartCount={3}
-      notificationCount={1}
+      notificationCount={0}
       showSettings={false}
       showOrdersInProfile={true}
     />
