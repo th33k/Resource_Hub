@@ -19,7 +19,7 @@ const AccountSection = () => {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const response = await fetch(`http://localhost:9090/settings/details/${userId}`);
+        const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/settings-e6f/v1.0/details/${userId}`);
         if (!response.ok) throw new Error('Failed to fetch user details');
 
         const [profile] = await response.json();
@@ -60,7 +60,7 @@ const AccountSection = () => {
       const endpoint = type === 'email' ? 'email' : 'phone';
       const payload = type === 'email' ? { email: value } : { phone_number: value };
 
-      const response = await fetch(`http://localhost:9090/settings/${endpoint}/${userId}`, {
+      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/settings-e6f/v1.0/${endpoint}/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -89,7 +89,7 @@ const AccountSection = () => {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
 
-      const response = await fetch(`http://localhost:9090/settings/password/${userId}`, {
+      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/settings-e6f/v1.0/password/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

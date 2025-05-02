@@ -1,15 +1,14 @@
 import React from 'react';
 import ProfileSection from '../components/settings/ProfileSettings';
 import AccountSection from '../components/settings/AccountSettings';
-// Import layout components
-import AdminLayout from '../layouts/Admin/AdminLayout'; // Adjust path as needed
-import UserLayout from '../layouts/User/UserLayout'; // Adjust path as needed
+import AdminLayout from '../layouts/Admin/AdminLayout'; 
+import UserLayout from '../layouts/User/UserLayout'; 
 
 const Settings = () => {
-  // Get user role from localStorage
+
   const userRole = localStorage.getItem("userRole");
 
-  // Define the main content
+
   const renderContent = (
     <div className="">
       <h1 className="text-2xl font-bold mb-6 text-center">Settings</h1>
