@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { MaintenanceNotificationCard } from "../components/Maintenance/MaintenanceNotificationCard";
-// Import your layout components
 import AdminLayout from "../layouts/Admin/AdminLayout";
 import UserLayout from "../layouts/User/UserLayout"; // Adjust path as needed
 
-function MaintenanceNotification2() {
+function Notification() {
   const [notifications, setNotifications] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -54,7 +53,7 @@ function MaintenanceNotification2() {
 
   // Conditional layout rendering
   const renderContent = (
-    <section className="relative flex flex-col justify-start bg-slate-50 overflow-hidden antialiased">
+    <section className="relative flex flex-col justify-start overflow-hidden antialiased">
       <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-6">
         <h2 className="text-xl font-bold mb-6">Maintenance Notifications</h2>
         <div className="space-y-4">
@@ -72,7 +71,7 @@ function MaintenanceNotification2() {
                   <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 disabled:opacity-50"
+                    className="px-3 py-2 text-gray-500 border border-gray-300 rounded-l-lg hover:bg-gray-100 disabled:opacity-50"
                   >
                     Previous
                   </button>
@@ -122,4 +121,4 @@ function MaintenanceNotification2() {
   );
 }
 
-export default MaintenanceNotification2;
+export default Notification;

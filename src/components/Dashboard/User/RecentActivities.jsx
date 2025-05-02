@@ -1,7 +1,7 @@
 export const RecentActivities = ({ activities }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-xl font-semibold mb-4">Recent Activities</h2>
+      <h2 className="text-gray-700 text-xl font-semibold mb-4">Recent Activities</h2>
       <div className="space-y-4">
         {activities.map((activity, index) => {
           const formattedDate = new Date(activity.timestamp).toLocaleString(); // Format date and time

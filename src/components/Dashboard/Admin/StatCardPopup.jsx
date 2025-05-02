@@ -40,7 +40,7 @@ export const StatCardPopup = ({
       <div className="p-6">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-xl font-semibold">{title}</h2>
+            <h2 className="text-gray-700 text-xl font-semibold">{title}</h2>
             <p className="text-gray-500 text-sm">{subtitle}</p>
           </div>
           <button

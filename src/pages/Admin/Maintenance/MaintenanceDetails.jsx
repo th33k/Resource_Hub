@@ -71,9 +71,7 @@ const MaintenanceDetails = () => {
 
   const handleDeleteMaintenance = async (maintenanceId) => {
     try {
-      await axios.delete(
-        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/details/${maintenanceId}`
-      );
+      await axios.delete(`http://localhost:9090/maintenance/details/${maintenanceId}`);
       toast.success("Maintenance deleted successfully!");
       fetchMaintenanceData();
     } catch (error) {
@@ -81,6 +79,7 @@ const MaintenanceDetails = () => {
       toast.error("Failed to delete maintenance!");
     }
   };
+
 
   const handleEditMaintenance = async (editedMaintenance) => {
     try {

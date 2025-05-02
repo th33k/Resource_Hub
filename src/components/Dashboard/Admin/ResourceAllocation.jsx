@@ -37,7 +37,7 @@ export const ResourceAllocation = ({ data }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-xl font-semibold mb-2">Resource Allocation</h2>
+      <h2 className="text-gray-700 text-xl font-semibold mb-2">Resource Allocation</h2>
       <p className="text-gray-600 text-sm mb-6">Current resource distribution</p>
       <Doughnut data={chartData} options={options} />
     </div>

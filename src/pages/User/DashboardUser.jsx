@@ -14,21 +14,21 @@ const customUserActions = [
     title: 'View Meal Calendar',
     description: 'Check your booked meals',
     iconColor: 'text-blue-500',
-    path: '/user/mealcalander',
+    path: '/user-mealcalendar',
   },
   {
     icon: PackageCheck,
     title: 'Check Due Assets',
     description: 'View assets nearing return date',
     iconColor: 'text-purple-500',
-    path: '/user/due-assets',
+    path: '/user-dueassets',
   },
   {
     icon: Wrench,
     title: 'Report Issue',
     description: 'Submit maintenance request',
     iconColor: 'text-red-500',
-    path: '/user/maintenance',
+    path: '/user-maintenance',
   },
 ];
 

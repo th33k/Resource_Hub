@@ -43,7 +43,7 @@ const navItems = [
   {
     title: "Maintenance",
     icon: <MaintenanceIcon />,
-    submenu: [{ title: "Maintenance Requests", path: "/user-maintenancedetails" }],
+    submenu: [{ title: "Maintenance Requests", path: "/user-maintenance" }],
   },
 ];
 

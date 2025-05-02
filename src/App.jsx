@@ -106,7 +106,7 @@ function App() {
                 }
               />
               <Route
-                path="/admin-maintenancedetails"
+                path="/admin-maintenance"
                 element={
                   <ProtectedRoute requiredRole="Admin">
                     <MaintenanceDetails />
@@ -212,7 +212,7 @@ function App() {
                 } 
               />
               <Route 
-                path="/user-maintenancedetails" 
+                path="/user-maintenance" 
                 element={
                   <ProtectedRoute requiredRole="User">
                     <MaintenanceDetailsUser />

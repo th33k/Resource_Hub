@@ -62,7 +62,7 @@ export const MealDistributionChart = ({ data }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-xl font-semibold mb-2">Meal Distribution</h2>
+      <h2 className="text-gray-700 text-xl font-semibold mb-2">Meal Distribution</h2>
       <p className="text-gray-600 text-sm mb-6">Weekly meal service trends</p>
       <Line options={options} data={chartData} />
     </div>

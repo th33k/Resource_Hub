@@ -50,7 +50,7 @@ const navItems = [
     title: "Maintenance",
     icon: <MaintenanceIcon />,
     path: "/admin-maintenancehome",
-    submenu: [{ title: "All Maintenances", path: "/admin-maintenancedetails" }],
+    submenu: [{ title: "All Maintenances", path: "/admin-maintenance" }],
   },
   {
     title: "Users",

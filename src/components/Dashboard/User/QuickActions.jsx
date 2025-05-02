@@ -24,7 +24,7 @@ export const QuickActions = ({ actions }) => {
         <button
           key={index} // Use index as key, or a unique ID if available
           onClick={() => handleAction(action.path)}
-          className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left w-full flex flex-col items-start" // Added flex for alignment
+          className="text-gray-700 bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left w-full flex flex-col items-start" // Added flex for alignment
         >
           {/* Render the icon component passed in the action object */}
           {action.icon && <action.icon className={`${action.iconColor || 'text-gray-500'} mb-2`} size={24} />}

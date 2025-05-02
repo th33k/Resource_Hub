@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Box, Typography, Paper } from '@mui/material';
-import { Users, Utensils, Box as BoxIcon, Wrench } from "lucide-react";
+import { Users, Utensils, Box as BoxIcon, Wrench,CalendarDays, PackageCheck } from "lucide-react";
 import axios from "axios";
 import AdminLayout from '../../layouts/Admin/AdminLayout';
 import { StatCard } from "../../components/Dashboard/Admin/StatCard";
@@ -9,7 +9,31 @@ import { MealDistributionChart } from "../../components/Dashboard/Admin/MealDist
 import { ResourceAllocation } from "../../components/Dashboard/Admin/ResourceAllocation";
 import { getMonthLabels } from "../../utils/dateUtils";
 import { useAdminDashboardData } from '../../query/adminDashboardQueries';
+import { QuickActions } from '../../components/Dashboard/User/QuickActions';
 
+const customUserActions = [
+  {
+    icon: CalendarDays,
+    title: 'View Meal Calendar',
+    description: 'Check your booked meals',
+    iconColor: 'text-blue-500',
+    path: '/user-mealcalendar',
+  },
+  {
+    icon: PackageCheck,
+    title: 'Check Due Assets',
+    description: 'View assets nearing return date',
+    iconColor: 'text-purple-500',
+    path: '/user-dueassets',
+  },
+  {
+    icon: Wrench,
+    title: 'Report Issue',
+    description: 'Submit maintenance request',
+    iconColor: 'text-red-500',
+    path: '/user-maintenance',
+  },
+];
 // Map icon names (strings) to actual icon components
 const iconMap = {
   Users: <Users className="text-blue-500" />,
@@ -73,7 +97,7 @@ const AdminDashboard = () => {
             <ResourceAllocation data={resourceData} />
           </div>
         </div>
-        {/* Resource Cards */}
+        {/* Resource Cards
         <h2 className="text-xl font-semibold pt-4">Resource Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {resources.map((resource, index) => (
@@ -85,7 +109,8 @@ const AdminDashboard = () => {
               progress={resource.progress}
             />
           ))}
-        </div>
+        </div> */}
+      <QuickActions actions={customUserActions} />
       </div>
     </AdminLayout>
   );
