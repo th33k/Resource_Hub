@@ -15,6 +15,7 @@ interface UserContextType {
   toggleAdminMode: () => void;
   userData: UserData;
   refreshUserData: () => void;
+  isAdminView: boolean; // Add isAdminView to the type
 }
 
 // Fallback user data
@@ -29,6 +30,7 @@ const UserContext = createContext<UserContextType>({
   toggleAdminMode: () => {},
   userData: defaultUser,
   refreshUserData: () => {},
+  isAdminView: false,
 });
 
 export const useUser = () => useContext(UserContext);
@@ -128,9 +130,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isAdmin: isUserAdmin,
       toggleAdminMode,
       userData,
-      refreshUserData
+      refreshUserData,
+      isAdminView, // Provide isAdminView in the context value
     }),
-    [isUserAdmin, toggleAdminMode, userData, refreshUserData]
+    [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView] // Add isAdminView dependency
   );
 
   return (

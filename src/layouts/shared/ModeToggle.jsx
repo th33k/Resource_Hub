@@ -26,6 +26,7 @@ const ModeToggle = ({ isAdmin, toggleAdminMode }) => {
           overflow: 'hidden',
         }}
       >
+        {/* Admin Section */}
         <Box
           sx={{
             display: 'flex',
@@ -36,6 +37,7 @@ const ModeToggle = ({ isAdmin, toggleAdminMode }) => {
             borderRadius: 1,
             bgcolor: isAdmin ? theme.palette.primary.main : 'transparent',
             color: isAdmin ? '#fff' : theme.palette.text.primary,
+            transition: 'background-color 0.3s ease, color 0.3s ease',
           }}
         >
           <AdminPanelSettingsIcon fontSize="small" />
@@ -43,6 +45,7 @@ const ModeToggle = ({ isAdmin, toggleAdminMode }) => {
             Admin
           </Typography>
         </Box>
+        {/* User Section */}
         <Box
           sx={{
             display: 'flex',
@@ -53,6 +56,7 @@ const ModeToggle = ({ isAdmin, toggleAdminMode }) => {
             borderRadius: 1,
             bgcolor: !isAdmin ? theme.palette.primary.main : 'transparent',
             color: !isAdmin ? '#fff' : theme.palette.text.primary,
+            transition: 'background-color 0.3s ease, color 0.3s ease',
           }}
         >
           <PersonIcon fontSize="small" />

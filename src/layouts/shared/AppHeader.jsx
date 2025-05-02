@@ -40,7 +40,7 @@ const AppHeader = ({
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { toggle } = useSidebar();
   const { toggleMode } = useThemeContext();
-  const { userData, isAdmin, toggleAdminMode } = useUser();
+  const { userData, isAdmin, toggleAdminMode, isAdminView } = useUser();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -107,7 +107,7 @@ const AppHeader = ({
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: "auto" }}>
           {/* Only render ModeToggle if user has Admin role */}
           {userData.role === "Admin" && (
-            <ModeToggle isAdmin={isAdmin} toggleAdminMode={toggleAdminMode} />
+            <ModeToggle isAdmin={isAdminView} toggleAdminMode={toggleAdminMode} />
           )}
 
           {!isMobile ? (
