@@ -38,7 +38,7 @@ import MaintenanceDetailsUser from "./pages/User/Maintenance/MaintenanceDetailsU
 
 // Shared Pages
 import Notification from "./pages/Notification";
-import { Settings } from "./pages/Settings";
+import Settings from "./pages/Settings";
 
 // Components
 import ProtectedRoute from "./components/ProtectedRoute";

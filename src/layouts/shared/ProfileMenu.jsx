@@ -46,7 +46,7 @@ const ProfileMenu = ({ showOrdersOption = false }) => {
   };
   
   const handleSettingsClick = () => {
-    navigate("/settings/account");
+    navigate("/settings");
     handleMenuClose();
   };
 
