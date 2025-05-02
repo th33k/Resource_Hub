@@ -6,10 +6,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Popupmealtype from "./popupmealtype";
-import './Calender-CSS/MealTimeCard.css';  // Import the CSS file
+import "./Calender-CSS/MealTimeCard.css";
 
 const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
   const [popupOpen, setPopupOpen] = React.useState(false);
+
   const handleClick = () => {
     if (!isDisabled) {
       setPopupOpen(true);
@@ -40,7 +41,7 @@ const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
       <Popupmealtype
         open={popupOpen}
         handleClose={() => setPopupOpen(false)}
-        onAddEvent={(mealTypeId) => onSelect(id, mealTypeId)} // Pass mealTypeId here
+        onAddEvent={(mealTypeId, mealTypeName) => onSelect(mealTypeId, mealTypeName)}
       />
     </div>
   );

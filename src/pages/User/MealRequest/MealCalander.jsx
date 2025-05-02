@@ -22,13 +22,18 @@ function MealCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${localStorage.getItem("Userid")}`);
-      const formattedEvents = response.data.map(event => ({
+      const response = await axios.get(
+        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${localStorage.getItem("Userid")}`
+      );
+      const formattedEvents = response.data.map((event) => ({
         id: event.id,
         title: `${event.meal_time_name} - ${event.meal_type_name}`,
         start: event.meal_request_date,
         end: event.meal_request_date,
-        meal_id: event.meal_time_id 
+        meal_time_id: event.meal_time_id,
+        meal_type_id: event.meal_type_id,
+        meal_time_name: event.meal_time_name,
+        meal_type_name: event.meal_type_name,
       }));
       setEventData(formattedEvents);
     } catch (error) {
@@ -49,38 +54,44 @@ function MealCalendar() {
     }
   };
 
-  const handleAddEvent = async (mealTimeId, mealTypeId) => {
+  const handleAddEvent = async (mealTimeId, mealTypeId, mealTimeName, mealTypeName) => {
     try {
-      const response = await axios.post("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/add", {
-        meal_time: mealTimeId, 
-        meal_type: mealTypeId, 
-        user_id: parseInt(localStorage.getItem("Userid")),
-        submitted_date: today,
-        meal_request_date: selectedDate,
-      });
-  
+      const response = await axios.post(
+        "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/add",
+        {
+          meal_time: mealTimeId,
+          meal_type: mealTypeId,
+          user_id: parseInt(localStorage.getItem("Userid")),
+          submitted_date: today,
+          meal_request_date: selectedDate,
+        }
+      );
+
       const newEvent = {
         id: response.data.id,
-        title: `${mealTimeId} - ${mealTypeId}`, 
+        title: `${mealTimeName} - ${mealTypeName}`,
         start: selectedDate,
         end: selectedDate,
+        meal_time_id: mealTimeId,
+        meal_type_id: mealTypeId,
+        meal_time_name: mealTimeName,
+        meal_type_name: mealTypeName,
       };
       setEventData((prevEvents) => [...prevEvents, newEvent]);
       setPopupOpen(false);
     } catch (error) {
       console.error("Error adding event:", error);
+      throw error;
     }
-  
-    await fetchEvents(); // Refresh the page after adding
   };
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${eventId}`);
-      const updatedEvents = eventData.filter(event => event.id !== eventId);
-      setEventData(updatedEvents);
+      await axios.delete(
+        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${eventId}`
+      );
       setDeletePopupOpen(false);
-      await fetchEvents(); // Refresh the page after deleting
+      await fetchEvents(); // Refetch events after deletion
     } catch (error) {
       console.error("Error deleting event:", error);
     }
@@ -93,9 +104,9 @@ function MealCalendar() {
     }
   };
 
-  const isMealSelected = (mealId) => {
-    return eventData.some(event =>
-      event.start === selectedDate && event.meal_id === mealId
+  const isMealSelected = (mealTimeId) => {
+    return eventData.some(
+      (event) => event.start === selectedDate && event.meal_time_id === mealTimeId
     );
   };
 
@@ -117,9 +128,9 @@ function MealCalendar() {
             eventClick={handleEventClick}
             dayCellClassNames={(arg) => {
               if (isPastDate(arg.date)) {
-                return 'fc-day-disabled';
+                return "fc-day-disabled";
               }
-              return '';
+              return "";
             }}
           />
 
@@ -135,7 +146,7 @@ function MealCalendar() {
             open={deletePopupOpen}
             handleClose={() => setDeletePopupOpen(false)}
             onDelete={() => selectedEvent && handleDeleteEvent(selectedEvent.id)}
-            eventTitle={selectedEvent ? selectedEvent.title : ''}
+            eventTitle={selectedEvent ? selectedEvent.title : ""}
           />
         </div>
       </div>

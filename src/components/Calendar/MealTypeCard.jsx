@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import './Calender-CSS/MealTypeCard.css';  
+import "./Calender-CSS/MealTypeCard.css";
 
 function MealTypeCard({ id, name, image, onSelect }) {
   return (
@@ -17,10 +17,10 @@ function MealTypeCard({ id, name, image, onSelect }) {
         </Typography>
       </CardContent>
       <CardActions className="meal-type-card-actions">
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           className="meal-type-card-button"
-          onClick={() => onSelect(id)} // Pass meal type ID
+          onClick={() => onSelect(id, name)}
         >
           Request
         </Button>
