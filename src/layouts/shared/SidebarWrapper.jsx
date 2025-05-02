@@ -24,7 +24,7 @@ const SidebarContainer = styled(Box)(({ theme }) => ({
 
 const SidebarWrapper = ({
   title,
-  logo,
+  logo, // Updated: Can be string (text) or image path
   children,
   footerContent
 }) => {
@@ -42,33 +42,60 @@ const SidebarWrapper = ({
         }}
       >
         {isOpen && (
-          <Typography variant="h6" sx={{ fontWeight: 600, letterSpacing: 0.5 }}>
-            {title}
-          </Typography>
+          <>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box
+                sx={{
+                  width: 40, // Increased size
+                  height: 40, // Increased size
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 1,
+                  overflow: 'hidden', // Ensure image fits
+                }}
+              >
+                {typeof logo === 'string' && logo.includes('/') ? (
+                  <img src={logo} alt={`${title} Logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                ) : (
+                   <Box sx={{ bgcolor: theme.palette.primary.main, color: '#fff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 1, fontWeight: 'bold' }}>
+                     {logo}
+                   </Box>
+                )}
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, letterSpacing: 0.5 }}>
+                {title}
+              </Typography>
+            </Box>
+            {isMobile && ( // Keep close button accessible on mobile when sidebar is open
+              <IconButton onClick={close} color="inherit">
+                <ChevronLeft />
+              </IconButton>
+            )}
+          </>
         )}
 
         {!isOpen && !isMobile && (
           <Box
             sx={{
-              bgcolor: theme.palette.primary.main,
-              color: "#fff",
-              width: 32,
-              height: 32,
+              width: 40, // Increased size
+              height: 40, // Increased size
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 1,
               fontWeight: "bold",
+              overflow: 'hidden', // Ensure image fits
             }}
           >
-            {logo}
+             {typeof logo === 'string' && logo.includes('/') ? (
+                <img src={logo} alt={`${title} Logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              ) : (
+                 <Box sx={{ bgcolor: theme.palette.primary.main, color: '#fff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 1, fontWeight: 'bold' }}>
+                   {logo}
+                 </Box>
+              )}
           </Box>
-        )}
-
-        {isMobile && (
-          <IconButton onClick={close} color="inherit">
-            <ChevronLeft />
-          </IconButton>
         )}
       </Toolbar>
 

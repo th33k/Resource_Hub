@@ -5,7 +5,6 @@ import {
   Brightness4 as DarkIcon,
   Brightness7 as LightIcon,
   Settings as SettingsIcon,
-  ShoppingCart as CartIcon,
 } from '@mui/icons-material';
 import { useThemeContext } from '../../theme/ThemeProvider';
 
@@ -15,8 +14,6 @@ const MobileMenu = ({
   onClose, 
   toggleMode, 
   notificationCount = 0, 
-  showCart = false, 
-  cartCount = 0 
 }) => {
   const { mode } = useThemeContext();
   
@@ -46,14 +43,6 @@ const MobileMenu = ({
         )}
         {mode === "dark" ? "Light Mode" : "Dark Mode"}
       </MenuItem>
-
-      {showCart && (
-        <MenuItem>
-          <CartIcon sx={{ mr: 2 }} />
-          Cart
-          <Badge badgeContent={cartCount} color="error" sx={{ ml: 1 }} />
-        </MenuItem>
-      )}
 
       <MenuItem>
         <NotificationsIcon sx={{ mr: 2 }} />

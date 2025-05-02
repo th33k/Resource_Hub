@@ -15,7 +15,6 @@ import {
   Notifications as NotificationsIcon,
   Settings as SettingsIcon,
   MoreVert as MoreIcon,
-  ShoppingCart as CartIcon,
 } from "@mui/icons-material";
 import { useSidebar } from "../../contexts/SidebarContext";
 import { useThemeContext } from "../../theme/ThemeProvider";
@@ -27,11 +26,9 @@ import ThemeToggle from "./ThemeToggle";
 import ProfileMenu from "./ProfileMenu";
 import MobileMenu from "./MobileMenu";
 
-const AppHeader = ({ 
-  title = "Dashboard", 
-  logo = "D", 
-  showCart = false, 
-  cartCount = 0,
+const AppHeader = ({
+  title = "Dashboard",
+  logo, // Updated: Can be string (text) or image path
   notificationCount = 0,
   showSettings = true,
   showOrdersInProfile = false
@@ -77,19 +74,24 @@ const AppHeader = ({
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box
               sx={{
-                bgcolor: theme.palette.primary.main,
-                color: "#fff",
-                width: 32,
-                height: 32,
+                width: 40, // Increased size
+                height: 40, // Increased size
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: 1,
                 mr: 1,
                 fontWeight: "bold",
+                overflow: 'hidden', // Ensure image fits
               }}
             >
-              {logo}
+              {typeof logo === 'string' && logo.includes('/') ? (
+                <img src={logo} alt={`${title} Logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              ) : (
+                <Box sx={{ bgcolor: theme.palette.primary.main, color: '#fff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 1 }}>
+                  {logo}
+                </Box>
+              )}
             </Box>
             <Typography
               variant="h6"
@@ -112,23 +114,6 @@ const AppHeader = ({
 
           {!isMobile ? (
             <>
-              {showCart && (
-                <Tooltip title="Cart">
-                  <IconButton
-                    size="large"
-                    color="inherit"
-                    sx={{
-                      bgcolor: theme.palette.background.default,
-                      "&:hover": { bgcolor: theme.palette.action.hover },
-                    }}
-                  >
-                    <Badge badgeContent={cartCount} color="error">
-                      <CartIcon />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
-              )}
-
               <Tooltip title="Notifications">
                 <IconButton
                   size="large"
@@ -179,14 +164,12 @@ const AppHeader = ({
         </Box>
       </Toolbar>
 
-      <MobileMenu 
+      <MobileMenu
         anchorEl={mobileMoreAnchorEl}
         isOpen={isMobileMenuOpen}
         onClose={handleMobileMenuClose}
         toggleMode={toggleMode}
         notificationCount={notificationCount}
-        showCart={showCart}
-        cartCount={cartCount}
       />
     </AppBar>
   );

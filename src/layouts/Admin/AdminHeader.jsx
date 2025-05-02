@@ -4,8 +4,8 @@ import AppHeader from "../shared/AppHeader";
 const AdminHeader = () => {
   return (
     <AppHeader
-      title="AdminX"
-      logo="A"
+      title="Resource Hub" // Updated title
+      logo="/Resource Hub Logo.png" // Updated logo path
       showCart={false}
       notificationCount={2}
       showSettings={true}

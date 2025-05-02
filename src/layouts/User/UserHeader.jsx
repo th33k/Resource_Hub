@@ -4,8 +4,8 @@ import AppHeader from "../shared/AppHeader";
 const UserHeader = () => {
   return (
     <AppHeader
-      title="UserX"
-      logo="U"
+      title="Resource Hub" // Updated title
+      logo="/Resource Hub Logo.png" // Updated logo path
       showCart={true}
       cartCount={3}
       notificationCount={1}

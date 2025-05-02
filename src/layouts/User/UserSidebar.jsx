@@ -68,7 +68,7 @@ const UserSidebar = () => {
   );
 
   return (
-    <SidebarWrapper title="UserX" logo="U" footerContent={sidebarFooter}>
+    <SidebarWrapper title="Resource Hub" logo="/Resource Hub Logo.png" footerContent={sidebarFooter}>
       <List component="nav">
         {navItems.map((item, idx) => (
           <React.Fragment key={item.title}>
