@@ -1,16 +1,16 @@
-import { Doughnut } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const options = {
   plugins: {
     legend: {
-      position: 'bottom',
+      position: "bottom",
     },
     tooltip: {
       callbacks: {
-        label: function(tooltipItem) {
+        label: function (tooltipItem) {
           return `${tooltipItem.label}: ${tooltipItem.raw}%`;
         },
       },
@@ -21,15 +21,23 @@ const options = {
 // Updated to accept dynamic data as props
 export const ResourceAllocation = ({ data }) => {
   const chartData = {
-    labels: data.map(item => item.category),
+    labels: data.map((item) => item.category),
     datasets: [
       {
-        data: data.map(item => item.allocated),
+        data: data.map((item) => item.allocated),
         backgroundColor: [
-          'rgb(59, 130, 246)',
-          'rgb(16, 185, 129)',
-          'rgb(245, 158, 11)',
-          'rgb(239, 68, 68)',
+          "rgb(59, 130, 246)", // Blue
+          "rgb(16, 185, 129)", // Green
+          "rgb(245, 158, 11)", // Amber
+          "rgb(239, 68, 68)", // Red
+          "rgb(124, 58, 237)", // Purple
+          "rgb(236, 72, 153)", // Pink
+          "rgb(14, 165, 233)", // Sky Blue
+          "rgb(234, 88, 12)", // Orange
+          "rgb(168, 85, 247)", // Violet
+          "rgb(79, 70, 229)", // Indigo
+          "rgb(20, 184, 166)", // Teal
+          "rgb(251, 191, 36)", // Yellow
         ],
       },
     ],
@@ -37,8 +45,12 @@ export const ResourceAllocation = ({ data }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-gray-700 text-xl font-semibold mb-2">Resource Allocation</h2>
-      <p className="text-gray-600 text-sm mb-6">Current resource distribution</p>
+      <h2 className="text-gray-700 text-xl font-semibold mb-2">
+        Resource Allocation
+      </h2>
+      <p className="text-gray-600 text-sm mb-6">
+        Current resource distribution
+      </p>
       <Doughnut data={chartData} options={options} />
     </div>
   );
