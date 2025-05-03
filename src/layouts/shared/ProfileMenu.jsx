@@ -125,13 +125,6 @@ const ProfileMenu = ({ showOrdersOption = false }) => {
           {showOrdersOption ? "My Profile" : "Profile"}
         </MenuItem>
 
-        {showOrdersOption && (
-          <MenuItem>
-            <ShoppingCartIcon sx={{ width: 20, height: 20, mr: 2 }} />
-            My Orders
-          </MenuItem>
-        )}
-
         <MenuItem onClick={handleSettingsClick}>
           <SettingsIcon sx={{ width: 20, height: 20, mr: 2 }} />
           Settings
