@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 function AssetAdd({ open, onClose, onAdd }) {
   const [newAsset, setNewAsset] = useState({
@@ -22,7 +23,7 @@ function AssetAdd({ open, onClose, onAdd }) {
     }
     
     try {
-      const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/add', {
+      const response = await fetch(API_ENDPOINTS.ASSET_ADD, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import AssetSearch from "./AssetSearch";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 function RequestButton({ open, onClose, onRequest }) {
   const [requestData, setRequestData] = useState({
@@ -57,7 +58,7 @@ function RequestButton({ open, onClose, onRequest }) {
     };
   
     try {
-      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/add", {
+      const response = await fetch(API_ENDPOINTS.ASSET_REQUEST_ADD, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

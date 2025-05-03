@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Login.css";
 import { useUser } from "../contexts/UserContext";
+import { API_ENDPOINTS } from '../services/api/config';
 
 function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -30,14 +31,11 @@ function Login() {
     setErrorMessage(""); // Clear previous errors
 
     try {
-      const response = await fetch(
-        "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/v1.0/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials),
-        }
-      );
+      const response = await fetch(API_ENDPOINTS.LOGIN, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
 
       const data = await response.json();
 

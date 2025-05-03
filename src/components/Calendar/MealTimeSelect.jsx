@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MealTimeCard from "./MealTimeCard";
 import "./Calender-CSS/MealTimeSelect.css";
+import { API_ENDPOINTS } from '../../services/api/config';
 
 export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelected }) {
   const [mealTimes, setMealTimes] = useState([]);
@@ -12,9 +13,7 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch(
-        "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/details"
-      );
+      const response = await fetch(API_ENDPOINTS.MEAL_TIME_DETAILS);
       if (!response.ok) {
         throw new Error("Failed to fetch meal times");
       }

@@ -14,6 +14,7 @@ import { AddUserDialog } from "../../../components/Users/AddUserDialog.jsx";
 import { EditUserDialog } from "../../../components/Users/EditUserDialog.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 export const Users = () => {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
@@ -61,7 +62,7 @@ export const Users = () => {
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await apiRequest("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0/details", "GET");
+      const data = await apiRequest(API_ENDPOINTS.USER_DETAILS, "GET");
       setUsers(
         data.map((user) => ({
           id: user.id.toString(), // ID is stored as a string
@@ -105,7 +106,7 @@ export const Users = () => {
   const handleAddUser = async (newUser) => {
     try {
       const response = await apiRequest(
-        "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0/add",
+        API_ENDPOINTS.USER_ADD,
         "POST",
         formatUserData(newUser)
       );
@@ -125,7 +126,7 @@ export const Users = () => {
       }
 
       await apiRequest(
-        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0/details/${userId}`,
+        API_ENDPOINTS.USER_DETAILS_BY_ID(userId),
         "PUT",
         formatUserData(editedUser)
       );
@@ -145,7 +146,7 @@ export const Users = () => {
   const handleDeleteUsers = async (userIds) => {
     try {
       const deletePromises = userIds.map((userId) =>
-        apiRequest(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/user-294/v1.0/details/${parseInt(userId)}`, "DELETE") // Parse userId for DELETE
+        apiRequest(API_ENDPOINTS.USER_DETAILS_BY_ID(parseInt(userId)), "DELETE") // Parse userId for DELETE
       );
       await Promise.allSettled(deletePromises);
       await fetchUsers();

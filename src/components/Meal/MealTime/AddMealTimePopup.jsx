@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
 import '../Meal-CSS/AddMealPopup.css';
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
@@ -10,7 +11,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const handleSubmit = async () => {
     if (mealImageUrl && mealName) {
       try {
-        const response = await fetch('https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/add', {
+        const response = await fetch(API_ENDPOINTS.MEAL_TIME_ADD, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

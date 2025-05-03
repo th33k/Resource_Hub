@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ProfileSection.css';
+import { API_ENDPOINTS } from '../../services/api/config';
 
 const ProfileSection = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const ProfileSection = () => {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/settings-e6f/v1.0/details/${userId}`);
+        const response = await fetch(API_ENDPOINTS.SETTINGS_DETAILS(userId));
         if (!response.ok) throw new Error('Failed to fetch user details');
 
         const [profile] = await response.json();
@@ -54,7 +55,7 @@ const ProfileSection = () => {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
 
-      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/settings-e6f/v1.0/profile/${userId}`, {
+      const response = await fetch(API_ENDPOINTS.SETTINGS_PROFILE_UPDATE(userId), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

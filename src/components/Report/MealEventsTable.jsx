@@ -14,6 +14,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import html2pdf from "html2pdf.js";
+import { API_ENDPOINTS } from '../../services/api/config';
 
 const MealEventsTable = () => {
   const [mealEvents, setMealEvents] = useState([]);
@@ -26,7 +27,7 @@ const MealEventsTable = () => {
 
   // Fetch meal events
   useEffect(() => {
-    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents")
+    fetch(API_ENDPOINTS.CALENDAR_MEAL_EVENTS)
       .then((response) => response.json())
       .then((data) => {
         setMealEvents(data);
@@ -37,7 +38,7 @@ const MealEventsTable = () => {
 
   // Fetch meal times from API
   useEffect(() => {
-    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtime-481/v1.0/details")
+    fetch(API_ENDPOINTS.MEAL_TIME_DETAILS)
       .then((response) => response.json())
       .then((data) => {
         const mealNames = data.map((meal) => ({
@@ -51,7 +52,7 @@ const MealEventsTable = () => {
 
   // Fetch meal types from API
   useEffect(() => {
-    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details")
+    fetch(API_ENDPOINTS.MEAL_TYPE_DETAILS)
       .then((response) => response.json())
       .then((data) => {
         const mealTypeList = data.map((type) => ({

@@ -3,13 +3,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 function DeletePopup({ open, onClose, onDelete, mealId }) {
     const [error, setError] = useState(null);
 
     const handleDelete = async () => {
       try {
-        const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details/${mealId}`, {
+        const response = await fetch(API_ENDPOINTS.MEAL_TYPE_DELETE(mealId), {
           method: "DELETE",
         });
   

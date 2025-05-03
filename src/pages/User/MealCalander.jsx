@@ -7,6 +7,7 @@ import Popup from "../../components/Calendar/popup";
 import DeletePopup from "../../components/Calendar/DeletePopup";
 import axios from "axios";
 import UserLayout from "../../layouts/User/UserLayout";
+import { API_ENDPOINTS } from '../../services/api/config';
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -22,7 +23,7 @@ function MealCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${localStorage.getItem("Userid")}`);
+      const response = await axios.get(API_ENDPOINTS.CALENDAR_MEAL_EVENTS_BY_USER(localStorage.getItem("Userid")));
       const formattedEvents = response.data.map(event => ({
         id: event.id,
         title: `${event.meal_time_name} - ${event.meal_type_name}`,
@@ -51,7 +52,7 @@ function MealCalendar() {
 
   const handleAddEvent = async (mealTimeId, mealTypeId) => {
     try {
-      const response = await axios.post("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/add", {
+      const response = await axios.post(API_ENDPOINTS.CALENDAR_MEAL_EVENTS_ADD, {
         meal_time: mealTimeId, 
         meal_type: mealTypeId, 
         user_id: parseInt(localStorage.getItem("Userid")),
@@ -76,7 +77,7 @@ function MealCalendar() {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/calander-7e9/v1.0/mealevents/${eventId}`);
+      await axios.delete(API_ENDPOINTS.CALENDAR_MEAL_EVENTS_DELETE(eventId));
       const updatedEvents = eventData.filter(event => event.id !== eventId);
       setEventData(updatedEvents);
       setDeletePopupOpen(false);

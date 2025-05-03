@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import html2pdf from "html2pdf.js";
+import { API_ENDPOINTS } from '../../services/api/config';
 
 // Component to display meal events table
 const AssetsTable = () => {
@@ -8,7 +9,7 @@ const AssetsTable = () => {
 
   // Fetch data from the API
   useEffect(() => {
-    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/details")
+    fetch(API_ENDPOINTS.ASSET_DETAILS)
       .then((response) => response.json())
       .then((data) => setassets(data))
       .catch((error) => console.error("Error fetching meal events:", error));

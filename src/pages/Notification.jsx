@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MaintenanceNotificationCard } from "../components/Maintenance/MaintenanceNotificationCard";
 import AdminLayout from "../layouts/Admin/AdminLayout";
 import UserLayout from "../layouts/User/UserLayout"; // Adjust path as needed
+import { API_ENDPOINTS } from '../services/api/config';
 
 function Notification() {
   const [notifications, setNotifications] = useState([]);
@@ -12,9 +13,7 @@ function Notification() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch(
-          "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/maintenance-f9f/v1.0/notification"
-        );
+        const response = await fetch(API_ENDPOINTS.MAINTENANCE_NOTIFICATION);
         if (!response.ok) {
           throw new Error(`Failed to fetch notifications: ${response.status}`);
         }

@@ -13,6 +13,7 @@ import { Search } from "lucide-react";
 import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
 import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const AssetMonitoringAdmin = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/dueassets");
+      const response = await fetch(API_ENDPOINTS.ASSET_REQUEST_DUE_ASSETS);
       const data = await response.json();
       setAssets(data);
     };

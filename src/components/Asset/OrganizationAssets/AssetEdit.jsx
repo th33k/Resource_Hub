@@ -11,6 +11,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   const [editedAsset, setEditedAsset] = useState({
@@ -54,7 +55,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
 
     try {
       const response = await fetch(
-        `https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/details/${editedAsset.id}`,
+        API_ENDPOINTS.ASSET_DETAILS_BY_ID(editedAsset.id),
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

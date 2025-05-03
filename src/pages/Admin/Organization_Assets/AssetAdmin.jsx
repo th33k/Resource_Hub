@@ -8,6 +8,7 @@ import AssetAdd from "../../../components/Asset/OrganizationAssets/AssetAdd";
 import axios from "axios";
 import "../../css/AssetAdmin.css";
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 function AssetAdmin() {
   const [searchText, setSearchText] = useState("");
@@ -23,7 +24,7 @@ function AssetAdmin() {
   }, []);
 
   const fetchAssets = () => {
-    fetch("https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/details")
+    fetch(API_ENDPOINTS.ASSET_DETAILS)
       .then((response) => response.json())
       .then((data) => setAssets(data))
       .catch((error) => console.error("Error fetching assets:", error));
@@ -56,7 +57,7 @@ function AssetAdmin() {
 
   const handleDeleteAsset = async (id) => {
     try {
-      await axios.delete(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/asset-e99/v1.0/details/${id}`);
+      await axios.delete(API_ENDPOINTS.ASSET_DETAILS_BY_ID(id));
       setAssets((prevAssets) => prevAssets.filter((asset) => asset.id !== id));
       setDeleteOpen(false);
       setSelectedAsset(null);

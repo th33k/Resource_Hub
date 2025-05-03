@@ -10,6 +10,7 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import EditPopup from './EditMealTypePopup';
 import DeletePopup from './DeleteMealTypePopup';
 import "../Meal-CSS/Mealcard.css";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 function MealCard({ mealId, name, image, onEdit, onDelete }) {
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -40,7 +41,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
 
   const handleSaveEdit = async (mealId, name, image) => {
     try {
-      const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/mealtype-899/v1.0/details/${mealId}`, {
+      const response = await fetch(API_ENDPOINTS.MEAL_TYPE_UPDATE(mealId), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

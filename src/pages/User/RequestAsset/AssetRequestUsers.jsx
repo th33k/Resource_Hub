@@ -12,6 +12,7 @@ import {
 import { Search } from "lucide-react";
 import RequestButton from "../../../components/Asset/AssetRequestingUser/RequestButton";
 import UserLayout from "../../../layouts/User/UserLayout";
+import { API_ENDPOINTS } from '../../../services/api/config';
 
 const AssetRequestUsers = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const AssetRequestUsers = () => {
   // Fetch assets
   const fetchAssets = async () => {
     const userId = localStorage.getItem("Userid");
-    const response = await fetch(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/assetrequest-9fc/v1.0/details/${userId}`);
+    const response = await fetch(API_ENDPOINTS.ASSET_REQUEST_DETAILS_BY_USER(userId));
     const data = await response.json();
     setAssets(data);
   };
