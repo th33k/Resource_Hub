@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 // Accept actions as a prop
 export const QuickActions = ({ actions }) => {
@@ -27,11 +27,17 @@ export const QuickActions = ({ actions }) => {
           className="text-gray-700 bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left w-full flex flex-col items-start" // Added flex for alignment
         >
           {/* Render the icon component passed in the action object */}
-          {action.icon && <action.icon className={`${action.iconColor || 'text-gray-500'} mb-2`} size={24} />}
-          <h3 className="font-medium mb-1 text-base">{action.title}</h3> {/* Adjusted margin and text size */}
+          {action.icon && (
+            <action.icon
+              className={`${action.iconColor || "text-gray-500"} mb-2`}
+              size={24}
+            />
+          )}
+          <h3 className="font-medium mb-1 text-base">{action.title}</h3>{" "}
+          {/* Adjusted margin and text size */}
           <p className="text-sm text-gray-600">{action.description}</p>
         </button>
       ))}
     </div>
   );
-}
+};
