@@ -36,28 +36,13 @@ const options = {
 
 // Updated to accept dynamic data as props
 export const MealDistributionChart = ({ data }) => {
+  // Expecting data.datasets to be an array of objects: { label, data, borderColor }
+  // and data.labels to be an array of weekday labels
   const chartData = {
     labels: data.labels || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    datasets: data.datasets || [
-      {
-        label: 'Breakfast',
-        data: [0, 0, 0, 0, 0, 0, 0],
-        borderColor: 'rgb(59, 130, 246)',
-        tension: 0.4,
-      },
-      {
-        label: 'Lunch',
-        data: [0, 0, 0, 0, 0, 0, 0],
-        borderColor: 'rgb(239, 68, 68)',
-        tension: 0.4,
-      },
-      {
-        label: 'Dinner',
-        data: [0, 0, 0, 0, 0, 0, 0],
-        borderColor: 'rgb(34, 197, 94)',
-        tension: 0.4,
-      },
-    ],
+    datasets: Array.isArray(data.datasets) && data.datasets.length > 0
+      ? data.datasets
+      : [], // Show nothing if no datasets
   };
 
   return (
