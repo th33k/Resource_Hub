@@ -100,3 +100,7 @@ npm run lint
 ```bash
 yarn lint
 ```
+
+## Database Relational Schema
+
+![Database_Diagram](https://github.com/user-attachments/assets/b6e15acc-67d6-4530-a637-359ac1f70104)
