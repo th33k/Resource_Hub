@@ -26,8 +26,8 @@ const BASE_URLS = {
 //   mealtime: "http://localhost:9090/mealtime",
 //   mealtype: "http://localhost:9090/mealtype",
 //   settings: "http://localhost:9090/settings",
-//   dashboardAdmin: "http://localhost:9090/dashboard-admin",
-//   dashboardUser: "http://localhost:9090/dashboard-user",
+//   dashboardAdmin: "http://localhost:9090/dashboard/admin",
+//   dashboardUser: "http://localhost:9090/dashboard/user",
 };
 
 export const API_ENDPOINTS = {
