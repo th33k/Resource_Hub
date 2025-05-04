@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useTheme } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -36,6 +37,7 @@ const options = {
 
 // Updated to accept dynamic data as props
 export const MealDistributionChart = ({ data }) => {
+  const theme = useTheme();
   // Use dynamic labels from data.labels, fallback to empty array
   const chartData = {
     labels: Array.isArray(data.labels) ? data.labels : [],
@@ -46,11 +48,20 @@ export const MealDistributionChart = ({ data }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-gray-700 text-xl font-semibold mb-2">
+    <div
+      style={{
+        background: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+        boxShadow: theme.shadows[1],
+      }}
+      className="p-6 rounded-lg"
+    >
+      <h2 className="text-xl font-semibold mb-2" style={{ color: theme.palette.text.primary }}>
         Meal Distribution
       </h2>
-      <p className="text-gray-600 text-sm mb-6">Weekly meal service trends</p>
+      <p className="text-sm mb-6" style={{ color: theme.palette.text.secondary }}>
+        Weekly meal service trends
+      </p>
       <Line options={options} data={chartData} />
     </div>
   );

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { StatCardPopup } from "./StatCardPopup";
+import { useTheme } from "@mui/material";
 
 export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
+  const theme = useTheme();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const getCardTextColor = () => {
@@ -33,17 +35,22 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
   return (
     <>
       <div
-        className="bg-white rounded-lg p-6 shadow-sm cursor-pointer hover:shadow-xl transition-all"
+        style={{
+          background: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+          boxShadow: theme.shadows[1],
+        }}
+        className="rounded-lg p-6 cursor-pointer transition-all"
         onClick={() => setIsPopupOpen(true)}
       >
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-gray-600 text-sm font-medium flex items-center gap-2">
+          <h3 style={{ color: theme.palette.text.secondary }} className="text-sm font-medium flex items-center gap-2">
             {title}
             <ChevronDown size={16} className="text-gray-400" />
           </h3>
           {icon}
         </div>
-        <p className={`text-3xl font-bold ${getCardTextColor()}`}>{value}</p>
+        <p className="text-3xl font-bold" style={{ color: theme.palette.text.primary }}>{value}</p>
       </div>
 
       <StatCardPopup

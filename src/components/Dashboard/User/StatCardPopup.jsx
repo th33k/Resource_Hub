@@ -1,6 +1,6 @@
 import { Line } from "react-chartjs-2";
 import { X } from "lucide-react";
-import { Dialog } from "@mui/material";
+import { Dialog, useTheme } from "@mui/material";
 
 export const StatCardPopup = ({
   open,
@@ -10,6 +10,8 @@ export const StatCardPopup = ({
   value,
   chartData,
 }) => {
+  const theme = useTheme();
+
   const options = {
     responsive: true,
     plugins: {
@@ -37,23 +39,24 @@ export const StatCardPopup = ({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <div className="p-6">
+      <div style={{ background: theme.palette.background.paper, color: theme.palette.text.primary }} className="p-6">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-xl font-semibold">{title}</h2>
-            <p className="text-gray-500 text-sm">{subtitle}</p>
+            <h2 style={{ color: theme.palette.text.primary }} className="text-xl font-semibold">{title}</h2>
+            <p style={{ color: theme.palette.text.secondary }} className="text-sm">{subtitle}</p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            style={{ color: theme.palette.text.secondary }}
+            className="hover:opacity-80"
           >
             <X size={20} />
           </button>
         </div>
 
         <div className="mb-8">
-          <div className="text-sm text-gray-600 mb-2">Current Value</div>
-          <div className="text-3xl font-bold">{value}</div>
+          <div style={{ color: theme.palette.text.secondary }} className="text-sm mb-2">Current Value</div>
+          <div style={{ color: theme.palette.text.primary }} className="text-3xl font-bold">{value}</div>
         </div>
 
         {chartData && (

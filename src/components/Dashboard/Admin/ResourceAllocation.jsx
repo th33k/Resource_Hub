@@ -1,5 +1,6 @@
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { useTheme } from "@mui/material";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -20,6 +21,8 @@ const options = {
 
 // Updated to accept dynamic data as props
 export const ResourceAllocation = ({ data }) => {
+  const theme = useTheme();
+
   const chartData = {
     labels: data.map((item) => item.category),
     datasets: [
@@ -44,11 +47,18 @@ export const ResourceAllocation = ({ data }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h2 className="text-gray-700 text-xl font-semibold mb-2">
+    <div
+      style={{
+        background: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+        boxShadow: theme.shadows[1],
+      }}
+      className="p-6 rounded-lg"
+    >
+      <h2 className="text-xl font-semibold mb-2" style={{ color: theme.palette.text.primary }}>
         Resource Allocation
       </h2>
-      <p className="text-gray-600 text-sm mb-6">
+      <p className="text-sm mb-6" style={{ color: theme.palette.text.secondary }}>
         Current resource distribution
       </p>
       <Doughnut data={chartData} options={options} />

@@ -1,18 +1,33 @@
+import { useTheme } from "@mui/material";
+
 export const ResourceCard = ({ title, total, highPriority, progress }) => {
-    return (
-      <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-lg transition-all">
-        <h3 className="font-medium mb-4">{title}</h3>
-        <div className="h-2 bg-gray-200 rounded-full mb-4">
-          <div 
-            className="h-full bg-gradient-to-r from-blue-400 to-green-500 rounded-full" 
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Total: {total}</span>
-          <span className="text-gray-600">High Priority: {highPriority}</span>
-        </div>
+  const theme = useTheme();
+  return (
+    <div
+      style={{
+        background: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+        boxShadow: theme.shadows[1],
+      }}
+      className="rounded-lg p-6 hover:shadow-lg transition-all"
+    >
+      <h3 className="font-medium mb-4" style={{ color: theme.palette.text.primary }}>{title}</h3>
+      <div
+        className="h-2 rounded-full mb-4"
+        style={{ background: theme.palette.action.disabledBackground }}
+      >
+        <div
+          className="h-full rounded-full"
+          style={{
+            width: `${progress}%`,
+            background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.success.main})`,
+          }}
+        />
       </div>
-    );
-  };
-  
+      <div className="flex justify-between text-sm">
+        <span style={{ color: theme.palette.text.secondary }}>Total: {total}</span>
+        <span style={{ color: theme.palette.text.secondary }}>High Priority: {highPriority}</span>
+      </div>
+    </div>
+  );
+};
