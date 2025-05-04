@@ -54,8 +54,8 @@ const navItems = [
   },
   {
     title: "Users",
+    path: "/admin-users",
     icon: <UsersIcon />,
-    submenu: [{ title: "User list", path: "/admin-users" }],
   },
   {
     title: "Reports",
