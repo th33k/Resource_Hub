@@ -41,7 +41,7 @@ function AssetHome() {
   ];
 
   const handleCardClick = (category) => {
-    navigate("/Admin-AssetMonitoring", {
+    navigate("/admin-assetmonitoring", {
       state: { category: category.name },
     });
   };

@@ -213,7 +213,7 @@ function App() {
 
               {/* Shared Routes */}
               <Route path="/notifications" element={<Notification />} />
-              <Route path="/settings/*" element={<Settings />} />
+              <Route path="/settings" element={<Settings />} />
 
               {/* Fallback Route */}
               <Route path="*" element={<Navigate to="/login" replace />} />
