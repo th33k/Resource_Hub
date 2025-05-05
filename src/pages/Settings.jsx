@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileSection from '../components/settings/ProfileSettings';
-import AccountSection from '../components/settings/AccountSettings';
+import ProfileSection from '../components/Settings/ProfileSettings';
+import AccountSection from '../components/Settings/AccountSettings';
 import AdminLayout from '../layouts/Admin/AdminLayout'; 
 import UserLayout from '../layouts/User/UserLayout'; 
 
