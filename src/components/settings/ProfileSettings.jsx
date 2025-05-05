@@ -1,76 +1,69 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ProfileSection.css';
 import { API_ENDPOINTS } from '../../services/api/config';
+import ConfirmationDialog from './ConfirmationDialog';
 
 const ProfileSection = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    picture: '',
-    bio: '',
-  });
+  const [formData, setFormData] = useState({ name: '', picture: '', bio: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [confirmationDialog, setConfirmationDialog] = useState({ open: false, message: '', onConfirm: null });
 
-  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const response = await fetch(API_ENDPOINTS.SETTINGS_DETAILS(userId));
-        if (!response.ok) throw new Error('Failed to fetch user details');
+        const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+        const [profile] = data;
 
-        const [profile] = await response.json();
         setFormData({
           name: profile.username || '',
           picture: profile.profile_picture_url || '',
           bio: profile.additional_details || '',
         });
       } catch (err) {
-        setError(err.message);
+        setError(err.response?.data?.message || err.message);
       } finally {
         setLoading(false);
       }
     };
+
     fetchUserData();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name.trim()) {
-      alert('Name is required');
-      return;
-    }
-    if (formData.bio.length > 100) {
-      alert('Bio cannot exceed 100 characters');
-      return;
-    }
 
-    try {
-      const userId = localStorage.getItem('Userid');
-      if (!userId) throw new Error('User ID not found');
+    if (!formData.name.trim()) return alert('Name is required');
+    if (formData.bio.length > 100) return alert('Bio cannot exceed 100 characters');
 
-      const response = await fetch(API_ENDPOINTS.SETTINGS_PROFILE_UPDATE(userId), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: formData.name,
-          profile_picture_url: formData.picture,
-          additional_details: formData.bio,
-        }),
-      });
+    setConfirmationDialog({
+      open: true,
+      message: 'Are you sure you want to update your profile?',
+      onConfirm: async () => {
+        try {
+          const userId = localStorage.getItem('Userid');
+          if (!userId) throw new Error('User ID not found');
 
-      if (!response.ok) throw new Error((await response.json()).message || 'Failed to update profile');
+          await axios.put(API_ENDPOINTS.SETTINGS_PROFILE_UPDATE(userId), {
+            username: formData.name,
+            profile_picture_url: formData.picture,
+            additional_details: formData.bio,
+          });
 
-      alert('Profile updated successfully!');
-    } catch (err) {
-      alert(`Error: ${err.message}`);
-    }
+          alert('Profile updated successfully!');
+          setConfirmationDialog({ open: false, message: '', onConfirm: null });
+        } catch (err) {
+          alert(`Error: ${err.response?.data?.message || err.message}`);
+        }
+      },
+    });
   };
 
   if (loading) return <p className="loading">Loading...</p>;
@@ -92,6 +85,7 @@ const ProfileSection = () => {
         <div className="form-group">
           <label>Name</label>
           <input
+          className="form-input"
             type="text"
             name="name"
             value={formData.name}
@@ -102,6 +96,7 @@ const ProfileSection = () => {
         <div className="form-group">
           <label>Profile Picture URL</label>
           <input
+          className="form-input"
             type="url"
             name="picture"
             value={formData.picture}
@@ -119,6 +114,13 @@ const ProfileSection = () => {
         </div>
         <button type="submit">Save Profile</button>
       </form>
+      {confirmationDialog.open && (
+        <ConfirmationDialog
+          message={confirmationDialog.message}
+          onConfirm={confirmationDialog.onConfirm}
+          onCancel={() => setConfirmationDialog({ open: false, message: '', onConfirm: null })}
+        />
+      )}
     </div>
   );
 };

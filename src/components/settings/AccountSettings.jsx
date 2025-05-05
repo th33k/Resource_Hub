@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './AccountSection.css';
 import { API_ENDPOINTS } from '../../services/api/config';
+import VerificationPopup from './VerificationPopup';
+import ConfirmationDialog from './ConfirmationDialog';
 
 const AccountSection = () => {
   const [formData, setFormData] = useState({
@@ -10,102 +13,134 @@ const AccountSection = () => {
     newPassword: '',
     confirmPassword: '',
   });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openVerifyPopup, setOpenVerifyPopup] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [confirmationDialog, setConfirmationDialog] = useState({ open: false, message: '', onConfirm: null });
 
-  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const response = await fetch(API_ENDPOINTS.SETTINGS_DETAILS(userId));
-        if (!response.ok) throw new Error('Failed to fetch user details');
+        const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+        const [profile] = data;
 
-        const [profile] = await response.json();
         setFormData((prev) => ({
           ...prev,
           email: profile.email || '',
           phone: profile.phone_number || '',
         }));
       } catch (err) {
-        setError(err.message);
+        setError(err.response?.data?.message || err.message);
       } finally {
         setLoading(false);
       }
     };
+
     fetchUserData();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const handleContactSubmit = async (e, type) => {
+  const handlePhoneSubmit = async (e) => {
     e.preventDefault();
-    const value = formData[type];
-    if (type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      alert('Invalid email');
-      return;
-    }
-    if (type === 'phone' && !/^\+?[1-9]\d{1,14}$/.test(value)) {
-      alert('Invalid phone number');
-      return;
-    }
-
     try {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
 
-      const endpoint = type === 'email' ? 'email' : 'phone';
-      const payload = type === 'email' ? { email: value } : { phone_number: value };
+      const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+      const existingPhone = data[0]?.phone_number;
 
-      const response = await fetch(API_ENDPOINTS.SETTINGS_UPDATE(endpoint, userId), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+      if (formData.phone === existingPhone) {
+        alert('This phone number is already in use.');
+        return;
+      }
+
+      setConfirmationDialog({
+        open: true,
+        message: 'Are you sure you want to update your phone number?',
+        onConfirm: async () => {
+          await axios.put(API_ENDPOINTS.SETTINGS_UPDATE('phone', userId), {
+            phone_number: formData.phone,
+          });
+          alert('Phone updated successfully!');
+          setConfirmationDialog({ open: false, message: '', onConfirm: null });
+        },
       });
-
-      if (!response.ok) throw new Error((await response.json()).message || `Failed to update ${type}`);
-
-      alert(`${type.charAt(0).toUpperCase() + type.slice(1)} updated successfully!`);
     } catch (err) {
-      alert(`Error: ${err.message}`);
+      alert(`Error: ${err.response?.data?.message || err.message}`);
+    }
+  };
+
+  const handleEmailSubmit = async (email) => {
+    try {
+      const userId = localStorage.getItem('Userid');
+      if (!userId) throw new Error('User ID not found');
+
+      const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+      const existingEmail = data[0]?.email;
+
+      if (email === existingEmail) {
+        alert('This email is already in use.');
+        return;
+      }
+
+      setSelectedEmail(email);
+      setOpenVerifyPopup(true);
+
+      const randomCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+      setCode(randomCode.toString());
+
+      await axios.post(`http://localhost:9090/settings/sendEmail/`, {
+        email,
+        code: randomCode
+      });
+      console.log(`Verification code sent to ${email}: ${randomCode}`);
+      alert(`Verification code sent to ${email} successfully!`);
+    } catch (error) {
+      alert(`Failed to send verification code: ${error.response?.data?.message || error.message}`);
     }
   };
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    if (formData.newPassword.length < 8) {
-      alert('Password must be at least 8 characters');
-      return;
-    }
     if (formData.newPassword !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      alert('New password and confirm password do not match.');
       return;
     }
 
-    try {
-      const userId = localStorage.getItem('Userid');
-      if (!userId) throw new Error('User ID not found');
+    setConfirmationDialog({
+      open: true,
+      message: 'Are you sure you want to update your password?',
+      onConfirm: async () => {
+        try {
+          const userId = localStorage.getItem('Userid');
+          if (!userId) throw new Error('User ID not found');
 
-      const response = await fetch(API_ENDPOINTS.SETTINGS_PASSWORD_UPDATE(userId), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          current_password: formData.currentPassword,
-          new_password: formData.newPassword,
-        }),
-      });
+          await axios.put(API_ENDPOINTS.SETTINGS_PASSWORD_UPDATE(userId), {
+            current_password: formData.currentPassword,
+            new_password: formData.newPassword,
+          });
 
-      if (!response.ok) throw new Error((await response.json()).message || 'Failed to update password');
-
-      alert('Password updated successfully!');
-      setFormData({ ...formData, currentPassword: '', newPassword: '', confirmPassword: '' });
-    } catch (err) {
-      alert(`Error: ${err.message}`);
-    }
+          alert('Password updated successfully!');
+          setFormData((prev) => ({
+            ...prev,
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: '',
+          }));
+          setConfirmationDialog({ open: false, message: '', onConfirm: null });
+        } catch (err) {
+          alert(`Error: ${err.response?.data?.message || err.message}`);
+        }
+      },
+    });
   };
 
   if (loading) return <p className="loading">Loading...</p>;
@@ -115,8 +150,7 @@ const AccountSection = () => {
     <div className="account-section">
       <h2>Account</h2>
       <div className="form-container">
-        {/* Phone */}
-        <form onSubmit={(e) => handleContactSubmit(e, 'phone')} className="form-group">
+        <form onSubmit={handlePhoneSubmit} className="form-group">
           <label>Phone Number</label>
           <input
             type="tel"
@@ -128,8 +162,7 @@ const AccountSection = () => {
           <button type="submit">Update Phone</button>
         </form>
 
-        {/* Email */}
-        <form onSubmit={(e) => handleContactSubmit(e, 'email')} className="form-group">
+        <div className="form-group">
           <label>Email</label>
           <input
             type="email"
@@ -138,10 +171,9 @@ const AccountSection = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit">Update Email</button>
-        </form>
+          <button type="submit" onClick={() => handleEmailSubmit(formData.email)}>Update Email</button>
+        </div>
 
-        {/* Password */}
         <form onSubmit={handlePasswordSubmit} className="form-group">
           <label>Current Password</label>
           <input
@@ -170,6 +202,16 @@ const AccountSection = () => {
           <button type="submit">Update Password</button>
         </form>
       </div>
+
+      {openVerifyPopup && <VerificationPopup onClose={() => setOpenVerifyPopup(false)} email={selectedEmail} code={code}/>}
+
+      {confirmationDialog.open && (
+        <ConfirmationDialog
+          message={confirmationDialog.message}
+          onConfirm={confirmationDialog.onConfirm}
+          onCancel={() => setConfirmationDialog({ open: false, message: '', onConfirm: null })}
+        />
+      )}
     </div>
   );
 };
