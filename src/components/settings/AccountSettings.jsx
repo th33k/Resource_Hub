@@ -101,7 +101,6 @@ const AccountSection = () => {
         email,
         code: randomCode
       });
-      console.log(`Verification code sent to ${email}: ${randomCode}`);
       alert(`Verification code sent to ${email} successfully!`);
     } catch (error) {
       alert(`Failed to send verification code: ${error.response?.data?.message || error.message}`);

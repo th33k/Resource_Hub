@@ -23,8 +23,6 @@ function VerificationPopup({ onClose, email, code }) {
       }
     } else {
       alert("Invalid verification code. Please try again.");
-      console.log("Invalid code entered:", inputcode);
-      console.log("Expected code:", code);
     }
   };
 
