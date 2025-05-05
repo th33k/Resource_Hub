@@ -32,7 +32,8 @@ function VerificationPopup({ onClose, email, code }) {
         <h1 className="verify-title">Email Verification</h1>
         <form className="verify-form" onSubmit={handleSubmit}>
           <label htmlFor="verifycode" className="verify-label">
-            Verification Code
+            <strong>Enter The Verification Code </strong>
+            <p style={{fontSize:'12px'}}>The code sent to {email} </p>
           </label>
           <input
             type="text"
