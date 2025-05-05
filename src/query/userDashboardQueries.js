@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { API_ENDPOINTS } from '../services/api/config';
+import { BASE_URLS } from '../services/api/config';
 
 export function useUserDashboardData() {
   return useQuery({
@@ -8,8 +8,8 @@ export function useUserDashboardData() {
     queryFn: async () => {
       const userId=localStorage.getItem('Userid');
       const [statsResponse, activitiesResponse] = await Promise.all([
-        axios.get(API_ENDPOINTS.USER_DASHBOARD_STATS(userId)),
-        axios.get(API_ENDPOINTS.USER_DASHBOARD_ACTIVITIES(userId))
+        axios.get(`${BASE_URLS.dashboardUser}/stats/${userId}`),
+        axios.get(`${BASE_URLS.dashboardUser}/activities/${userId}`)
       ]);
       return {
         stats: Array.isArray(statsResponse.data) ? statsResponse.data : [

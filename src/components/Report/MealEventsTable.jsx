@@ -14,7 +14,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import html2pdf from "html2pdf.js";
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 
 const MealEventsTable = () => {
   const [mealEvents, setMealEvents] = useState([]);
@@ -27,7 +27,7 @@ const MealEventsTable = () => {
 
   // Fetch meal events
   useEffect(() => {
-    fetch(API_ENDPOINTS.CALENDAR_MEAL_EVENTS)
+    fetch(`${BASE_URLS.calendar}/mealevents`)
       .then((response) => response.json())
       .then((data) => {
         setMealEvents(data);
@@ -38,7 +38,7 @@ const MealEventsTable = () => {
 
   // Fetch meal times from API
   useEffect(() => {
-    fetch(API_ENDPOINTS.MEAL_TIME_DETAILS)
+    fetch(`${BASE_URLS.mealtime}/details`)
       .then((response) => response.json())
       .then((data) => {
         const mealNames = data.map((meal) => ({
@@ -52,7 +52,7 @@ const MealEventsTable = () => {
 
   // Fetch meal types from API
   useEffect(() => {
-    fetch(API_ENDPOINTS.MEAL_TYPE_DETAILS)
+    fetch(`${BASE_URLS.mealtype}/details`)
       .then((response) => response.json())
       .then((data) => {
         const mealTypeList = data.map((type) => ({

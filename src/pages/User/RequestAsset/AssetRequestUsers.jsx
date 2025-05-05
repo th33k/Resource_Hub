@@ -12,7 +12,7 @@ import {
 import { Search } from "lucide-react";
 import RequestButton from "../../../components/Asset/AssetRequestingUser/RequestButton";
 import UserLayout from "../../../layouts/User/UserLayout";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 const AssetRequestUsers = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const AssetRequestUsers = () => {
   // Fetch assets
   const fetchAssets = async () => {
     const userId = localStorage.getItem("Userid");
-    const response = await fetch(API_ENDPOINTS.ASSET_REQUEST_DETAILS_BY_USER(userId));
+    const response = await fetch(`${BASE_URLS.assetRequest}/details/${userId}`);
     const data = await response.json();
     setAssets(data);
   };

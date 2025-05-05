@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import html2pdf from "html2pdf.js";
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 
 // Component to display meal events table
 const MaintenanceTable = () => {
@@ -9,7 +9,7 @@ const MaintenanceTable = () => {
 
   // Fetch data from the API
   useEffect(() => {
-    fetch(API_ENDPOINTS.MAINTENANCE_DETAILS)
+    fetch(`${BASE_URLS.maintenance}/details`)
       .then((response) => response.json())
       .then((data) => setmaintenance(data))
       .catch((error) => console.error("Error fetching maintenance:", error));

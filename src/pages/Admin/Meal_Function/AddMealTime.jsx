@@ -5,7 +5,7 @@ import MealCard from "../../../components/Meal/MealTime/MealTimeCard";
 import { MealCardPopup } from '../../../components/Meal/MealTime/AddMealTimePopup';
 import '../../css/AddMealTime.css';
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function AddMealTime() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -20,7 +20,7 @@ function AddMealTime() {
 
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(API_ENDPOINTS.MEAL_TIME_DELETE(mealId), {
+      const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`, {
         method: "DELETE",
       });
 
@@ -36,7 +36,7 @@ function AddMealTime() {
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.MEAL_TIME_DETAILS);
+      const response = await fetch(`${BASE_URLS.mealtime}/details`);
       if (!response.ok) {
         throw new Error('Failed to fetch meal times');
       }

@@ -5,7 +5,7 @@ import MealCard from "../../../components/Meal/MealType/MealTypeCard";
 import { MealCardPopup } from '../../../components/Meal/MealType/AddMealTypePopup';
 import '../../css/AddMealType.css';
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function AddMealType() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -20,7 +20,7 @@ function AddMealType() {
 
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(API_ENDPOINTS.MEAL_TYPE_DELETE(mealId), {
+      const response = await fetch(`${BASE_URLS.mealtype}/details/${mealId}`, {
         method: "DELETE",
       });
 
@@ -36,7 +36,7 @@ function AddMealType() {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.MEAL_TYPE_DETAILS);
+      const response = await fetch(`${BASE_URLS.mealtype}/details`);
       if (!response.ok) {
         throw new Error('Failed to fetch meal types');
       }

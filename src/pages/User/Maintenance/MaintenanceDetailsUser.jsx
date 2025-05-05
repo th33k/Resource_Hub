@@ -15,7 +15,7 @@ import { MaintenanceTableUser } from "../../../components/Maintenance/Maintenanc
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import UserLayout from "../../../layouts/User/UserLayout";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 const MaintenanceDetailsUser = () => {
   const [maintenance, setMaintenance] = useState([]);
@@ -26,7 +26,7 @@ const MaintenanceDetailsUser = () => {
 
   const fetchMaintenanceData = async () => {
     try {
-      const response = await axios.get(API_ENDPOINTS.MAINTENANCE_DETAILS);
+      const response = await axios.get(`${BASE_URLS.maintenance}/details`);
       setMaintenance(response.data);
     } catch (error) {
       console.error("Failed to fetch maintenance data:", error);
@@ -55,7 +55,7 @@ const MaintenanceDetailsUser = () => {
         user_id: parseInt(userId),
       };
 
-      const response = await axios.post(API_ENDPOINTS.MAINTENANCE_ADD, payload);
+      const response = await axios.post(`${BASE_URLS.maintenance}/add`, payload);
       toast.success(response.data.message);
       fetchMaintenanceData();
       setIsAddMaintenanceOpen(false);

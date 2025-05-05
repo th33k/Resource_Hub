@@ -13,7 +13,7 @@ import { Search } from "lucide-react";
 import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
 import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
 import UserLayout from "../../../layouts/User/UserLayout";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 const DueAssetUser = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const DueAssetUser = () => {
   useEffect(() => {
     const fetchAssets = async () => {
       const userId = localStorage.getItem("Userid");
-      const response = await fetch(API_ENDPOINTS.ASSET_REQUEST_DUE_ASSETS_BY_USER(userId));
+      const response = await fetch(`${BASE_URLS.assetRequest}/dueassets/${userId}`);
       const data = await response.json();
       setAssets(data);
     };

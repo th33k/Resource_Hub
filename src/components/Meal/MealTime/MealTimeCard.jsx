@@ -10,7 +10,7 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import EditPopup from './EditMealTimePopup';
 import DeletePopup from './DeleteMealTimePopup';
 import '../Meal-CSS/Mealcard.css';
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function MealCard({ mealId, name, image, onEdit, onDelete }) {
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -41,7 +41,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
 
   const handleSaveEdit = async (mealId, name, image) => {
     try {
-      const response = await fetch(API_ENDPOINTS.MEAL_TIME_UPDATE(mealId), {
+      const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
