@@ -97,7 +97,7 @@ const AccountSection = () => {
       const randomCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setCode(randomCode.toString());
 
-      await axios.post(`http://localhost:9090/settings/sendEmail/`, {
+      await axios.post(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/settings-e6f/v1.0/sendEmail/`, {
         email,
         code: randomCode
       });
