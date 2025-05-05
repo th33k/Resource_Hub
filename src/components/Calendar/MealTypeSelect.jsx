@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MealTypeCard from "./MealTypeCard";
 import "./Calender-CSS/MealTypeSelect.css";
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 
 export default function MealTypeSelect({ onSelect }) {
   const [mealTypes, setMealTypes] = useState([]);
@@ -13,7 +13,7 @@ export default function MealTypeSelect({ onSelect }) {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.MEAL_TYPE_DETAILS);
+      const response = await fetch(`${BASE_URLS.mealtype}/details`);
       if (!response.ok) {
         throw new Error("Failed to fetch meal types");
       }

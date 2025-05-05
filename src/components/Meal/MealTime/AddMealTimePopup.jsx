@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
 import '../Meal-CSS/AddMealPopup.css';
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
@@ -11,7 +11,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const handleSubmit = async () => {
     if (mealImageUrl && mealName) {
       try {
-        const response = await fetch(API_ENDPOINTS.MEAL_TIME_ADD, {
+        const response = await fetch(`${BASE_URLS.mealtime}/add`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

@@ -24,7 +24,7 @@ import { EditMaintenance } from "./EditMaintenancePopup.jsx";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_ENDPOINTS } from '../../services/api/config.js';
+import { BASE_URLS } from '../../services/api/config.js';
 
 const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
   return (
@@ -140,7 +140,7 @@ export const MaintenanceTable = ({
   // Function to call addnotification endpoint
   const handleSendNotification = async (maintenanceItem) => {
     try {
-      const response = await fetch(API_ENDPOINTS.MAINTENANCE_ADD_NOTIFICATION, {
+      const response = await fetch(`${BASE_URLS.maintenance}/addnotification`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

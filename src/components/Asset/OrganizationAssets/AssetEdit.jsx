@@ -11,7 +11,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   const [editedAsset, setEditedAsset] = useState({
@@ -55,7 +55,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
 
     try {
       const response = await fetch(
-        API_ENDPOINTS.ASSET_DETAILS_BY_ID(editedAsset.id),
+        `${BASE_URLS.asset}/details/${editedAsset.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { TextField, CircularProgress, Autocomplete } from "@mui/material";
 import axios from "axios";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function AssetSearch({ value, onChange, setAssetId }) {
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(API_ENDPOINTS.ASSET_DETAILS)
+    axios.get(`${BASE_URLS.asset}/details`)
       .then((res) => {
         setAssets(res.data);
         setLoading(false);

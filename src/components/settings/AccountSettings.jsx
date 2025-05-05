@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AccountSection.css';
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 import VerificationPopup from './VerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
 
@@ -27,7 +27,7 @@ const AccountSection = () => {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+        const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
         const [profile] = data;
 
         setFormData((prev) => ({
@@ -54,7 +54,7 @@ const AccountSection = () => {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
 
-      const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+      const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
       const existingPhone = data[0]?.phone_number;
 
       if (formData.phone === existingPhone) {
@@ -66,7 +66,7 @@ const AccountSection = () => {
         open: true,
         message: 'Are you sure you want to update your phone number?',
         onConfirm: async () => {
-          await axios.put(API_ENDPOINTS.SETTINGS_UPDATE('phone', userId), {
+          await axios.put(`${BASE_URLS.settings}/phone/${userId}`, {
             phone_number: formData.phone,
           });
           alert('Phone updated successfully!');
@@ -83,7 +83,7 @@ const AccountSection = () => {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
 
-      const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+      const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
       const existingEmail = data[0]?.email;
 
       if (email === existingEmail) {
@@ -122,7 +122,7 @@ const AccountSection = () => {
           const userId = localStorage.getItem('Userid');
           if (!userId) throw new Error('User ID not found');
 
-          await axios.put(API_ENDPOINTS.SETTINGS_PASSWORD_UPDATE(userId), {
+          await axios.put(`${BASE_URLS.settings}/password/${userId}`, {
             current_password: formData.currentPassword,
             new_password: formData.newPassword,
           });

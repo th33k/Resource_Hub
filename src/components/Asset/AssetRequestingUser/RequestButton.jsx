@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import AssetSearch from "./AssetSearch";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function RequestButton({ open, onClose, onRequest }) {
   const [requestData, setRequestData] = useState({
@@ -58,7 +58,7 @@ function RequestButton({ open, onClose, onRequest }) {
     };
   
     try {
-      const response = await fetch(API_ENDPOINTS.ASSET_REQUEST_ADD, {
+      const response = await fetch(`${BASE_URLS.assetRequest}/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

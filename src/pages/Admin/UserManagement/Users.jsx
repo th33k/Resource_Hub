@@ -14,7 +14,7 @@ import { AddUserDialog } from "../../../components/Users/AddUserDialog.jsx";
 import { EditUserDialog } from "../../../components/Users/EditUserDialog.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 export const Users = () => {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
@@ -62,7 +62,7 @@ export const Users = () => {
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await apiRequest(API_ENDPOINTS.USER_DETAILS, "GET");
+      const data = await apiRequest(`${BASE_URLS.user}/details`, "GET");
       setUsers(
         data.map((user) => ({
           id: user.id.toString(), // ID is stored as a string
@@ -106,7 +106,7 @@ export const Users = () => {
   const handleAddUser = async (newUser) => {
     try {
       const response = await apiRequest(
-        API_ENDPOINTS.USER_ADD,
+        `${BASE_URLS.user}/add`,
         "POST",
         formatUserData(newUser)
       );
@@ -126,7 +126,7 @@ export const Users = () => {
       }
 
       await apiRequest(
-        API_ENDPOINTS.USER_DETAILS_BY_ID(userId),
+        `${BASE_URLS.user}/details/${userId}`,
         "PUT",
         formatUserData(editedUser)
       );
@@ -146,7 +146,7 @@ export const Users = () => {
   const handleDeleteUsers = async (userIds) => {
     try {
       const deletePromises = userIds.map((userId) =>
-        apiRequest(API_ENDPOINTS.USER_DETAILS_BY_ID(parseInt(userId)), "DELETE") // Parse userId for DELETE
+        apiRequest(`${BASE_URLS.user}/details/${parseInt(userId)}`, "DELETE") // Parse userId for DELETE
       );
       await Promise.allSettled(deletePromises);
       await fetchUsers();

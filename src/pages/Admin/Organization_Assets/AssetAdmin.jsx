@@ -8,7 +8,7 @@ import AssetAdd from "../../../components/Asset/OrganizationAssets/AssetAdd";
 import axios from "axios";
 import "../../css/AssetAdmin.css";
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function AssetAdmin() {
   const [searchText, setSearchText] = useState("");
@@ -24,7 +24,7 @@ function AssetAdmin() {
   }, []);
 
   const fetchAssets = () => {
-    fetch(API_ENDPOINTS.ASSET_DETAILS)
+    fetch(`${BASE_URLS.asset}/details`)
       .then((response) => response.json())
       .then((data) => setAssets(data))
       .catch((error) => console.error("Error fetching assets:", error));
@@ -57,7 +57,7 @@ function AssetAdmin() {
 
   const handleDeleteAsset = async (id) => {
     try {
-      await axios.delete(API_ENDPOINTS.ASSET_DETAILS_BY_ID(id));
+      await axios.delete(`${BASE_URLS.asset}/details/${id}`);
       setAssets((prevAssets) => prevAssets.filter((asset) => asset.id !== id));
       setDeleteOpen(false);
       setSelectedAsset(null);

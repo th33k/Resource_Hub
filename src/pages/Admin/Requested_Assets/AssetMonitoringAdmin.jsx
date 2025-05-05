@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Search } from "lucide-react";
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const AssetMonitoringAdmin = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch(API_ENDPOINTS.ASSET_REQUEST_DETAILS);
+      const response = await fetch(`${BASE_URLS.assetRequest}/details`);
       const data = await response.json();
       setAssets(data);
     };

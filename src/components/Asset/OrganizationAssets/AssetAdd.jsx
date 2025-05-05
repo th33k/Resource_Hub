@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-import { API_ENDPOINTS } from '../../../services/api/config';
+import { BASE_URLS } from '../../../services/api/config';
 
 function AssetAdd({ open, onClose, onAdd }) {
   const [newAsset, setNewAsset] = useState({
@@ -23,7 +23,7 @@ function AssetAdd({ open, onClose, onAdd }) {
     }
     
     try {
-      const response = await fetch(API_ENDPOINTS.ASSET_ADD, {
+      const response = await fetch(`${BASE_URLS.asset}/add`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { API_ENDPOINTS } from '../services/api/config';
+import { BASE_URLS } from '../services/api/config';
 
 export function useAdminDashboardData() {
   return useQuery({
     queryKey: ['adminDashboardData'],
     queryFn: async () => {
       const [statsRes, resourcesRes, mealRes, resourceAllocRes] = await Promise.all([
-        axios.get(API_ENDPOINTS.ADMIN_DASHBOARD_STATS),
-        axios.get(API_ENDPOINTS.ADMIN_DASHBOARD_RESOURCES),
-        axios.get(API_ENDPOINTS.ADMIN_DASHBOARD_MEAL_DISTRIBUTION),
-        axios.get(API_ENDPOINTS.ADMIN_DASHBOARD_RESOURCE_ALLOCATION)
+        axios.get(`${BASE_URLS.dashboardAdmin}/stats`),
+        axios.get(`${BASE_URLS.dashboardAdmin}/resources`),
+        axios.get(`${BASE_URLS.dashboardAdmin}/mealdistribution`),
+        axios.get(`${BASE_URLS.dashboardAdmin}/resourceallocation`)
       ]);
       return {
         stats: statsRes.data,

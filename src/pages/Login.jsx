@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Login.css";
 import { useUser } from "../contexts/UserContext";
-import { API_ENDPOINTS } from '../services/api/config';
+import { BASE_URLS } from '../services/api/config';
 
 function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -31,7 +31,7 @@ function Login() {
     setErrorMessage(""); // Clear previous errors
 
     try {
-      const response = await fetch(API_ENDPOINTS.LOGIN, {
+      const response = await fetch(`${BASE_URLS.login}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),

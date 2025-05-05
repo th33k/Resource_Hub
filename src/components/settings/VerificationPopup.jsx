@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './VerifyPopup.css';
 import axios from 'axios';
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 
 function VerificationPopup({ onClose, email, code }) {
   const [inputcode, setInputCode] = useState("");
@@ -14,7 +14,7 @@ function VerificationPopup({ onClose, email, code }) {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        await axios.put(API_ENDPOINTS.SETTINGS_UPDATE('email', userId), { email });
+        await axios.put(`${BASE_URLS.settings}/email/${userId}`, { email });
         alert("Verification successful!");
         onClose();
       } catch (error) {

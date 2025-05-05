@@ -7,7 +7,7 @@ import Popup from "../../components/Calendar/popup";
 import DeletePopup from "../../components/Calendar/DeletePopup";
 import axios from "axios";
 import UserLayout from "../../layouts/User/UserLayout";
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -23,7 +23,7 @@ function MealCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get(API_ENDPOINTS.CALENDAR_MEAL_EVENTS_BY_USER(localStorage.getItem("Userid")));
+      const response = await axios.get(`${BASE_URLS.calendar}/mealevents/${localStorage.getItem("Userid")}`);
       const formattedEvents = response.data.map(event => ({
         id: event.id,
         title: `${event.meal_time_name} - ${event.meal_type_name}`,
@@ -52,7 +52,7 @@ function MealCalendar() {
 
   const handleAddEvent = async (mealTimeId, mealTypeId) => {
     try {
-      const response = await axios.post(API_ENDPOINTS.CALENDAR_MEAL_EVENTS_ADD, {
+      const response = await axios.post(`${BASE_URLS.calendar}/mealevents/add`, {
         meal_time: mealTimeId, 
         meal_type: mealTypeId, 
         user_id: parseInt(localStorage.getItem("Userid")),
@@ -77,7 +77,7 @@ function MealCalendar() {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(API_ENDPOINTS.CALENDAR_MEAL_EVENTS_DELETE(eventId));
+      await axios.delete(`${BASE_URLS.calendar}/mealevents/${eventId}`);
       const updatedEvents = eventData.filter(event => event.id !== eventId);
       setEventData(updatedEvents);
       setDeletePopupOpen(false);

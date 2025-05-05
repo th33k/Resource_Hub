@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProfileSection.css';
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 import ConfirmationDialog from './ConfirmationDialog';
 
 const ProfileSection = () => {
@@ -16,7 +16,7 @@ const ProfileSection = () => {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const { data } = await axios.get(API_ENDPOINTS.SETTINGS_DETAILS(userId));
+        const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
         const [profile] = data;
 
         setFormData({
@@ -51,7 +51,7 @@ const ProfileSection = () => {
           const userId = localStorage.getItem('Userid');
           if (!userId) throw new Error('User ID not found');
 
-          await axios.put(API_ENDPOINTS.SETTINGS_PROFILE_UPDATE(userId), {
+          await axios.put(`${BASE_URLS.settings}/profile/${userId}`, {
             username: formData.name,
             profile_picture_url: formData.picture,
             additional_details: formData.bio,

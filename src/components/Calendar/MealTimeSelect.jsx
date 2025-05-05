@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MealTimeCard from "./MealTimeCard";
 import "./Calender-CSS/MealTimeSelect.css";
-import { API_ENDPOINTS } from '../../services/api/config';
+import { BASE_URLS } from '../../services/api/config';
 
 export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelected }) {
   const [mealTimes, setMealTimes] = useState([]);
@@ -13,7 +13,7 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.MEAL_TIME_DETAILS);
+      const response = await fetch(`${BASE_URLS.mealtime}/details`);
       if (!response.ok) {
         throw new Error("Failed to fetch meal times");
       }
