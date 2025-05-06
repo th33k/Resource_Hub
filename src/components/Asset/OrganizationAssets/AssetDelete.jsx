@@ -10,7 +10,7 @@ function DeleteAssetPopup({ open, asset, onClose, onDelete }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">Cancel</Button>
-        <Button onClick={() => onDelete(asset.id)} color="error">Delete</Button>
+        <Button onClick={() => onDelete(asset.asset_id)} color="error">Delete</Button>
       </DialogActions>
     </Dialog>
   );

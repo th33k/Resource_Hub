@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import html2pdf from "html2pdf.js";
 import { BASE_URLS } from '../../services/api/config';
+import { toast } from "react-toastify";
 
 // Component to display meal events table
 const MaintenanceTable = () => {
@@ -17,14 +18,21 @@ const MaintenanceTable = () => {
 
   // Function to download the table as PDF
   const handleDownloadPDF = () => {
-    const element = document.getElementById("maintenance-table"); // Get the content to convert to PDF
-    const options = {
-      filename: "maintenance.pdf", // Set the filename of the PDF
-      image: { type: "jpeg", quality: 0.98 }, // Set image quality
-      html2canvas: { scale: 2 }, // Set the scale for the canvas
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }, // Set PDF size and orientation
-    };
-    html2pdf().from(element).set(options).save(); // Convert and download the PDF
+    try {
+      const element = document.getElementById("maintenance-table"); // Get the content to convert to PDF
+      const options = {
+        margin: 1,
+        filename: "MaintenanceReport.pdf", // Set the filename of the PDF
+        image: { type: "jpeg", quality: 0.98 }, // Set image quality
+        html2canvas: { scale: 2 }, // Set the scale for the canvas
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" }, // Set PDF size and orientation
+      };
+      html2pdf().from(element).set(options).save(); // Convert and download the PDF
+      toast.success("Maintenance report downloaded successfully!");
+    } catch (error) {
+      console.error("Error downloading maintenance report:", error);
+      toast.error("Failed to download maintenance report.");
+    }
   };
 
   return (

@@ -46,7 +46,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mealName: name, mealImageUrl: image }),
+        body: JSON.stringify({ mealtime_name: name, mealtime_image_url: image }),
       });
 
       if (!response.ok) {

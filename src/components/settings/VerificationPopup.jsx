@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './VerifyPopup.css';
 import axios from 'axios';
 import { BASE_URLS } from '../../services/api/config';
+import { toast } from "react-toastify";
 
 function VerificationPopup({ onClose, email, code }) {
   const [inputcode, setInputCode] = useState("");
@@ -15,14 +16,14 @@ function VerificationPopup({ onClose, email, code }) {
         if (!userId) throw new Error('User ID not found');
 
         await axios.put(`${BASE_URLS.settings}/email/${userId}`, { email });
-        alert("Verification successful!");
+        toast.success("Verification successful!");
         onClose();
       } catch (error) {
         console.error("There was an error verifying the email!", error);
-        alert("Verification failed. Please try again.");
+        toast.error("Verification failed. Please try again.");
       }
     } else {
-      alert("Invalid verification code. Please try again.");
+      toast.error("Invalid verification code. Please try again.");
     }
   };
 

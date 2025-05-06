@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
+import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
 import { BASE_URLS } from '../../../services/api/config';
 
@@ -15,8 +16,8 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            mealName,
-            mealImageUrl, // Use the provided image URL
+            mealtime_name: mealName,
+            mealtime_image_url : mealImageUrl, // Use the provided image URL
           }),
         });
 
@@ -26,14 +27,15 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
 
         const result = await response.json();
         console.log('Server Response:', result);
+        toast.success('Meal added successfully!');
         onClose();
         onSubmit(); // Refresh meal list
       } catch (error) {
         console.error('Fetch error:', error);
-        alert('Failed to add meal. Please try again.');
+        toast.error('Failed to add meal. Please try again.');
       }
     } else {
-      alert('Please provide both meal name and an image URL.');
+      toast.error('Please provide both meal name and an image URL.');
     }
   };
 
@@ -58,7 +60,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
                 alt="Meal Preview"
                 className="mealtime-preview-img"
                 style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'cover' }}
-                onError={() => alert('Invalid image URL')}
+                onError={() => toast.error('Invalid image URL')}
               />
             </div>
           )}

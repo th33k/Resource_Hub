@@ -6,7 +6,10 @@ import {
   DialogTitle,
   Button,
   TextField,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
+import { toast } from "react-toastify";
 import AssetSearch from "./AssetSearch";
 import { BASE_URLS } from '../../../services/api/config';
 
@@ -19,6 +22,7 @@ function RequestButton({ open, onClose, onRequest }) {
     quantity: "",
     handoverDate: new Date().toISOString().split("T")[0],
     reason: "",
+    isReturning: true, // Added isReturning to track checkbox state
   });
 
   useEffect(() => {
@@ -40,23 +44,24 @@ function RequestButton({ open, onClose, onRequest }) {
       !requestData.quantity ||
       !requestData.reason
     ) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return;
     }
-  
+
     // Get the user ID from localStorage
     const userId = localStorage.getItem("Userid");
     const assetId = requestData.assetId; // assetId should be an integer at this point
-    const borrowedDate = new Date().toISOString().split("T")[0];  // Set current date as borrowed date
-  
+    const borrowedDate = new Date().toISOString().split("T")[0]; // Set current date as borrowed date
+
     const payload = {
-      userid: parseInt(userId), // Ensure userId is an integer
+      user_id: parseInt(userId), // Ensure userId is an integer
       asset_id: parseInt(assetId), // Ensure assetId is an integer
-      borrowed_date: borrowedDate,
+      submitted_date: borrowedDate,
       handover_date: requestData.handoverDate,
       quantity: parseInt(requestData.quantity), // Ensure quantity is an integer
+      is_returning: requestData.isReturning, // Pass isReturning value to the database
     };
-  
+
     try {
       const response = await fetch(`${BASE_URLS.assetRequest}/add`, {
         method: "POST",
@@ -65,10 +70,9 @@ function RequestButton({ open, onClose, onRequest }) {
         },
         body: JSON.stringify(payload),
       });
-  
+
       const data = await response.json();
       if (response.ok) {
-        
         onRequest(requestData); // Call onRequest if you need to do something with the data
         setRequestData({
           userName: "",
@@ -78,16 +82,18 @@ function RequestButton({ open, onClose, onRequest }) {
           quantity: "",
           handoverDate: "",
           reason: "",
+          isReturning: true, // Reset isReturning to true
         });
+        toast.success("Request submitted successfully!");
         onClose();
       } else {
-        alert("Error: " + data.message);
+        toast.error("Error: " + data.message);
       }
     } catch (error) {
-      alert("Failed to submit request: " + error.message);
+      toast.error("Failed to submit request: " + error.message);
     }
   };
-  
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Request an Asset</DialogTitle>
@@ -138,6 +144,17 @@ function RequestButton({ open, onClose, onRequest }) {
           name="reason"
           value={requestData.reason}
           onChange={handleInputChange}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={!requestData.isReturning}
+              onChange={(e) =>
+                setRequestData((prev) => ({ ...prev, isReturning: !e.target.checked }))
+              }
+            />
+          }
+          label="Not Returning"
         />
       </DialogContent>
       <DialogActions>

@@ -3,6 +3,7 @@ import { MaintenanceNotificationCard } from "../components/Maintenance/Maintenan
 import AdminLayout from "../layouts/Admin/AdminLayout";
 import UserLayout from "../layouts/User/UserLayout"; // Adjust path as needed
 import { BASE_URLS } from '../services/api/config';
+import { toast } from 'react-toastify';
 
 function Notification() {
   const [notifications, setNotifications] = useState([]);
@@ -22,12 +23,14 @@ function Notification() {
         const mappedData = data.map((item) => ({
           ...item,
           name: item.username,
-          date: item.request_date,
+          date: item.submitted_date,
           priorityLevel: item.priorityLevel,
         }));
         setNotifications(mappedData);
+        toast.success("Notifications loaded successfully!");
       } catch (error) {
         console.error("Error fetching notifications:", error);
+        toast.error("Error fetching notifications:", error);
       }
     };
 

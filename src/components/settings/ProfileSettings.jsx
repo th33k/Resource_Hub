@@ -3,6 +3,7 @@ import axios from 'axios';
 import './ProfileSection.css';
 import { BASE_URLS } from '../../services/api/config';
 import ConfirmationDialog from './ConfirmationDialog';
+import { toast } from "react-toastify";
 
 const ProfileSection = () => {
   const [formData, setFormData] = useState({ name: '', picture: '', bio: '' });
@@ -22,7 +23,7 @@ const ProfileSection = () => {
         setFormData({
           name: profile.username || '',
           picture: profile.profile_picture_url || '',
-          bio: profile.additional_details || '',
+          bio: profile.bio || '',
         });
       } catch (err) {
         setError(err.response?.data?.message || err.message);
@@ -40,8 +41,8 @@ const ProfileSection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name.trim()) return alert('Name is required');
-    if (formData.bio.length > 100) return alert('Bio cannot exceed 100 characters');
+    if (!formData.name.trim()) return toast.error('Name is required');
+    if (formData.bio.length > 100) return toast.error('Bio cannot exceed 100 characters');
 
     setConfirmationDialog({
       open: true,
@@ -54,13 +55,13 @@ const ProfileSection = () => {
           await axios.put(`${BASE_URLS.settings}/profile/${userId}`, {
             username: formData.name,
             profile_picture_url: formData.picture,
-            additional_details: formData.bio,
+            bio: formData.bio,
           });
 
-          alert('Profile updated successfully!');
+          toast.success('Profile updated successfully!');
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
         } catch (err) {
-          alert(`Error: ${err.response?.data?.message || err.message}`);
+          toast.error(`Error: ${err.response?.data?.message || err.message}`);
         }
       },
     });
@@ -77,7 +78,7 @@ const ProfileSection = () => {
           <img
             src={formData.picture}
             alt="Profile"
-            onError={() => alert('Invalid image URL')}
+            onError={() => toast.error('Invalid image URL')}
           />
         )}
       </div>

@@ -71,10 +71,10 @@ function AddMealType() {
           {mealTypes.length > 0 ? (
             mealTypes.map((meal) => (
               <MealCard
-                key={meal.id}
-                mealId={meal.id}
-                name={meal.mealName}
-                image={meal.mealImageUrl || '/default-meal.png'}
+                key={meal.mealtype_id}
+                mealId={meal.mealtype_id}
+                name={meal.mealtype_name}
+                image={meal.mealtype_image_url|| '/default-meal.png'}
                 onDelete={handleDelete}
               />
             ))

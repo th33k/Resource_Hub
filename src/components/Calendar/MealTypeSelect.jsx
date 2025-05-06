@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MealTypeCard from "./MealTypeCard";
 import "./Calender-CSS/MealTypeSelect.css";
 import { BASE_URLS } from '../../services/api/config';
+import { toast } from "react-toastify";
 
 export default function MealTypeSelect({ onSelect }) {
   const [mealTypes, setMealTypes] = useState([]);
@@ -15,12 +16,14 @@ export default function MealTypeSelect({ onSelect }) {
     try {
       const response = await fetch(`${BASE_URLS.mealtype}/details`);
       if (!response.ok) {
-        throw new Error("Failed to fetch meal types");
+        throw new Error(`Failed to fetch meal types: ${response.status}`);
       }
       const data = await response.json();
       setMealTypes(data);
+      toast.success("Meal types loaded successfully!");
     } catch (error) {
-      setError(`Error fetching meal types: ${error.message}`);
+      console.error("Error fetching meal types:", error);
+      toast.error(`Error: ${error.message}`);
     }
   };
 
@@ -31,11 +34,11 @@ export default function MealTypeSelect({ onSelect }) {
       <div className="meal">
         {mealTypes.map((mealType) => (
           <MealTypeCard
-            key={mealType.id}
-            id={mealType.id}
-            name={mealType.mealName}
-            image={mealType.mealImageUrl}
-            onSelect={() => onSelect(mealType.id, mealType.mealName)}
+            key={mealType.mealtype_id}
+            id={mealType.mealtype_id}
+            name={mealType.mealtype_name}
+            image={mealType.mealtype_image_url}
+            onSelect={() => onSelect(mealType.mealtype_id, mealType.mealtype_name)}
           />
         ))}
       </div>

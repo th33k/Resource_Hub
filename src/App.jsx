@@ -7,6 +7,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Auth Pages
 import Login from "./pages/Login";
@@ -218,6 +220,7 @@ function App() {
               {/* Fallback Route */}
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
+            <ToastContainer />
           </SidebarProvider>
         </UserProvider>
       </Router>

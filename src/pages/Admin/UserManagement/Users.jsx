@@ -65,10 +65,10 @@ export const Users = () => {
       const data = await apiRequest(`${BASE_URLS.user}/details`, "GET");
       setUsers(
         data.map((user) => ({
-          id: user.id.toString(), // ID is stored as a string
+          id: user.user_id.toString(), // ID is stored as a string
           email: user.email,
           userType: user.usertype,
-          additionalDetails: user.additional_details,
+          additionalDetails: user.bio,
           profilePicture:
             user.profile_picture_url ||
             `https://ui-avatars.com/api/?name=${user.username || user.email.split("@")[0]}`,
@@ -96,8 +96,8 @@ export const Users = () => {
     usertype: user.userType,
     email: user.email,
     phone_number: user.phoneNumber || "",
-    additional_details: user.additionalDetails || "",
-    ...(user.id && { id: parseInt(user.id) }), // Ensure ID is an integer
+    bio: user.additionalDetails || "",
+    ...(user.id && { user_id: parseInt(user.id) }), // Ensure ID is an integer
     ...(user.created_at
       ? { created_at: user.created_at }
       : !user.id && { created_at: new Date().toISOString() }),

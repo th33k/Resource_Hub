@@ -4,6 +4,7 @@ import './AccountSection.css';
 import { BASE_URLS } from '../../services/api/config';
 import VerificationPopup from './VerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
+import { toast } from "react-toastify";
 
 const AccountSection = () => {
   const [formData, setFormData] = useState({
@@ -58,7 +59,7 @@ const AccountSection = () => {
       const existingPhone = data[0]?.phone_number;
 
       if (formData.phone === existingPhone) {
-        alert('This phone number is already in use.');
+        toast.error('This phone number is already in use.');
         return;
       }
 
@@ -69,12 +70,12 @@ const AccountSection = () => {
           await axios.put(`${BASE_URLS.settings}/phone/${userId}`, {
             phone_number: formData.phone,
           });
-          alert('Phone updated successfully!');
+          toast.success('Phone updated successfully!');
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
         },
       });
     } catch (err) {
-      alert(`Error: ${err.response?.data?.message || err.message}`);
+      toast.error(`Error: ${err.response?.data?.message || err.message}`);
     }
   };
 
@@ -87,7 +88,7 @@ const AccountSection = () => {
       const existingEmail = data[0]?.email;
 
       if (email === existingEmail) {
-        alert('This email is already in use.');
+        toast.error('This email is already in use.');
         return;
       }
 
@@ -97,20 +98,20 @@ const AccountSection = () => {
       const randomCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setCode(randomCode.toString());
 
-      await axios.post(`https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina/settings-e6f/v1.0/sendEmail/`, {
+      await axios.post(`${BASE_URLS.settings}/sendEmail/`, {
         email,
         code: randomCode
       });
-      alert(`Verification code sent to ${email} successfully!`);
+      toast.success(`Verification code sent to ${email} successfully!`);
     } catch (error) {
-      alert(`Failed to send verification code: ${error.response?.data?.message || error.message}`);
+      toast.error(`Failed to send verification code: ${error.response?.data?.message || error.message}`);
     }
   };
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     if (formData.newPassword !== formData.confirmPassword) {
-      alert('New password and confirm password do not match.');
+      toast.error('New password and confirm password do not match.');
       return;
     }
 
@@ -127,7 +128,7 @@ const AccountSection = () => {
             new_password: formData.newPassword,
           });
 
-          alert('Password updated successfully!');
+          toast.success('Password updated successfully!');
           setFormData((prev) => ({
             ...prev,
             currentPassword: '',
@@ -136,7 +137,7 @@ const AccountSection = () => {
           }));
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
         } catch (err) {
-          alert(`Error: ${err.response?.data?.message || err.message}`);
+          toast.error(`Error: ${err.response?.data?.message || err.message}`);
         }
       },
     });
