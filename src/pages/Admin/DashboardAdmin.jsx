@@ -1,37 +1,44 @@
-import React from 'react';
-import { Grid, Box, Typography, Paper } from '@mui/material';
-import { Users, Utensils, Box as BoxIcon, Wrench,CalendarDays, PackageCheck } from "lucide-react";
+import React from "react";
+import { Grid, Box, Typography, Paper } from "@mui/material";
+import {
+  Users,
+  Utensils,
+  Box as BoxIcon,
+  Wrench,
+  CalendarDays,
+  PackageCheck,
+} from "lucide-react";
 import axios from "axios";
-import AdminLayout from '../../layouts/Admin/AdminLayout';
+import AdminLayout from "../../layouts/Admin/AdminLayout";
 import { StatCard } from "../../components/Dashboard/Admin/StatCard";
 import { ResourceCard } from "../../components/Dashboard/Admin/ResourceCard";
 import { MealDistributionChart } from "../../components/Dashboard/Admin/MealDistributionChart";
 import { ResourceAllocation } from "../../components/Dashboard/Admin/ResourceAllocation";
 import { getMonthLabels } from "../../utils/dateUtils";
-import { useAdminDashboardData } from '../../query/adminDashboardQueries';
-import { QuickActions } from '../../components/Dashboard/User/QuickActions';
+import { useAdminDashboardData } from "../../query/adminDashboardQueries";
+import { QuickActions } from "../../components/Dashboard/User/QuickActions";
 
 const customUserActions = [
   {
     icon: CalendarDays,
-    title: 'View Meal Calendar',
-    description: 'Check your booked meals',
-    iconColor: 'text-blue-500',
-    path: '/user-mealcalendar',
+    title: "View Meal Calendar",
+    description: "Check your booked meals",
+    iconColor: "text-blue-500",
+    path: "/user-mealcalendar",
   },
   {
     icon: PackageCheck,
-    title: 'Check Due Assets',
-    description: 'View assets nearing return date',
-    iconColor: 'text-purple-500',
-    path: '/user-dueassets',
+    title: "Check Due Assets",
+    description: "View assets nearing return date",
+    iconColor: "text-purple-500",
+    path: "/user-dueassets",
   },
   {
     icon: Wrench,
-    title: 'Report Issue',
-    description: 'Submit maintenance request',
-    iconColor: 'text-red-500',
-    path: '/user-maintenance',
+    title: "Report Issue",
+    description: "Submit maintenance request",
+    iconColor: "text-red-500",
+    path: "/user-maintenance",
   },
 ];
 // Map icon names (strings) to actual icon components
@@ -47,14 +54,19 @@ const AdminDashboard = () => {
   const { data, isLoading, isError, error, refetch } = useAdminDashboardData();
 
   if (isLoading) {
-    return <AdminLayout><div className="p-6">Loading dashboard...</div></AdminLayout>;
+    return (
+      <AdminLayout>
+        <div className="p-6">Loading dashboard...</div>
+      </AdminLayout>
+    );
   }
 
   if (isError) {
     return (
       <AdminLayout>
         <div className="p-6 text-red-500">
-          {error?.message || 'Failed to load dashboard data. Please try again later.'}
+          {error?.message ||
+            "Failed to load dashboard data. Please try again later."}
           <button
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             onClick={() => refetch()}
@@ -110,7 +122,7 @@ const AdminDashboard = () => {
             />
           ))}
         </div> */}
-      <QuickActions actions={customUserActions} />
+        <QuickActions actions={customUserActions} />
       </div>
     </AdminLayout>
   );
