@@ -6,7 +6,7 @@ import {
   DialogTitle,
   Button,
   TextField,
-  Checkbox,
+  Switch,
   FormControlLabel,
 } from "@mui/material";
 import { toast } from "react-toastify";
@@ -22,7 +22,7 @@ function RequestButton({ open, onClose, onRequest }) {
     quantity: "",
     handoverDate: new Date().toISOString().split("T")[0],
     reason: "",
-    isReturning: true, // Added isReturning to track checkbox state
+    isAssetReturning: true, // Renamed isReturning to isAssetReturning
   });
 
   useEffect(() => {
@@ -59,7 +59,7 @@ function RequestButton({ open, onClose, onRequest }) {
       submitted_date: borrowedDate,
       handover_date: requestData.handoverDate,
       quantity: parseInt(requestData.quantity), // Ensure quantity is an integer
-      is_returning: requestData.isReturning, // Pass isReturning value to the database
+      is_returning: requestData.isAssetReturning, // Pass isAssetReturning value to the database
     };
 
     try {
@@ -82,7 +82,7 @@ function RequestButton({ open, onClose, onRequest }) {
           quantity: "",
           handoverDate: "",
           reason: "",
-          isReturning: true, // Reset isReturning to true
+          isAssetReturning: true, // Reset isAssetReturning to true
         });
         toast.success("Request submitted successfully!");
         onClose();
@@ -124,6 +124,18 @@ function RequestButton({ open, onClose, onRequest }) {
           onChange={handleInputChange}
           inputProps={{ min: 0 }}
         />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={requestData.isAssetReturning}
+              onChange={(e) =>
+                setRequestData((prev) => ({ ...prev, isAssetReturning: e.target.checked }))
+              }
+              color="primary"
+            />
+          }
+          label="Asset Returning"
+        />
         <TextField
           label="Handover Date"
           variant="outlined"
@@ -133,6 +145,7 @@ function RequestButton({ open, onClose, onRequest }) {
           name="handoverDate"
           value={requestData.handoverDate}
           onChange={handleInputChange}
+          disabled={!requestData.isAssetReturning} // Disable when isAssetReturning is false
         />
         <TextField
           label="Reason for Request"
@@ -145,23 +158,13 @@ function RequestButton({ open, onClose, onRequest }) {
           value={requestData.reason}
           onChange={handleInputChange}
         />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={!requestData.isReturning}
-              onChange={(e) =>
-                setRequestData((prev) => ({ ...prev, isReturning: !e.target.checked }))
-              }
-            />
-          }
-          label="Not Returning"
-        />
+      
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onClose} color="primary" variant="outlined">
           Cancel
         </Button>
-        <Button onClick={handleRequestAsset} color="primary">
+        <Button onClick={handleRequestAsset} variant="contained" color="primary">
           Submit Request
         </Button>
       </DialogActions>
