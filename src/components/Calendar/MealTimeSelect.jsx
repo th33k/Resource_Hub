@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MealTimeCard from "./MealTimeCard";
 import "./Calender-CSS/MealTimeSelect.css";
 import { BASE_URLS } from '../../services/api/config';
+import { toast } from "react-toastify";
 
 export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelected }) {
   const [mealTimes, setMealTimes] = useState([]);
@@ -15,12 +16,13 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
     try {
       const response = await fetch(`${BASE_URLS.mealtime}/details`);
       if (!response.ok) {
-        throw new Error("Failed to fetch meal times");
+        throw new Error(`Failed to fetch meal times: ${response.status}`);
       }
       const data = await response.json();
       setMealTimes(data);
     } catch (error) {
-      setError(`Error fetching meal times: ${error.message}`);
+      console.error("Error fetching meal times:", error);
+      toast.error(`Error: ${error.message}`);
     }
   };
 
@@ -31,14 +33,14 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
       <div className="meal">
         {mealTimes.map((mealtime) => (
           <MealTimeCard
-            key={mealtime.id}
-            id={mealtime.id}
-            name={mealtime.mealName}
+            key={mealtime.mealtime_id}
+            id={mealtime.mealtime_id}
+            name={mealtime.mealtime_name}
             image={mealtime.mealImageUrl || "/default-mealtime.png"}
             onSelect={(mealTypeId, mealTypeName) =>
-              onAddEvent(mealtime.id, mealTypeId, mealtime.mealName, mealTypeName)
+              onAddEvent(mealtime.mealtime_id, mealTypeId, mealtime.mealtime_name, mealTypeName)
             }
-            isDisabled={isMealSelected(mealtime.id)}
+            isDisabled={isMealSelected(mealtime.mealtime_id)}
           />
         ))}
       </div>

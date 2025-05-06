@@ -8,6 +8,7 @@ import DeletePopup from "../../../components/Calendar/DeletePopup";
 import axios from "axios";
 import UserLayout from "../../../layouts/User/UserLayout";
 import { BASE_URLS } from '../../../services/api/config';
+import { toast } from "react-toastify";
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -25,18 +26,19 @@ function MealCalendar() {
     try {
       const response = await axios.get(`${BASE_URLS.calendar}/mealevents/${localStorage.getItem("Userid")}`);
       const formattedEvents = response.data.map((event) => ({
-        id: event.id,
-        title: `${event.meal_time_name} - ${event.meal_type_name}`,
+        id: event.requestedmeal_id,
+        title: `${event.mealtime_name} - ${event.mealtype_name}`,
         start: event.meal_request_date,
         end: event.meal_request_date,
-        meal_time_id: event.meal_time_id,
-        meal_type_id: event.meal_type_id,
-        meal_time_name: event.meal_time_name,
-        meal_type_name: event.meal_type_name,
+        meal_time_id: event.mealtime_id,
+        meal_type_id: event.mealtype_id,
+        meal_time_name: event.mealtime_name,
+        meal_type_name: event.mealtype_name,
       }));
       setEventData(formattedEvents);
     } catch (error) {
       console.error("Error fetching events:", error);
+      toast.error("Error fetching events:", error);
     }
   };
 
@@ -55,13 +57,18 @@ function MealCalendar() {
 
   const handleAddEvent = async (mealTimeId, mealTypeId, mealTimeName, mealTypeName) => {
     try {
+      toast.info("Debug: handleAddEvent function executed");
       const response = await axios.post(`${BASE_URLS.calendar}/mealevents/add`, {
-        meal_time: mealTimeId,
-        meal_type: mealTypeId,
+        mealtime_id: mealTimeId,
+        mealtype_id: mealTypeId,
         user_id: parseInt(localStorage.getItem("Userid")),
         submitted_date: today,
         meal_request_date: selectedDate,
       });
+
+      if (response.status !== 200 && response.status !== 201) {
+        throw new Error(`Failed to add event: ${response.status}`);
+      }
 
       const newEvent = {
         id: response.data.id,
@@ -75,8 +82,10 @@ function MealCalendar() {
       };
       setEventData((prevEvents) => [...prevEvents, newEvent]);
       setPopupOpen(false);
+      toast.success("Event added successfully!");
     } catch (error) {
       console.error("Error adding event:", error);
+      toast.error(`Error: ${error.message}`);
       throw error;
     }
   };
@@ -86,8 +95,10 @@ function MealCalendar() {
       await axios.delete(`${BASE_URLS.calendar}/mealevents/${eventId}`);
       setDeletePopupOpen(false);
       await fetchEvents(); // Refetch events after deletion
+      toast.success("Event deleted successfully!");
     } catch (error) {
       console.error("Error deleting event:", error);
+      toast.error("Error deleting event:", error);
     }
   };
 

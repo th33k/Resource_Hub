@@ -15,12 +15,13 @@ import {
 } from "@mui/material";
 import html2pdf from "html2pdf.js";
 import { BASE_URLS } from '../../services/api/config';
+import { toast } from "react-toastify";
 
 const MealEventsTable = () => {
-  const [mealEvents, setMealEvents] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]);
-  const [mealTimes, setMealTimes] = useState([]);
-  const [mealTypes, setMealTypes] = useState([]); // Store meal types from API
+  const [mealEvents, setMealEvents] = useState([""]);
+  const [filteredEvents, setFilteredEvents] = useState([""]);
+  const [mealTimes, setMealTimes] = useState([""]);
+  const [mealTypes, setMealTypes] = useState([""]); // Store meal types from API
   const [selectedMealTime, setSelectedMealTime] = useState("");
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -85,15 +86,47 @@ const MealEventsTable = () => {
   }, [selectedMealTime, selectedMealType, selectedMonth, mealEvents]);
 
   const handleDownloadPDF = () => {
-    const element = document.getElementById("meal-events-table");
-    const options = {
-      filename: "meal_events.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
-    html2pdf().from(element).set(options).save();
+    try {
+      const element = document.getElementById("meal-events-table");
+      const options = {
+        margin: 1,
+        filename: "MealEventsReport.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      };
+      html2pdf().from(element).set(options).save();
+      toast.success("Meal events report downloaded successfully!");
+    } catch (error) {
+      console.error("Error downloading meal events report:", error);
+      toast.error("Failed to download meal events report.");
+    }
   };
+
+  if (!Array.isArray(filteredEvents) || filteredEvents.length === 0) {
+    return (
+      <TableContainer component={Paper} id="meal-events-table">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Meal Time</TableCell>
+              <TableCell>Meal Type</TableCell>
+              <TableCell>User Name</TableCell>
+              <TableCell>Submitted Date</TableCell>
+              <TableCell>Meal Request Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center" colSpan={5}>
+                No data available.
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
 
   return (
     <div>
@@ -108,8 +141,8 @@ const MealEventsTable = () => {
           >
             <MenuItem value="">All</MenuItem>
             {mealTimes.map((time) => (
-              <MenuItem key={time.id} value={time.id}> {/* Use id instead of id */}
-                {time.name}
+              <MenuItem key={time.mealtime_id} value={time.mealtime_id}> {/* Use id instead of id */}
+                {time.mealtime_name}
               </MenuItem>
             ))}
           </Select>
@@ -125,8 +158,8 @@ const MealEventsTable = () => {
           >
             <MenuItem value="">All</MenuItem>
             {mealTypes.map((type) => (
-              <MenuItem key={type.id} value={type.id}> {/* Use id instead of id */}
-                {type.name}
+              <MenuItem key={type.mealtype_id} value={type.mealtype_id}> {/* Use id instead of id */}
+                {type.mealtype_name}
               </MenuItem>
             ))}
           </Select>
@@ -173,8 +206,8 @@ const MealEventsTable = () => {
           <TableBody>
             {filteredEvents.map((mealEvent, index) => (
               <TableRow key={index}>
-                <TableCell>{mealEvent.meal_time_name}</TableCell>
-                <TableCell>{mealEvent.meal_type_name}</TableCell>
+                <TableCell>{mealEvent.mealtime_name}</TableCell>
+                <TableCell>{mealEvent.mealtype_name}</TableCell>
                 <TableCell>{mealEvent.username}</TableCell>
                 <TableCell>{mealEvent.submitted_date}</TableCell>
                 <TableCell>{mealEvent.meal_request_date}</TableCell>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import MonitorTable from "../../../components/Asset/AssetMonitoring/MonitorTable";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  Button,
   TextField,
   MenuItem,
   Select,
@@ -11,7 +10,8 @@ import {
 } from "@mui/material";
 import { Search } from "lucide-react";
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
-import { BASE_URLS } from '../../../services/api/config';
+import { BASE_URLS } from "../../../services/api/config";
+import { toast, ToastContainer } from "react-toastify";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -21,18 +21,16 @@ const AssetMonitoringAdmin = () => {
   const [searchText, setSearchText] = useState("");
   const [filterCategory, setFilterCategory] = useState(passedCategory);
   const [assets, setAssets] = useState([]);
-  const [selectedAsset, setSelectedAsset] = useState(null);
-  const [editOpen, setEditOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const uniqueCategories = ["All", ...new Set(assets.map(asset => asset.category))];
 
+  const fetchAssets = async () => {
+    const response = await fetch(`${BASE_URLS.assetRequest}/details`);
+    const data = await response.json();
+    setAssets(data);
+  };
+
   useEffect(() => {
-    const fetchAssets = async () => {
-      const response = await fetch(`${BASE_URLS.assetRequest}/details`);
-      const data = await response.json();
-      setAssets(data);
-    };
     fetchAssets();
   }, []);
 
@@ -42,19 +40,38 @@ const AssetMonitoringAdmin = () => {
 
   const handleCategoryChange = (newCategory) => {
     setFilterCategory(newCategory);
-    if (newCategory === "All") {
-      navigate("/admin-AssetMonitoring", { state: { category: "All" } });
-    } else {
-      navigate("/admin-AssetMonitoring", { state: { category: newCategory } });
+    navigate("/admin-AssetMonitoring", { state: { category: newCategory } });
+  };
+
+  const handleSave = async (updatedAsset) => {
+    try {
+      const response = await fetch(`${BASE_URLS.assetRequest}/details/${updatedAsset.requestedasset_id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedAsset),
+      });
+
+      if (!response.ok) throw new Error("Failed to update asset");
+
+      await response.json();
+
+      toast.success("Asset updated successfully!");
+
+      // Re-fetch the asset list to ensure it is updated
+      fetchAssets();
+    } catch (error) {
+      console.error("Error updating asset:", error);
+      toast.error("Error updating asset:", error);
     }
   };
 
   const filteredAssets = assets.filter(asset =>
     (filterCategory === "All" || asset.category === filterCategory) &&
     (asset.username.toLowerCase().includes(searchText.toLowerCase()) ||
-     asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
+      asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
   );
-
 
   return (
     <AdminLayout>
@@ -91,8 +108,9 @@ const AssetMonitoringAdmin = () => {
         </div>
 
         <div className="mt-6">
-          <MonitorTable assets={filteredAssets} />
+          <MonitorTable assets={filteredAssets} onSave={handleSave} />
         </div>
+        <ToastContainer />
       </div>
     </AdminLayout>
   );

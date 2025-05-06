@@ -8,6 +8,7 @@ import DeletePopup from "../../components/Calendar/DeletePopup";
 import axios from "axios";
 import UserLayout from "../../layouts/User/UserLayout";
 import { BASE_URLS } from '../../services/api/config';
+import { toast, ToastContainer } from "react-toastify";
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -60,6 +61,10 @@ function MealCalendar() {
         meal_request_date: selectedDate,
       });
   
+      if (response.status !== 200) {
+        throw new Error(`Failed to add event: ${response.status}`);
+      }
+  
       const newEvent = {
         id: response.data.id,
         title: `${mealTimeId} - ${mealTypeId}`, 
@@ -68,8 +73,10 @@ function MealCalendar() {
       };
       setEventData((prevEvents) => [...prevEvents, newEvent]);
       setPopupOpen(false);
+      toast.success("Event added successfully!");
     } catch (error) {
       console.error("Error adding event:", error);
+      toast.error(`Error: ${error.message}`);
     }
   
     await fetchEvents(); // Refresh the page after adding
@@ -139,6 +146,7 @@ function MealCalendar() {
             eventTitle={selectedEvent ? selectedEvent.title : ''}
           />
         </div>
+        <ToastContainer />
       </div>
     </UserLayout>
   );

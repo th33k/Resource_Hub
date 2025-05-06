@@ -147,7 +147,7 @@ export const MaintenanceTable = ({
         },
         body: JSON.stringify({
           user_id: parseInt(maintenanceItem.user_id),
-          maintenance_id: parseInt(maintenanceItem.id),
+          maintenance_id: parseInt(maintenanceItem.maintenance_id),
         }),
       });
 
@@ -231,7 +231,7 @@ export const MaintenanceTable = ({
 
                   return (
                     <TableRow
-                      key={item.id}
+                      key={item.maintenance_id}
                       hover
                       sx={{
                         "&:hover": {
@@ -294,7 +294,7 @@ export const MaintenanceTable = ({
                               size="small"
                               startIcon={<Trash2 size={18} />}
                               onClick={() => {
-                                setSelectedId(item.id);
+                                setSelectedId(item.maintenance_id);
                                 setIsDeleteDialogOpen(true);
                               }}
                               sx={{

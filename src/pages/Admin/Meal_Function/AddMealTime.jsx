@@ -71,10 +71,10 @@ function AddMealTime() {
           {mealTimes.length > 0 ? (
             mealTimes.map((meal) => (
               <MealCard 
-                key={meal.id} 
-                mealId={meal.id}
-                name={meal.mealName}
-                image={meal.mealImageUrl || '/default-meal.png'} 
+                key={meal.mealtime_id} 
+                mealId={meal.mealtime_id}
+                name={meal.mealtime_name}
+                image={meal.mealtime_image_url || '/default-meal.png'} 
                 onDelete={handleDelete}
               />
             ))

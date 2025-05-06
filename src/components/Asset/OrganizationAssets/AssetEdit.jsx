@@ -12,6 +12,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { BASE_URLS } from '../../../services/api/config';
+import { toast } from "react-toastify";
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   const [editedAsset, setEditedAsset] = useState({
@@ -26,7 +27,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   useEffect(() => {
     if (asset) {
       setEditedAsset({
-        id: asset.id,
+        id: asset.asset_id,
         name: asset.asset_name,
         category: asset.category,
         quantity: asset.quantity,
@@ -49,7 +50,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
       !editedAsset.condition ||
       !editedAsset.location
     ) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return;
     }
 
@@ -60,7 +61,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: editedAsset.id,
+            asset_id: editedAsset.id,
             asset_name: editedAsset.name,
             category: editedAsset.category,
             quantity: parseInt(editedAsset.quantity),
@@ -76,10 +77,11 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
 
       const updatedAsset = await response.json();
       onUpdate(updatedAsset);
+      toast.success("Asset updated successfully!");
       onClose();
     } catch (error) {
       console.error("Error updating asset:", error);
-      alert("Failed to update asset.");
+      toast.error("Failed to update asset.");
     }
   };
 

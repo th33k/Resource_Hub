@@ -23,7 +23,7 @@ function AssetSearch({ value, onChange, setAssetId }) {
     
     const asset = assets.find((asset) => asset.asset_name === newValue);
     if (asset) {
-      setAssetId(asset.id);
+      setAssetId(asset.asset_id);
     }
     onChange({ target: { name: "assetName", value: newValue } });
   };

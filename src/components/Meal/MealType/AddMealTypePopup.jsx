@@ -3,6 +3,7 @@ import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
 import '../Meal-CSS/AddMealPopup.css';
 import { BASE_URLS } from '../../../services/api/config';
+import { toast } from "react-toastify";
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
@@ -23,7 +24,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   // Upload image to Cloudinary
   const uploadImageToCloudinary = async () => {
     if (!imageFile) {
-      alert('Please select an image to upload');
+      toast.error('Please select an image to upload');
       return null;
     }
 
@@ -45,7 +46,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
     } catch (error) {
       console.error('Upload failed:', error);
       setUploading(false);
-      alert('Image upload failed. Please try again.');
+      toast.error('Image upload failed. Please try again.');
       return null;
     }
   };
@@ -62,8 +63,8 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            mealName,
-            mealImageUrl: imageUrl, // Use the Cloudinary image URL
+            mealtype_name:mealName,
+            mealtype_image_url: imageUrl, // Use the Cloudinary image URL
           }),
         });
 
@@ -77,10 +78,10 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
         onSubmit(); // Refresh meal type list
       } catch (error) {
         console.error('Fetch error:', error);
-        alert('Failed to add meal type. Please try again.');
+        toast.error('Failed to add meal type. Please try again.');
       }
     } else {
-      alert('Please provide both meal name and an image.');
+      toast.error('Please provide both meal name and an image.');
     }
   };
 

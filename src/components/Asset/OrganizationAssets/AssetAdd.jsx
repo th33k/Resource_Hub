@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { BASE_URLS } from '../../../services/api/config';
+import { toast } from "react-toastify";
 
 function AssetAdd({ open, onClose, onAdd }) {
   const [newAsset, setNewAsset] = useState({
@@ -18,7 +19,7 @@ function AssetAdd({ open, onClose, onAdd }) {
 
   const handleAddAsset = async () => {
     if (!newAsset.name || !newAsset.category || !newAsset.quantity || !newAsset.condition || !newAsset.location) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return;
     }
     
@@ -47,11 +48,12 @@ function AssetAdd({ open, onClose, onAdd }) {
         location: "",
       });
 
+      toast.success("Asset added successfully!");
       onAdd(); // Notify parent to refresh or handle after asset addition
       onClose(); // Close the popup after adding the asset
     } catch (error) {
       console.error("Error adding asset:", error);
-      alert("Failed to add asset.");
+      toast.error("Failed to add asset.");
     }
   };
 

@@ -79,14 +79,20 @@ const MaintenanceDetails = () => {
 
   const handleEditMaintenance = async (editedMaintenance) => {
     try {
+      if (!editedMaintenance.maintenance_id) {
+        console.error("Invalid maintenance object: Missing maintenance_id", editedMaintenance);
+        toast.error("Failed to update maintenance: Missing maintenance_id.");
+        return;
+      }
+
       const response = await axios.put(
-        `${BASE_URLS.maintenance}/details/${editedMaintenance.id}`,
+        `${BASE_URLS.maintenance}/details/${editedMaintenance.maintenance_id}`,
         editedMaintenance
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
     } catch (error) {
-      console.error("Error updating maintenance:", error);
+      console.error("Error updating maintenance:", error.response?.data || error.message);
       toast.error("Failed to update maintenance.");
     }
   };

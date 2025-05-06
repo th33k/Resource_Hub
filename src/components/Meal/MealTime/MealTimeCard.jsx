@@ -11,6 +11,8 @@ import EditPopup from './EditMealTimePopup';
 import DeletePopup from './DeleteMealTimePopup';
 import '../Meal-CSS/Mealcard.css';
 import { BASE_URLS } from '../../../services/api/config';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MealCard({ mealId, name, image, onEdit, onDelete }) {
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -18,6 +20,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
   const [mealName, setMealName] = React.useState(name);
   const [mealImage, setMealImage] = React.useState(image);
   const [error, setError] = React.useState(null);
+
 
   const handleEditClickOpen = () => {
     setOpenEdit(true);
@@ -46,7 +49,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mealName: name, mealImageUrl: image }),
+        body: JSON.stringify({ mealtime_name: name, mealtime_image_url: image }),
       });
 
       if (!response.ok) {
@@ -57,8 +60,10 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
       setMealName(name);
       setMealImage(image);
       setOpenEdit(false);
+      toast.success('Meal updated successfully!');
     } catch (error) {
       setError(`Error updating meal: ${error.message}`);
+      toast.error(`Error updating meal: ${error.message}`);
     }
   };
 
@@ -66,8 +71,10 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
     try {
       await onDelete(mealId);
       setOpenDelete(false);
+      toast.success('Meal deleted successfully!');
     } catch (error) {
       setError(`Error deleting meal: ${error.message}`);
+      toast.error(`Error deleting meal: ${error.message}`);
     }
   };
 

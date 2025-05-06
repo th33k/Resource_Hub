@@ -102,7 +102,7 @@ export const MaintenanceTableUser = ({ maintenance }) => {
                   
                   return (
                     <TableRow 
-                      key={item.id} 
+                      key={item.maintenance_id} 
                       hover
                       sx={{
                         '&:hover': {
