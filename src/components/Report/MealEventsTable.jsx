@@ -12,19 +12,27 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Modal,
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardActionArea,
 } from "@mui/material";
 import html2pdf from "html2pdf.js";
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from "react-toastify";
+import SchedulePopup from "./SchedulePopup";
 
 const MealEventsTable = () => {
   const [mealEvents, setMealEvents] = useState([""]);
   const [filteredEvents, setFilteredEvents] = useState([""]);
   const [mealTimes, setMealTimes] = useState([""]);
-  const [mealTypes, setMealTypes] = useState([""]); // Store meal types from API
+  const [mealTypes, setMealTypes] = useState([""]);
   const [selectedMealTime, setSelectedMealTime] = useState("");
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [openschedulePopup, setOpenSchedulePopup] = useState(false);
 
   // Fetch meal events
   useEffect(() => {
@@ -103,30 +111,6 @@ const MealEventsTable = () => {
     }
   };
 
-  if (!Array.isArray(filteredEvents) || filteredEvents.length === 0) {
-    return (
-      <TableContainer component={Paper} id="meal-events-table">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Meal Time</TableCell>
-              <TableCell>Meal Type</TableCell>
-              <TableCell>User Name</TableCell>
-              <TableCell>Submitted Date</TableCell>
-              <TableCell>Meal Request Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell align="center" colSpan={5}>
-                No data available.
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }
 
   return (
     <div>
@@ -141,8 +125,8 @@ const MealEventsTable = () => {
           >
             <MenuItem value="">All</MenuItem>
             {mealTimes.map((time) => (
-              <MenuItem key={time.mealtime_id} value={time.mealtime_id}> {/* Use id instead of id */}
-                {time.mealtime_name}
+              <MenuItem key={time.id} value={time.id}>
+                {time.name}
               </MenuItem>
             ))}
           </Select>
@@ -158,8 +142,8 @@ const MealEventsTable = () => {
           >
             <MenuItem value="">All</MenuItem>
             {mealTypes.map((type) => (
-              <MenuItem key={type.mealtype_id} value={type.mealtype_id}> {/* Use id instead of id */}
-                {type.mealtype_name}
+              <MenuItem key={type.id} value={type.id}>
+                {type.name}
               </MenuItem>
             ))}
           </Select>
@@ -186,10 +170,11 @@ const MealEventsTable = () => {
         <Button variant="contained" color="primary" onClick={handleDownloadPDF}>
           Download PDF
         </Button>
-        <Button variant="contained" color="primary" >
+        <Button variant="contained" color="primary" onClick={()=>setOpenSchedulePopup(true)} >
           Schedule PDF
         </Button>
       </div>
+ 
 
       {/* Table */}
       <TableContainer component={Paper} id="meal-events-table">
@@ -216,7 +201,12 @@ const MealEventsTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {openschedulePopup &&  <SchedulePopup onClose={()=>setOpenSchedulePopup(false)}  table="Meal _Requests" />}
+
     </div>
+
+
   );
 };
 
