@@ -34,6 +34,31 @@ const AssetsTable = () => {
     }
   };
 
+  if (!Array.isArray(Assets) || Assets.length === 0) {
+    return (
+      <TableContainer component={Paper} id="asset-table">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Asset Name</TableCell>
+              <TableCell align="center">Category</TableCell>
+              <TableCell align="center">Quantity</TableCell>
+              <TableCell align="center">Condition Type</TableCell>
+              <TableCell align="center">Location</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center" colSpan={5}>
+                No data available.
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+
   return (
     <div>
      
@@ -51,21 +76,21 @@ const AssetsTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Asset Name</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Condition Type</TableCell>
-              <TableCell>Location</TableCell>
+              <TableCell align="center">Asset Name</TableCell>
+              <TableCell align="center">Category</TableCell>
+              <TableCell align="center">Quantity</TableCell>
+              <TableCell align="center">Condition Type</TableCell>
+              <TableCell align="center">Location</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Assets.map((Assets, index) => (
+            {Assets && Assets.map((Assets, index) => (
               <TableRow key={index}>
-                <TableCell>{Assets.asset_name}</TableCell>
-                <TableCell>{Assets.category}</TableCell>
-                <TableCell>{Assets.quantity}</TableCell>
-                <TableCell>{Assets.condition_type}</TableCell>
-                <TableCell>{Assets.location}</TableCell>
+                <TableCell align="center">{Assets.asset_name}</TableCell>
+                <TableCell align="center">{Assets.category}</TableCell>
+                <TableCell align="center">{Assets.quantity}</TableCell>
+                <TableCell align="center">{Assets.condition_type}</TableCell>
+                <TableCell align="center">{Assets.location}</TableCell>
               </TableRow>
             ))}
           </TableBody>

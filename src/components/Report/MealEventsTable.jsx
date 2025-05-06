@@ -18,10 +18,10 @@ import { BASE_URLS } from '../../services/api/config';
 import { toast } from "react-toastify";
 
 const MealEventsTable = () => {
-  const [mealEvents, setMealEvents] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]);
-  const [mealTimes, setMealTimes] = useState([]);
-  const [mealTypes, setMealTypes] = useState([]); // Store meal types from API
+  const [mealEvents, setMealEvents] = useState([""]);
+  const [filteredEvents, setFilteredEvents] = useState([""]);
+  const [mealTimes, setMealTimes] = useState([""]);
+  const [mealTypes, setMealTypes] = useState([""]); // Store meal types from API
   const [selectedMealTime, setSelectedMealTime] = useState("");
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -102,6 +102,31 @@ const MealEventsTable = () => {
       toast.error("Failed to download meal events report.");
     }
   };
+
+  if (!Array.isArray(filteredEvents) || filteredEvents.length === 0) {
+    return (
+      <TableContainer component={Paper} id="meal-events-table">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Meal Time</TableCell>
+              <TableCell>Meal Type</TableCell>
+              <TableCell>User Name</TableCell>
+              <TableCell>Submitted Date</TableCell>
+              <TableCell>Meal Request Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center" colSpan={5}>
+                No data available.
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
 
   return (
     <div>

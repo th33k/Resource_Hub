@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 // Component to display meal events table
 const MaintenanceTable = () => {
-  const [Maintenance, setmaintenance] = useState([]);
+  const [Maintenance, setmaintenance] = useState([""]);
 
   // Fetch data from the API
   useEffect(() => {
@@ -35,6 +35,32 @@ const MaintenanceTable = () => {
     }
   };
 
+  if (!Array.isArray(Maintenance) || Maintenance.length === 0) {
+    return (
+      <TableContainer component={Paper} id="maintenance-table">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Maintenance ID</TableCell>
+              <TableCell align="center">User ID</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">Priority Level</TableCell>
+              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">Request Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center" colSpan={6}>
+                No data available.
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+
   return (
     <div>
      
@@ -52,23 +78,23 @@ const MaintenanceTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Maintenance ID</TableCell>
-              <TableCell>User ID</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Priority Level</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Request Date</TableCell>
+              <TableCell align="center">Maintenance ID</TableCell>
+              <TableCell align="center">User ID</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">Priority Level</TableCell>
+              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">Request Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {Maintenance.map((maintenance, index) => (
               <TableRow key={index}>
-                <TableCell>{maintenance.id}</TableCell>
-                <TableCell>{maintenance.user_id}</TableCell>
-                <TableCell>{maintenance.description}</TableCell>
-                <TableCell>{maintenance.priority_level}</TableCell>
-                <TableCell>{maintenance.status}</TableCell>
-                <TableCell>{maintenance.request_date}</TableCell>
+                <TableCell align="center">{maintenance.maintenance_id}</TableCell>
+                <TableCell align="center">{maintenance.user_id}</TableCell>
+                <TableCell align="center">{maintenance.description}</TableCell>
+                <TableCell align="center">{maintenance.priorityLevel}</TableCell>
+                <TableCell align="center">{maintenance.status}</TableCell>
+                <TableCell align="center">{maintenance.submitted_date}</TableCell>
               </TableRow>
             ))}
           </TableBody>
