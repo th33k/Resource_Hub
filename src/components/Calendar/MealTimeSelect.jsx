@@ -36,7 +36,7 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
             key={mealtime.mealtime_id}
             id={mealtime.mealtime_id}
             name={mealtime.mealtime_name}
-            image={mealtime.mealImageUrl || "/default-mealtime.png"}
+            image={mealtime.mealtime_image_url || "/default-mealtime.png"}
             onSelect={(mealTypeId, mealTypeName) =>
               onAddEvent(mealtime.mealtime_id, mealTypeId, mealtime.mealtime_name, mealTypeName)
             }
