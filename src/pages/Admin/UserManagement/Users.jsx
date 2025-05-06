@@ -78,7 +78,7 @@ export const Users = () => {
         }))
       );
     } catch (error) {
-      toast.error(`Failed to load users: ${error.message}`);
+      toast.error(`Failed to load users`);
     } finally {
       setLoading(false);
     }
