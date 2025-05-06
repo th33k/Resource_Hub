@@ -8,7 +8,7 @@ import DeletePopup from "../../components/Calendar/DeletePopup";
 import axios from "axios";
 import UserLayout from "../../layouts/User/UserLayout";
 import { BASE_URLS } from '../../services/api/config';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -146,6 +146,7 @@ function MealCalendar() {
             eventTitle={selectedEvent ? selectedEvent.title : ''}
           />
         </div>
+        <ToastContainer />
       </div>
     </UserLayout>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MealTypeCard from "./MealTypeCard";
 import "./Calender-CSS/MealTypeSelect.css";
 import { BASE_URLS } from '../../services/api/config';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function MealTypeSelect({ onSelect }) {
   const [mealTypes, setMealTypes] = useState([]);
@@ -20,7 +20,6 @@ export default function MealTypeSelect({ onSelect }) {
       }
       const data = await response.json();
       setMealTypes(data);
-      toast.success("Meal types loaded successfully!");
     } catch (error) {
       console.error("Error fetching meal types:", error);
       toast.error(`Error: ${error.message}`);
@@ -42,6 +41,7 @@ export default function MealTypeSelect({ onSelect }) {
           />
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 }

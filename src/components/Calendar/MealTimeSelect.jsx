@@ -20,7 +20,6 @@ export default function MealTimeSelect({ selectedDate, onAddEvent, isMealSelecte
       }
       const data = await response.json();
       setMealTimes(data);
-      toast.success("Meal times loaded successfully!");
     } catch (error) {
       console.error("Error fetching meal times:", error);
       toast.error(`Error: ${error.message}`);

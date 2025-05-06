@@ -11,7 +11,7 @@ import {
 import { Search } from "lucide-react";
 import AdminLayout from "../../../layouts/Admin/AdminLayout";
 import { BASE_URLS } from "../../../services/api/config";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -110,6 +110,7 @@ const AssetMonitoringAdmin = () => {
         <div className="mt-6">
           <MonitorTable assets={filteredAssets} onSave={handleSave} />
         </div>
+        <ToastContainer />
       </div>
     </AdminLayout>
   );
