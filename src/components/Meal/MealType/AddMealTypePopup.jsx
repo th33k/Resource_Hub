@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Dialog, Input, Button, Typography } from '@mui/material';
-import { X } from 'lucide-react';
-import '../Meal-CSS/AddMealPopup.css';
-import { BASE_URLS } from '../../../services/api/config';
+import { useState } from "react";
+import { Dialog, Input, Button, Typography } from "@mui/material";
+import { X } from "lucide-react";
+import "../Meal-CSS/AddMealPopup.css";
+import { BASE_URLS } from "../../../services/api/config";
 import { toast } from "react-toastify";
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
-  const [mealName, setMealName] = useState('');
-  const [mealImageUrl, setMealImageUrl] = useState('');
+  const [mealName, setMealName] = useState("");
+  const [mealImageUrl, setMealImageUrl] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
@@ -24,29 +24,32 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   // Upload image to Cloudinary
   const uploadImageToCloudinary = async () => {
     if (!imageFile) {
-      toast.error('Please select an image to upload');
+      toast.error("Please select an image to upload");
       return null;
     }
 
     setUploading(true);
     const formData = new FormData();
-    formData.append('file', imageFile);
-    formData.append('upload_preset', 'ResourceHub'); // Your upload preset
-    formData.append('cloud_name', 'dyjwjhekd'); // Your Cloudinary cloud name
+    formData.append("file", imageFile);
+    formData.append("upload_preset", "ResourceHub"); // Your upload preset
+    formData.append("cloud_name", "dyjwjhekd"); // Your Cloudinary cloud name
 
     try {
-      const response = await fetch('https://api.cloudinary.com/v1_1/dyjwjhekd/image/upload', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dyjwjhekd/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await response.json();
       setUploading(false);
       return data.secure_url; // Cloudinary URL
     } catch (error) {
-      console.error('Upload failed:', error);
+      console.error("Upload failed:", error);
       setUploading(false);
-      toast.error('Image upload failed. Please try again.');
+      toast.error("Image upload failed. Please try again.");
       return null;
     }
   };
@@ -60,28 +63,31 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
     if (imageUrl && mealName) {
       try {
         const response = await fetch(`${BASE_URLS.mealtype}/add`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            mealtype_name:mealName,
+            mealtype_name: mealName,
             mealtype_image_url: imageUrl, // Use the Cloudinary image URL
           }),
         });
+
+        setMealName("");
+        setMealImageUrl("");
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const result = await response.json();
-        console.log('Server Response:', result);
+        console.log("Server Response:", result);
         onClose();
         onSubmit(); // Refresh meal type list
       } catch (error) {
-        console.error('Fetch error:', error);
-        toast.error('Failed to add meal type. Please try again.');
+        console.error("Fetch error:", error);
+        toast.error("Failed to add meal type. Please try again.");
       }
     } else {
-      toast.error('Please provide both meal name and an image.');
+      toast.error("Please provide both meal name and an image.");
     }
   };
 
@@ -118,7 +124,11 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
                 src={mealImageUrl}
                 alt="Meal Type Preview"
                 className="mealtime-preview-img"
-                style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'cover' }}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "300px",
+                  objectFit: "cover",
+                }}
               />
             </div>
           )}
@@ -136,9 +146,15 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
         </div>
 
         <div className="mealtime-buttons">
-          <button onClick={onClose} className="mealtime-cancel-btn">Cancel</button>
-          <button onClick={handleSubmit} className="mealtime-submit-btn" disabled={uploading}>
-            {uploading ? 'Uploading...' : 'Submit'}
+          <button onClick={onClose} className="mealtime-cancel-btn">
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="mealtime-submit-btn"
+            disabled={uploading}
+          >
+            {uploading ? "Uploading..." : "Submit"}
           </button>
         </div>
       </div>

@@ -45,7 +45,7 @@ function MealCalendar() {
   const isPastDate = (date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return date < today;
+    return date <= today;
   };
 
   const dayClickAction = (info) => {
@@ -57,7 +57,6 @@ function MealCalendar() {
 
   const handleAddEvent = async (mealTimeId, mealTypeId, mealTimeName, mealTypeName) => {
     try {
-      toast.info("Debug: handleAddEvent function executed");
       const response = await axios.post(`${BASE_URLS.calendar}/mealevents/add`, {
         mealtime_id: mealTimeId,
         mealtype_id: mealTypeId,
@@ -65,7 +64,9 @@ function MealCalendar() {
         submitted_date: today,
         meal_request_date: selectedDate,
       });
-
+      if (response.status === 200 || response.status === 201) {
+         toast.success("Event added successfully!");
+      }
       if (response.status !== 200 && response.status !== 201) {
         throw new Error(`Failed to add event: ${response.status}`);
       }

@@ -21,45 +21,18 @@ const MaintenanceTable = () => {
     try {
       const element = document.getElementById("maintenance-table"); // Get the content to convert to PDF
       const options = {
-        margin: 1,
-        filename: "MaintenanceReport.pdf", // Set the filename of the PDF
+        filename: "maintenances.pdf", // Set the filename of the PDF
         image: { type: "jpeg", quality: 0.98 }, // Set image quality
         html2canvas: { scale: 2 }, // Set the scale for the canvas
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" }, // Set PDF size and orientation
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }, // Set PDF size and orientation
       };
       html2pdf().from(element).set(options).save(); // Convert and download the PDF
-      toast.success("Maintenance report downloaded successfully!");
+      toast.success("maintenances report downloaded successfully!");
     } catch (error) {
-      console.error("Error downloading maintenance report:", error);
-      toast.error("Failed to download maintenance report.");
+      console.error("Error downloading maintenances report:", error);
+      toast.error("Failed to download maintenances report.");
     }
   };
-
-  if (!Array.isArray(Maintenance) || Maintenance.length === 0) {
-    return (
-      <TableContainer component={Paper} id="maintenance-table">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Maintenance ID</TableCell>
-              <TableCell align="center">User ID</TableCell>
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Priority Level</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="center">Request Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell align="center" colSpan={6}>
-                No data available.
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }
 
   return (
     <div>
@@ -78,23 +51,25 @@ const MaintenanceTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Maintenance ID</TableCell>
-              <TableCell align="center">User ID</TableCell>
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Priority Level</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="center">Request Date</TableCell>
+              <TableCell>Maintenance ID</TableCell>
+              <TableCell>User ID</TableCell>
+              <TableCell>User Name</TableCell>
+              <TableCell >Description</TableCell>
+              <TableCell>Priority Level</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Submitted Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {Maintenance.map((maintenance, index) => (
               <TableRow key={index}>
-                <TableCell align="center">{maintenance.maintenance_id}</TableCell>
-                <TableCell align="center">{maintenance.user_id}</TableCell>
-                <TableCell align="center">{maintenance.description}</TableCell>
-                <TableCell align="center">{maintenance.priorityLevel}</TableCell>
-                <TableCell align="center">{maintenance.status}</TableCell>
-                <TableCell align="center">{maintenance.submitted_date}</TableCell>
+                <TableCell>{maintenance.maintenance_id}</TableCell>
+                <TableCell>{maintenance.user_id}</TableCell>
+                <TableCell>{maintenance.username}</TableCell>
+                <TableCell style={{ maxWidth: '200px' }}>{maintenance.description}</TableCell>
+                <TableCell>{maintenance.priorityLevel}</TableCell>
+                <TableCell>{maintenance.status}</TableCell>
+                <TableCell>{maintenance.submitted_date}</TableCell>
               </TableRow>
             ))}
           </TableBody>

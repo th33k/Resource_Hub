@@ -51,8 +51,8 @@ const MealEventsTable = () => {
       .then((response) => response.json())
       .then((data) => {
         const mealNames = data.map((meal) => ({
-          id: meal.id,
-          name: meal.mealName,
+          id: meal.mealtime_id,
+          name: meal.mealtime_name,
         }));
         setMealTimes(mealNames);
       })
@@ -65,8 +65,8 @@ const MealEventsTable = () => {
       .then((response) => response.json())
       .then((data) => {
         const mealTypeList = data.map((type) => ({
-          id: type.id,
-          name: type.mealName,
+          id: type.mealtype_id,
+          name: type.mealtype_name,
         }));
         setMealTypes(mealTypeList);
       })

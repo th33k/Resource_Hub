@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { Chip,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import html2pdf from "html2pdf.js";
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from "react-toastify";
@@ -40,16 +40,16 @@ const AssetsTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Asset Name</TableCell>
-              <TableCell align="center">Category</TableCell>
-              <TableCell align="center">Quantity</TableCell>
-              <TableCell align="center">Condition Type</TableCell>
-              <TableCell align="center">Location</TableCell>
+              <TableCell>Asset Name</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Condition Type</TableCell>
+              <TableCell>Location</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell align="center" colSpan={5}>
+              <TableCell colSpan={5}>
                 No data available.
               </TableCell>
             </TableRow>
@@ -76,21 +76,26 @@ const AssetsTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Asset Name</TableCell>
-              <TableCell align="center">Category</TableCell>
-              <TableCell align="center">Quantity</TableCell>
-              <TableCell align="center">Condition Type</TableCell>
-              <TableCell align="center">Location</TableCell>
+              <TableCell>Asset ID</TableCell>
+              <TableCell>Asset Name</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Condition Type</TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Availability</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {Assets && Assets.map((Assets, index) => (
               <TableRow key={index}>
-                <TableCell align="center">{Assets.asset_name}</TableCell>
-                <TableCell align="center">{Assets.category}</TableCell>
-                <TableCell align="center">{Assets.quantity}</TableCell>
-                <TableCell align="center">{Assets.condition_type}</TableCell>
-                <TableCell align="center">{Assets.location}</TableCell>
+                <TableCell>{Assets.asset_id}</TableCell>
+                <TableCell>{Assets.asset_name}</TableCell>
+                <TableCell>{Assets.category}</TableCell>
+                <TableCell>{Assets.quantity}</TableCell>
+                <TableCell>{Assets.condition_type}</TableCell>
+                <TableCell>{Assets.location}</TableCell>
+                <TableCell> {Assets.is_available ? "Available" : "Not Available"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
