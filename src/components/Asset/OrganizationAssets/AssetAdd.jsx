@@ -78,7 +78,7 @@ function AssetAdd({ open, onClose, onAdd }) {
             onChange={handleInputChange}
             label="Category"
           >
-            <MenuItem value="Electronics & IT">IT Equipment</MenuItem>
+            <MenuItem value="Electronics & IT">Electronics & IT</MenuItem>
             <MenuItem value="Office Supplies">Office Supplies</MenuItem>
             <MenuItem value="Furniture">Furniture</MenuItem>
             <MenuItem value="Electrical Appliances">Electrical Appliances</MenuItem>
