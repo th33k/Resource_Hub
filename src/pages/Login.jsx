@@ -52,7 +52,17 @@ function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("userRole", userRole);
       localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("Email", data.email);
+      localStorage.setItem("Username", data.username);
       localStorage.setItem("Userid", data.id);
+      localStorage.setItem(
+        "Profile_picture",
+        data.profile_picture_url ||
+          `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            data.username
+          )}`
+      );
+
       // Refresh user data in context
       refreshUserData();
 
