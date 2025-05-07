@@ -59,12 +59,13 @@ const MonitorTable = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>User</TableCell>
-            <TableCell>Asset ID</TableCell>
+            <TableCell>Requested ID</TableCell>
             <TableCell>Asset</TableCell>
+            <TableCell>Quantity</TableCell>
             {showHandoverColumns && <TableCell>Handover Date</TableCell>}
             {showHandoverColumns && <TableCell>Days Remaining</TableCell>}
             <TableCell>Status</TableCell>
+            <TableCell>Return Status</TableCell>
             <TableCell>Category</TableCell>
             {customColumns.map((col, index) => (
               <TableCell key={`head-${index}`}>{col.label}</TableCell>
@@ -75,21 +76,19 @@ const MonitorTable = ({
           {assets.map((asset) => {
             const statusStyle = getStatusColor(asset.status, theme);
 
+            // Conditionally handle `is_returning` and other fields
+            const isReturning = asset.is_returning ? 'Returning' : 'Not Returning';
+            const handoverDate = asset.is_returning ? asset.handover_date : "No Return";
+            const remainingDays = asset.is_returning ? asset.remaining_days : "N/A";
+
             return (
               <TableRow key={asset.requestedasset_id}>
-                <TableCell>
-                  <div className="flex items-center gap-3">
-                    <Avatar
-                      src={asset.profile_picture_url || "https://i.pravatar.cc/50"}
-                      alt={asset.username}
-                    />
-                    {asset.username}
-                  </div>
-                </TableCell>
-                <TableCell>{asset.asset_id}</TableCell>
+
+                <TableCell>{asset.requestedasset_id}</TableCell>
                 <TableCell>{asset.asset_name}</TableCell>
-                {showHandoverColumns && <TableCell>{asset.handover_date}</TableCell>}
-                {showHandoverColumns && <TableCell>{asset.remaining_days}</TableCell>}
+                <TableCell>{asset.quantity}</TableCell>
+                {showHandoverColumns && <TableCell>{handoverDate}</TableCell>}
+                {showHandoverColumns && <TableCell>{remainingDays}</TableCell>}
                 <TableCell>
                   <Chip
                     label={asset.status}
@@ -103,6 +102,7 @@ const MonitorTable = ({
                     }}
                   />
                 </TableCell>
+                <TableCell>{isReturning}</TableCell>
                 <TableCell>{asset.category}</TableCell>
                 {customColumns.map((col, index) => (
                   <TableCell key={`row-${index}`}>{col.render(asset)}</TableCell>

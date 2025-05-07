@@ -12,25 +12,46 @@ import {
 import { toast } from "react-toastify";
 import AssetSearch from "./AssetSearch";
 import { BASE_URLS } from '../../../services/api/config';
+import axios from "axios";
 
 function RequestButton({ open, onClose, onRequest }) {
   const [requestData, setRequestData] = useState({
     userName: "",
     assetName: "",
-    assetId: "", // Added assetId to hold the asset ID
+    assetId: "",
     category: "",
     quantity: "",
-    handoverDate: new Date().toISOString().split("T")[0],
+    handoverDate: new Date().toISOString().split("T")[0],  // Initial date to today's date
     reason: "",
-    isAssetReturning: true, // Renamed isReturning to isAssetReturning
+    isAssetReturning: true,
   });
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("Username");
-    if (storedUser) {
-      setRequestData((prev) => ({ ...prev, userName: storedUser }));
-    }
-  }, []);
+    if (!open) return;  // Don't fetch user data if the dialog is not open
+
+    const fetchUserData = async () => {
+      const userId = localStorage.getItem('Userid');
+      if (!userId) return;
+
+      try {
+        const response = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
+        const storedUser = response.data[0]?.username;
+        if (storedUser) {
+          setRequestData((prev) => ({ ...prev, userName: storedUser }));
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    // Reset handoverDate to today's date every time the dialog opens
+    setRequestData(prev => ({
+      ...prev,
+      handoverDate: new Date().toISOString().split("T")[0],  // Reset the date
+    }));
+
+    fetchUserData();
+  }, [open]);  // Depend on `open` to refetch when dialog is opened
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +61,7 @@ function RequestButton({ open, onClose, onRequest }) {
   const handleRequestAsset = async () => {
     if (
       !requestData.userName ||
-      !requestData.assetId || // Ensure assetId is provided and is a valid integer
+      !requestData.assetId ||
       !requestData.quantity ||
       !requestData.reason
     ) {
@@ -48,18 +69,17 @@ function RequestButton({ open, onClose, onRequest }) {
       return;
     }
 
-    // Get the user ID from localStorage
     const userId = localStorage.getItem("Userid");
-    const assetId = requestData.assetId; // assetId should be an integer at this point
-    const borrowedDate = new Date().toISOString().split("T")[0]; // Set current date as borrowed date
+    const assetId = requestData.assetId;
+    const borrowedDate = new Date().toISOString().split("T")[0];
 
     const payload = {
-      user_id: parseInt(userId), // Ensure userId is an integer
-      asset_id: parseInt(assetId), // Ensure assetId is an integer
+      user_id: parseInt(userId),
+      asset_id: parseInt(assetId),
       submitted_date: borrowedDate,
       handover_date: requestData.handoverDate,
-      quantity: parseInt(requestData.quantity), // Ensure quantity is an integer
-      is_returning: requestData.isAssetReturning, // Pass isAssetReturning value to the database
+      quantity: parseInt(requestData.quantity),
+      is_returning: requestData.isAssetReturning,
     };
 
     try {
@@ -73,16 +93,16 @@ function RequestButton({ open, onClose, onRequest }) {
 
       const data = await response.json();
       if (response.ok) {
-        onRequest(requestData); // Call onRequest if you need to do something with the data
+        onRequest(requestData); 
         setRequestData({
           userName: "",
           assetName: "",
-          assetId: "", // Reset assetId
+          assetId: "",
           category: "",
           quantity: "",
           handoverDate: "",
           reason: "",
-          isAssetReturning: true, // Reset isAssetReturning to true
+          isAssetReturning: true,
         });
         toast.success("Request submitted successfully!");
         onClose();
@@ -145,7 +165,7 @@ function RequestButton({ open, onClose, onRequest }) {
           name="handoverDate"
           value={requestData.handoverDate}
           onChange={handleInputChange}
-          disabled={!requestData.isAssetReturning} // Disable when isAssetReturning is false
+          disabled={!requestData.isAssetReturning}
         />
         <TextField
           label="Reason for Request"
@@ -158,7 +178,6 @@ function RequestButton({ open, onClose, onRequest }) {
           value={requestData.reason}
           onChange={handleInputChange}
         />
-      
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary" variant="outlined">
