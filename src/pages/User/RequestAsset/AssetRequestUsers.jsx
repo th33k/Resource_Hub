@@ -44,7 +44,7 @@ const AssetRequestUsers = () => {
 
   const handleCategoryChange = (newCategory) => {
     setFilterCategory(newCategory);
-    navigate("/admin-AssetMonitoring", { state: { category: newCategory } });
+
   };
 
   const filteredAssets = assets.filter(asset =>
