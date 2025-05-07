@@ -2,7 +2,7 @@
 .login-page {
   display: flex;
   height: 100vh;
-  background-color: #0b1120;
+  background: linear-gradient(to right, #0b1120 50%, #1f1147 100%);
   color: white;
 }
 
@@ -37,13 +37,19 @@
 .login-page .login-form {
   width: 90%;
   max-width: 400px;
-  background-color: #1a2333; 
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   padding: 30px;
-  border-radius: 10px; 
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 4px 12px; 
+
 }
 
 .login-page .login-form h2 {
+  text-align: center;
+  font-size: 30px;
+  font-weight:500;
   margin-bottom: 20px;
 }
 
@@ -83,5 +89,10 @@ button[type="submit"] {
   padding: 10px;
   background-color: #4f9ef8; 
   border-radius: 7px;
+
+}
+
+.form-options{
+  margin-bottom: 10px;
 }
 

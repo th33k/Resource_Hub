@@ -101,7 +101,7 @@ function Login() {
           />
           <div className="form-options">
             <label>
-              <a href="/ForgotPassword">Forgot password?</a>
+              <a href="/Forgot-Password">Forgot password?</a>
             </label>
           </div>
           <button type="submit" disabled={isLoading}>

@@ -1,5 +1,6 @@
 import React from "react";
 import "./css/ForgotPassword.css";
+import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   return (
@@ -16,7 +17,6 @@ const ForgotPassword = () => {
           </a>
         </div>
 
-        {/* Form */}
         <div className="form-box">
           <h2>Forgot Password ?</h2>
           <label htmlFor="email">Enter your email</label>
@@ -25,8 +25,8 @@ const ForgotPassword = () => {
           </div>
           <button className="reset-btn">RESET PASSWORD</button>
           <p>
-            Go back to login page? <a href="/login">Login</a>
-          </p>
+            Go back to login page ?  <a href="/login">Login</a>
+           </p>
         </div>
       </div>
     </div>
