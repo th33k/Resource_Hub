@@ -42,7 +42,7 @@ const ProfileSection = () => {
     e.preventDefault();
 
     if (!formData.name.trim()) return toast.error('Name is required');
-    if (formData.bio.length > 100) return toast.error('Bio cannot exceed 100 characters');
+    if (formData.bio.length > 150) return toast.error('Bio cannot exceed 150 characters');
 
     setConfirmationDialog({
       open: true,
