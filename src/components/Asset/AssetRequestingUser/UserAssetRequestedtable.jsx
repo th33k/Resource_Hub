@@ -78,8 +78,12 @@ const MonitorTable = ({
 
             // Conditionally handle `is_returning` and other fields
             const isReturning = asset.is_returning ? 'Returning' : 'Not Returning';
-            const handoverDate = asset.is_returning ? asset.handover_date : "No Return";
-            const remainingDays = asset.is_returning ? asset.remaining_days : "N/A";
+            const handoverDate = 
+              asset.is_returning ? asset.handover_date : 'No Return';
+            const remainingDays =
+              asset.is_returning && asset.status === 'Accepted'
+              ? asset.remaining_days
+              : 'N/A';
 
             return (
               <TableRow key={asset.requestedasset_id}>
