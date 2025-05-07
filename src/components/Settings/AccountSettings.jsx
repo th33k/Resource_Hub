@@ -21,6 +21,16 @@ const AccountSection = () => {
   const [selectedEmail, setSelectedEmail] = useState("");
   const [code, setCode] = useState("");
   const [confirmationDialog, setConfirmationDialog] = useState({ open: false, message: '', onConfirm: null });
+  const [passwordError, setPasswordError] = useState('');
+
+  // Add validation logic for password
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return 'Password must be at least 8 characters long, contain one uppercase letter, and one symbol.';
+    }
+    return '';
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,11 +56,28 @@ const AccountSection = () => {
     fetchUserData();
   }, []);
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === 'newPassword') {
+      const error = validatePassword(value);
+      setPasswordError(error);
+    }
+  };
 
   const handlePhoneSubmit = async (e) => {
     e.preventDefault();
+    const phoneRegex  = /^0?\d{9}$/;
+
+    if(formData.phone.length < 9) {
+      toast.error('Phone number must be at least 9 digits long.');
+      return;
+    }
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error('Invalid phone number format. Please enter a valid phone number .');
+      return;
+    }
     try {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
@@ -110,6 +137,11 @@ const AccountSection = () => {
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
+    
+    if (formData.currentPassword == formData.newPassword == formData.confirmPassword) {
+      toast.error('New password can not be old password.');
+      return;
+    }
     if (formData.newPassword !== formData.confirmPassword) {
       toast.error('New password and confirm password do not match.');
       return;
@@ -191,6 +223,7 @@ const AccountSection = () => {
             onChange={handleChange}
             required
           />
+          {passwordError && <p className="error">{passwordError}</p>}
           <label>Confirm New Password</label>
           <input
             type="password"
@@ -199,7 +232,7 @@ const AccountSection = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit">Update Password</button>
+          <button type="submit" disabled={!!passwordError}>Update Password</button>
         </form>
       </div>
 
