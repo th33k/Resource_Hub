@@ -10,8 +10,10 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
-import { BASE_URLS } from '../../../services/api/config';
+import { BASE_URLS } from "../../../services/api/config";
 import { toast } from "react-toastify";
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
@@ -22,6 +24,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
     quantity: "",
     condition: "",
     location: "",
+    is_available: false,
   });
 
   useEffect(() => {
@@ -33,6 +36,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
         quantity: asset.quantity,
         condition: asset.condition_type,
         location: asset.location,
+        is_available: asset.is_available ?? false,
       });
     }
   }, [asset]);
@@ -67,7 +71,9 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
             quantity: parseInt(editedAsset.quantity),
             condition_type: editedAsset.condition,
             location: editedAsset.location,
+            is_available: editedAsset.is_available, 
           }),
+          
         }
       );
 
@@ -109,7 +115,9 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
             <MenuItem value="Electronics & IT">Electronics & IT</MenuItem>
             <MenuItem value="Office Supplies">Office Supplies</MenuItem>
             <MenuItem value="Furniture">Furniture</MenuItem>
-            <MenuItem value="Electrical Appliances">Electrical Appliances</MenuItem>
+            <MenuItem value="Electrical Appliances">
+              Electrical Appliances
+            </MenuItem>
             <MenuItem value="Machinery & Tools">Machinery & Tools</MenuItem>
             <MenuItem value="Miscellaneous">Miscellaneous</MenuItem>
           </Select>
@@ -136,6 +144,22 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
             <MenuItem value="Used">Used</MenuItem>
           </Select>
         </FormControl>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={editedAsset.is_available}
+              onChange={(e) =>
+                setEditedAsset((prev) => ({
+                  ...prev,
+                  is_available: e.target.checked,
+                }))
+              }
+              color="primary"
+            />
+          }
+          label="Available"
+        />
+
         <TextField
           label="Location"
           variant="outlined"
@@ -153,7 +177,6 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
         <Button onClick={handleUpdate} color="primary">
           Update Asset
         </Button>
-        
       </DialogActions>
     </Dialog>
   );

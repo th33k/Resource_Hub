@@ -1,22 +1,55 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Chip 
+} from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import EditAssetPopup from "./AssetEdit"; // Import the Edit popup
 import DeleteAssetPopup from "./AssetDelete"; // Import the Delete popup
 
-function AssetTable({ assets, handleEditOpen, handleDeleteOpen, editOpen, deleteOpen, selectedAsset, handleUpdateAsset, handleDeleteAsset }) {
+function AssetTable({
+  assets,
+  handleEditOpen,
+  handleDeleteOpen,
+  editOpen,
+  deleteOpen,
+  selectedAsset,
+  handleUpdateAsset,
+  handleDeleteAsset,
+}) {
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell><strong>Asset Name</strong></TableCell>
-            <TableCell><strong>Category</strong></TableCell>
-            <TableCell><strong>Quantity</strong></TableCell>
-            <TableCell><strong>Condition</strong></TableCell>
-            <TableCell><strong>Location</strong></TableCell>
-            <TableCell><strong>Availability</strong></TableCell>
-            <TableCell><strong>Actions</strong></TableCell>
+            <TableCell>
+              <strong>Asset Name</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Category</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Quantity</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Condition</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Location</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Availability</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Actions</strong>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,12 +61,28 @@ function AssetTable({ assets, handleEditOpen, handleDeleteOpen, editOpen, delete
                 <TableCell>{asset.quantity}</TableCell>
                 <TableCell>{asset.condition_type}</TableCell>
                 <TableCell>{asset.location}</TableCell>
-                <TableCell>{asset.is_available}</TableCell>
                 <TableCell>
-                  <Button sx={{mr:'10px'}} color="primary" variant="outlined" onClick={() => handleEditOpen(asset)}>
+                  <Chip
+                    label={asset.is_available ? "Available" : "Not Available"}
+                    color={asset.is_available ? "success" : "default"}
+                    variant="outlined"
+                    size="small"
+                  />
+                </TableCell>
+                <TableCell>
+                  <Button
+                    sx={{ mr: "10px" }}
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => handleEditOpen(asset)}
+                  >
                     Edit <Edit />
                   </Button>
-                  <Button color="error" variant="outlined" onClick={() => handleDeleteOpen(asset)}>
+                  <Button
+                    color="error"
+                    variant="outlined"
+                    onClick={() => handleDeleteOpen(asset)}
+                  >
                     Delete <Delete />
                   </Button>
                 </TableCell>
@@ -48,7 +97,7 @@ function AssetTable({ assets, handleEditOpen, handleDeleteOpen, editOpen, delete
           )}
         </TableBody>
       </Table>
-      
+
       {/* Edit and Delete Popups */}
       {selectedAsset && (
         <>
