@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const { refreshUserData } = useUser();
 
-  // Check if user is already logged in, redirect accordingly
+  // Redirect if already authenticated
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     const userRole = localStorage.getItem("userRole");
@@ -28,7 +28,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMessage(""); // Clear previous errors
+    setErrorMessage("");
 
     try {
       const response = await fetch(`${BASE_URLS.login}/login`, {
@@ -43,30 +43,20 @@ function Login() {
         throw new Error(data.message || "Login failed");
       }
 
-      // Standardize role format (capitalize first letter)
+      // Format role
       const userRole =
         data.usertype.charAt(0).toUpperCase() +
         data.usertype.slice(1).toLowerCase();
 
-      // Store authentication details in localStorage
+      // Store only required auth info
       localStorage.setItem("token", data.token);
       localStorage.setItem("userRole", userRole);
       localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("Email", data.email);
-      localStorage.setItem("Username", data.username);
-      localStorage.setItem("Userid", data.id);
-      localStorage.setItem(
-        "Profile_picture",
-        data.profile_picture_url ||
-          `https://ui-avatars.com/api/?name=${encodeURIComponent(
-            data.username
-          )}`
-      );
+      localStorage.setItem("Userid", data.id); 
 
-      // Refresh user data in context
       refreshUserData();
 
-      // Redirect based on standardized user role
+      // Redirect
       if (userRole === "Admin") {
         navigate("/admin-dashboardadmin");
       } else {
