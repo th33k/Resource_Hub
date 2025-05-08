@@ -9,7 +9,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { Settings as SettingsIcon } from "@mui/icons-material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 
@@ -33,10 +32,8 @@ const ProfileMenu = ({ showOrdersOption = false }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");
     localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("Email");
-    localStorage.removeItem("Username");
     localStorage.removeItem("Userid");
-    localStorage.removeItem("Profile_picture");
+
     
     // Refresh context to show default user
     refreshUserData();
@@ -58,7 +55,8 @@ const ProfileMenu = ({ showOrdersOption = false }) => {
           alignItems: "center",
           gap: 1,
           bgcolor: theme.palette.background.default,
-          p: 0.5,
+          paddingY: 0.7,
+          paddingX: 1.5,
           borderRadius: 1,
           "&:hover": {
             bgcolor: theme.palette.action.hover,
@@ -69,8 +67,8 @@ const ProfileMenu = ({ showOrdersOption = false }) => {
         {userData.profilePicture ? (
           <Avatar
             sx={{
-              width: 32,
-              height: 32,
+              width: 38,
+              height: 38,
               fontSize: "0.875rem",
             }}
             src={userData.profilePicture}
@@ -116,13 +114,10 @@ const ProfileMenu = ({ showOrdersOption = false }) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
-          {userData.profilePicture ? (
-            <Avatar src={userData.profilePicture} sx={{ width: 24, height: 24, mr: 2 }} />
-          ) : (
-            <Avatar sx={{ width: 24, height: 24, mr: 2 }}>{userData.avatar}</Avatar>
-          )}
-          {showOrdersOption ? "My Profile" : "Profile"}
+        <MenuItem sx={{ display:'block',margin:'auto' }}>
+        <Typography variant="body2" sx={{ fontWeight: 100 , fontSize: "0.75rem" , textAlign: "center"}}>
+            {userData.email}
+          </Typography>
         </MenuItem>
 
         <MenuItem onClick={handleSettingsClick}>

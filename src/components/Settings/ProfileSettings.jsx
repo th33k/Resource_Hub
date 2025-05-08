@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './ProfileSection.css';
+import './Styles/ProfileSection.css';
 import { BASE_URLS } from '../../services/api/config';
 import ConfirmationDialog from './ConfirmationDialog';
 import { toast } from "react-toastify";
