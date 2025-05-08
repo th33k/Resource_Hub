@@ -2,12 +2,6 @@
   display: flex;
   height: 100vh;
   background: linear-gradient(to right, #0b1120 50%, #1f1147 100%);
-<<<<<<< HEAD
-=======
-  color: white;
-  justify-content: center;
-  align-items: center;
->>>>>>> 0f52097bff151bec3a3a20872fa9dc713a70d3fd
 }
 
 .login-page .login-left {
@@ -58,11 +52,6 @@
   width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 15px;
-<<<<<<< HEAD
-
-=======
-  color: black;
->>>>>>> 0f52097bff151bec3a3a20872fa9dc713a70d3fd
 }
 
 .login-page .login-form input[type="text"],
