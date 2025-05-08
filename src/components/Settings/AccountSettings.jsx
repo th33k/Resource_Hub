@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Styles/AccountSection.css';
+import './AccountSection.css';
 import { BASE_URLS } from '../../services/api/config';
 import VerificationPopup from './VerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
 import { toast } from "react-toastify";
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const AccountSection = () => {
   const [formData, setFormData] = useState({
@@ -25,9 +22,6 @@ const AccountSection = () => {
   const [code, setCode] = useState("");
   const [confirmationDialog, setConfirmationDialog] = useState({ open: false, message: '', onConfirm: null });
   const [passwordError, setPasswordError] = useState('');
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Add validation logic for password
   const validatePassword = (password) => {
@@ -74,14 +68,14 @@ const AccountSection = () => {
 
   const handlePhoneSubmit = async (e) => {
     e.preventDefault();
-    const phoneRegex = /^0?\d{9}$/;
+    const phoneRegex  = /^0?\d{9}$/;
 
-    if (formData.phone.length < 9) {
+    if(formData.phone.length < 9) {
       toast.error('Phone number must be at least 9 digits long.');
       return;
     }
     if (!phoneRegex.test(formData.phone)) {
-      toast.error('Invalid phone number format. Please enter a valid phone number.');
+      toast.error('Invalid phone number format. Please enter a valid phone number .');
       return;
     }
     try {
@@ -144,8 +138,8 @@ const AccountSection = () => {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     
-    if (formData.currentPassword === formData.newPassword && formData.newPassword === formData.confirmPassword) {
-      toast.error('New password cannot be the same as the old password.');
+    if (formData.currentPassword == formData.newPassword == formData.confirmPassword) {
+      toast.error('New password can not be old password.');
       return;
     }
     if (formData.newPassword !== formData.confirmPassword) {
@@ -181,18 +175,6 @@ const AccountSection = () => {
     });
   };
 
-  const handleClickShowCurrentPassword = () => setShowCurrentPassword((show) => !show);
-  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (event) => {
-    event.preventDefault();
-  };
-
   if (loading) return <p className="loading">Loading...</p>;
   if (error) return <p className="error">Error: {error}</p>;
 
@@ -224,85 +206,33 @@ const AccountSection = () => {
           <button type="submit" onClick={() => handleEmailSubmit(formData.email)}>Update Email</button>
         </div>
 
-        <form onSubmit={handlePasswordSubmit} className="form-group-password">
+        <form onSubmit={handlePasswordSubmit} className="form-group">
           <label>Current Password</label>
-          <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-current-password">Current Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-current-password"
-              type={showCurrentPassword ? 'text' : 'password'}
-              name="currentPassword"
-              value={formData.currentPassword}
-              onChange={handleChange}
-              required
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={showCurrentPassword ? 'hide the password' : 'display the password'}
-                    onClick={handleClickShowCurrentPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Current Password"
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-new-password">New Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-new-password"
-              type={showNewPassword ? 'text' : 'password'}
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-              required
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={showNewPassword ? 'hide the password' : 'display the password'}
-                    onClick={handleClickShowNewPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="New Password"
-            />
-          </FormControl>
+          <input
+            type="password"
+            name="currentPassword"
+            value={formData.currentPassword}
+            onChange={handleChange}
+            required
+          />
+          <label>New Password</label>
+          <input
+            type="password"
+            name="newPassword"
+            value={formData.newPassword}
+            onChange={handleChange}
+            required
+          />
           {passwordError && <p className="error">{passwordError}</p>}
-          <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-confirm-password">Confirm New Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-confirm-password"
-              type={showConfirmPassword ? 'text' : 'password'}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={showConfirmPassword ? 'hide the password' : 'display the password'}
-                    onClick={handleClickShowConfirmPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Confirm New Password"
-            />
-          </FormControl>
-          <button className='passwordsumbit' type="submit" disabled={!!passwordError}>Update Password</button>
+          <label>Confirm New Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit" disabled={!!passwordError}>Update Password</button>
         </form>
       </div>
 

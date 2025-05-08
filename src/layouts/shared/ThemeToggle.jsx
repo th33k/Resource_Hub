@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Tooltip, useTheme } from '@mui/material';
-import { DarkMode as DarkIcon, LightMode as LightIcon } from '@mui/icons-material';
+import { Brightness4 as DarkIcon, Brightness7 as LightIcon } from '@mui/icons-material';
 import { useThemeContext } from '../../theme/ThemeProvider';
 
 const ThemeToggle = () => {

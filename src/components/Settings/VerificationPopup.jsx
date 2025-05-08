@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Styles/VerifyPopup.css';
+import './VerifyPopup.css';
 import axios from 'axios';
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from "react-toastify";

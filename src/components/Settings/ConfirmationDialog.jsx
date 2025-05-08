@@ -1,5 +1,5 @@
 import React from 'react';
-import './Styles/ConfirmationDialog.css';
+import './ConfirmationDialog.css';
 
 const ConfirmationDialog = ({ message, onConfirm, onCancel }) => {
   return (

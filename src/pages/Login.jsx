@@ -37,7 +37,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMessage("");
+    setErrorMessage(""); // Clear previous errors
 
     try {
       const response = await fetch(`${BASE_URLS.login}/login`, {
@@ -134,7 +134,7 @@ function Login() {
 
           <div className="form-options">
             <label>
-              <a href="/Forgot-Password">Forgot password?</a>
+              <a href="/forgot-password">Forgot password?</a>
             </label>
           </div>
           <button type="submit" disabled={isLoading}>
