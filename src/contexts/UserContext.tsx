@@ -1,7 +1,16 @@
-import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URLS } from '../services/api/config';
 
-// Define UserData interface locally since we'll remove types.ts
+// Define the shape of user data
 export interface UserData {
   name: string;
   role: string;
@@ -15,13 +24,13 @@ interface UserContextType {
   toggleAdminMode: () => void;
   userData: UserData;
   refreshUserData: () => void;
-  isAdminView: boolean; // Add isAdminView to the type
+  isAdminView: boolean;
 }
 
-// Fallback user data
+// Default fallback user
 const defaultUser: UserData = {
   name: 'Guest User',
-  role: 'User',
+  role: localStorage.getItem("userRole") || '',
   avatar: 'GU',
 };
 
@@ -38,103 +47,73 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
+  // Initialize role immediately to avoid role flicker on refresh
+  const storedRole = localStorage.getItem('userRole') || 'User';
   const storedUserId = localStorage.getItem('Userid');
-  // Get user data from localStorage immediately on first render
-  const initialUserData = (() => {
-    const username = localStorage.getItem('Username');
-    const userRole = localStorage.getItem('userRole');
-    const profilePicture = localStorage.getItem('Profile_picture');
-    const email = localStorage.getItem('Email');
-    
-    if (username && userRole) {
-      // Get initials for avatar if no profile picture
-      const initials = username.charAt(0).toUpperCase();
-      
-      return {
-        name: username,
-        role: userRole,
-        avatar: initials,
-        email: email || '',
-        profilePicture: profilePicture || '',
-      };
-    }
-    
-    return defaultUser;
-  })();
-  
-  const [userData, setUserData] = useState<UserData>(initialUserData);
 
-  // Get user data from localStorage
-  const getUserDataFromStorage = useCallback(() => {
+  const [userData, setUserData] = useState<UserData>({
+    ...defaultUser,
+    role: storedRole,
+  });
 
-    const username = localStorage.getItem('Username');
-    const userRole = localStorage.getItem('userRole');
-    const profilePicture = localStorage.getItem('Profile_picture');
-    const email = localStorage.getItem('Email');
-    
-    if (username && userRole) {
-      // Get initials for avatar if no profile picture
-      const initials = username.charAt(0).toUpperCase();
-      
-      return {
-        name: username,
-        role: userRole,
-        avatar: initials,
-        email: email || '',
-        profilePicture: profilePicture || '',
-      };
+  const fetchUserData = useCallback(async () => {
+    if (!storedUserId) {
+      setUserData(defaultUser);
+      return;
     }
-    
-    return defaultUser;
-  }, []);
-  
+
+    try {
+      const response = await axios.get(`${BASE_URLS.settings}/details/${storedUserId}`);
+      const [profile] = response.data;
+
+      const name = profile.username || 'User';
+      const email = profile.email || '';
+      const avatar = name.charAt(0).toUpperCase();
+      const role = localStorage.getItem('userRole') || 'User';
+      const profilePicture = profile.profile_picture_url || '';
+
+      setUserData((prev) => ({
+        ...prev,
+        name,
+        avatar,
+        role,
+        email,
+        profilePicture,
+      }));
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+      setUserData(defaultUser); 
+    }
+  }, [storedUserId]);
+
   const refreshUserData = useCallback(() => {
-    setUserData(getUserDataFromStorage());
-  }, [getUserDataFromStorage]);
+    fetchUserData();
+  }, [fetchUserData]);
 
-  // Load user data on mount and when localStorage changes
   useEffect(() => {
-
-    const handleStorageChange = () => {
-      refreshUserData();
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    
     refreshUserData();
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
   }, [refreshUserData]);
 
-  // Check if user is an admin based on the role in userData
-  const isUserAdmin = useMemo(() => 
-    userData.role === 'Admin' || userData.role === 'admin',
+  const isUserAdmin = useMemo(() =>
+    userData.role.toLowerCase() === 'admin',
   [userData.role]);
 
-  // Compute isAdminView based on current location
-  const isAdminView = useMemo(() => 
-  location.pathname.startsWith('/admin'),
+  const isAdminView = useMemo(() =>
+    location.pathname.startsWith('/admin'),
   [location.pathname]);
 
-  // Toggle between admin and user views
   const toggleAdminMode = useCallback(() => {
     navigate(isAdminView ? '/user-dashboarduser' : '/admin-dashboardadmin');
   }, [isAdminView, navigate]);
 
-
-  const value = useMemo(
-    () => ({
-      isAdmin: isUserAdmin,
-      toggleAdminMode,
-      userData,
-      refreshUserData,
-      isAdminView, 
-    }),
-    [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView] 
-  );
+  const value = useMemo(() => ({
+    isAdmin: isUserAdmin,
+    toggleAdminMode,
+    userData,
+    refreshUserData,
+    isAdminView,
+  }), [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView]);
 
   return (
     <UserContext.Provider value={value}>

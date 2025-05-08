@@ -57,6 +57,7 @@
     font-size: 1rem;
     cursor: pointer;
     align-self: center;
+    width: 30%;
   }
   
   .form-group button:hover {
@@ -72,4 +73,39 @@
   
   .error {
     color: #e53e3e;
+  }
+
+  .form-group-password{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .form-group-password label {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .form-group-password button {
+    padding: 0.1rem 0.9rem;
+    background-color: #3182ce00;
+    color:  #3182ce;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: center;
+    width: 30%;
+  }
+  
+  .form-group-password .passwordsumbit{
+    padding: 0.75rem 1.5rem;
+    background-color: #3182ce;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: center;
+    width: 30%;
   }
