@@ -16,14 +16,12 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { Pencil, Trash2 } from "lucide-react";
-import { EditUserDialog } from "./EditUserDialog";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
 
 export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
   const theme = useTheme();
   const [selected, setSelected] = useState([]);
-  const [editUser, setEditUser] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -241,7 +239,7 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                             color="primary"
                             size="small"
                             startIcon={<Pencil size={18} />}
-                            onClick={() => setEditUser(user)}
+                            onClick={() => onEditUser(user)}
                             sx={{
                               borderRadius: theme.shape.borderRadius,
                             }}
@@ -329,18 +327,6 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
           />
         </Box>
       </Paper>
-
-      {editUser && (
-        <EditUserDialog
-          user={editUser}
-          open={!!editUser}
-          onClose={() => setEditUser(null)}
-          onSave={(editedUser) => {
-            onEditUser(editedUser);
-            setEditUser(null);
-          }}
-        />
-      )}
 
       <DeleteConfirmDialog
         open={isDeleteDialogOpen}
