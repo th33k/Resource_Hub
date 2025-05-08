@@ -48,16 +48,7 @@
   margin-bottom: 20px;
 }
 
-.login-page .login-form input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 15px;
-}
 
-.login-page .login-form input[type="text"],
-.login-page .login-form input[type="password"] {
-  border-radius: 5px;
-}
 
 .login-page .login-form input::placeholder {
   color: #aaa;
