@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const { refreshUserData } = useUser();
 
-  // Redirect if already authenticated
+  // Check if user is already logged in, redirect accordingly
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     const userRole = localStorage.getItem("userRole");
@@ -28,7 +28,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMessage("");
+    setErrorMessage(""); // Clear previous errors
 
     try {
       const response = await fetch(`${BASE_URLS.login}/login`, {
@@ -43,20 +43,30 @@ function Login() {
         throw new Error(data.message || "Login failed");
       }
 
-      // Format role
+      // Standardize role format (capitalize first letter)
       const userRole =
         data.usertype.charAt(0).toUpperCase() +
         data.usertype.slice(1).toLowerCase();
 
-      // Store only required auth info
+      // Store authentication details in localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("userRole", userRole);
       localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("Userid", data.id); 
+      localStorage.setItem("Email", data.email);
+      localStorage.setItem("Username", data.username);
+      localStorage.setItem("Userid", data.id);
+      localStorage.setItem(
+        "Profile_picture",
+        data.profile_picture_url ||
+          `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            data.username
+          )}`
+      );
 
+      // Refresh user data in context
       refreshUserData();
 
-      // Redirect
+      // Redirect based on standardized user role
       if (userRole === "Admin") {
         navigate("/admin-dashboardadmin");
       } else {
@@ -101,7 +111,7 @@ function Login() {
           />
           <div className="form-options">
             <label>
-              <a href="/Forgot-Password">Forgot password?</a>
+              <a href="/forgot-password">Forgot password?</a>
             </label>
           </div>
           <button type="submit" disabled={isLoading}>
