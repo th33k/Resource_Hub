@@ -58,7 +58,7 @@ const UserSidebar = () => {
 
   const sidebarFooter = (
     <List>
-      <ListItemButton component={Link} to="/settings/account">
+      <ListItemButton component={Link} to="/settings">
         <ListItemIcon sx={{ minWidth: 40 }}>
           <SettingsIcon />
         </ListItemIcon>
