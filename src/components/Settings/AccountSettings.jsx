@@ -223,9 +223,10 @@ const AccountSection = () => {
           />
           <button type="submit" onClick={() => handleEmailSubmit(formData.email)}>Update Email</button>
         </div>
-
-        <form onSubmit={handlePasswordSubmit} className="form-group-password">
-          <label>Current Password</label>
+        
+        <form onSubmit={handlePasswordSubmit} >
+        <label>Change Password</label>
+          <div className="form-group-password">
           <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-current-password">Current Password</InputLabel>
             <OutlinedInput
@@ -303,6 +304,7 @@ const AccountSection = () => {
             />
           </FormControl>
           <button className='passwordsumbit' type="submit" disabled={!!passwordError}>Update Password</button>
+          </div>
         </form>
       </div>
 

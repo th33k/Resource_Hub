@@ -67,14 +67,15 @@
   }
   
   .form-container button {
-     background-color: #3182ce;
+    background-color: #3182ce;
+    padding: 0.55rem;
     color: #fff;
     border: none;
     border-radius: 0.25rem;
     font-size: 1rem;
     cursor: pointer;
     align-self: center;
-    width: 30%;
+    width: 25%;
   }
   
   .form-container button:hover {
