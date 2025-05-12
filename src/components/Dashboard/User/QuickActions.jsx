@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material';
 
 export const QuickActions = ({ actions }) => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export const QuickActions = ({ actions }) => {
     if (path) {
       navigate(path);
     } else {
-      console.warn("Action triggered with no path defined.");
+      console.warn('Action triggered with no path defined.');
     }
   };
 
@@ -26,7 +26,10 @@ export const QuickActions = ({ actions }) => {
       }}
       className="rounded-lg p-6"
     >
-      <h2 className="text-xl font-semibold mb-4" style={{ color: theme.palette.text.primary }}>
+      <h2
+        className="text-xl font-semibold mb-4"
+        style={{ color: theme.palette.text.primary }}
+      >
         Quick Actions
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -42,7 +45,7 @@ export const QuickActions = ({ actions }) => {
           >
             {action.icon && (
               <action.icon
-                className={`${action.iconColor || "text-gray-500"} mb-2`}
+                className={`${action.iconColor || 'text-gray-500'} mb-2`}
                 size={24}
               />
             )}

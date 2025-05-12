@@ -8,15 +8,15 @@ import {
 } from '@mui/icons-material';
 import { useThemeContext } from '../../theme/ThemeProvider';
 
-const MobileMenu = ({ 
-  anchorEl, 
-  isOpen, 
-  onClose, 
-  toggleMode, 
-  notificationCount = 0, 
+const MobileMenu = ({
+  anchorEl,
+  isOpen,
+  onClose,
+  toggleMode,
+  notificationCount = 0,
 }) => {
   const { mode } = useThemeContext();
-  
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -27,21 +27,21 @@ const MobileMenu = ({
       PaperProps={{
         elevation: 0,
         sx: {
-          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.16))",
+          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.16))',
           mt: 1.5,
           width: 200,
         },
       }}
-      transformOrigin={{ horizontal: "right", vertical: "top" }}
-      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
     >
       <MenuItem onClick={toggleMode}>
-        {mode === "dark" ? (
+        {mode === 'dark' ? (
           <LightIcon sx={{ mr: 2 }} />
         ) : (
           <DarkIcon sx={{ mr: 2 }} />
         )}
-        {mode === "dark" ? "Light Mode" : "Dark Mode"}
+        {mode === 'dark' ? 'Light Mode' : 'Dark Mode'}
       </MenuItem>
 
       <MenuItem>

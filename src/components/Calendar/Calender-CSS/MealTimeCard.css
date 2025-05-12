@@ -1,27 +1,26 @@
 /* MealTimeCard.css */
 
 .meal-time-card {
-    width: 250px;
-    height: 300px;
-    padding: 20px;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .meal-time-card-media {
-    height: 200px;
-    width: 200px;
-  }
-  
-  .meal-time-card-actions {
-    display: block;
-    margin: auto;
-  }
-  
-  .meal-time-card-button {
-    width: 100%;
-  }
-  
+  width: 250px;
+  height: 300px;
+  padding: 20px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.meal-time-card-media {
+  height: 200px;
+  width: 200px;
+}
+
+.meal-time-card-actions {
+  display: block;
+  margin: auto;
+}
+
+.meal-time-card-button {
+  width: 100%;
+}

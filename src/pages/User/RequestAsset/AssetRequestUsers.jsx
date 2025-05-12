@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import MonitorTable from "../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import MonitorTable from '../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Button,
   TextField,
@@ -8,27 +8,30 @@ import {
   Select,
   InputLabel,
   FormControl,
-} from "@mui/material";
-import { Search } from "lucide-react";
-import RequestButton from "../../../components/Asset/AssetRequestingUser/RequestButton";
-import UserLayout from "../../../layouts/User/UserLayout";
+} from '@mui/material';
+import { Search } from 'lucide-react';
+import RequestButton from '../../../components/Asset/AssetRequestingUser/RequestButton';
+import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
 
 const AssetRequestUsers = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const passedCategory = location.state?.category || "All";
+  const passedCategory = location.state?.category || 'All';
 
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [filterCategory, setFilterCategory] = useState(passedCategory);
   const [assets, setAssets] = useState([]);
   const [requestOpen, setRequestOpen] = useState(false);
 
-  const uniqueCategories = ["All", ...new Set(assets.map(asset => asset.category))];
+  const uniqueCategories = [
+    'All',
+    ...new Set(assets.map((asset) => asset.category)),
+  ];
 
   // Fetch assets
   const fetchAssets = async () => {
-    const userId = localStorage.getItem("Userid");
+    const userId = localStorage.getItem('Userid');
     const response = await fetch(`${BASE_URLS.assetRequest}/details/${userId}`);
     const data = await response.json();
     setAssets(data);
@@ -44,13 +47,13 @@ const AssetRequestUsers = () => {
 
   const handleCategoryChange = (newCategory) => {
     setFilterCategory(newCategory);
-
   };
 
-  const filteredAssets = assets.filter(asset =>
-    (filterCategory === "All" || asset.category === filterCategory) &&
-    (asset.username.toLowerCase().includes(searchText.toLowerCase()) ||
-     asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
+  const filteredAssets = assets.filter(
+    (asset) =>
+      (filterCategory === 'All' || asset.category === filterCategory) &&
+      (asset.username.toLowerCase().includes(searchText.toLowerCase()) ||
+        asset.asset_name.toLowerCase().includes(searchText.toLowerCase())),
   );
 
   const handleRequestOpen = () => setRequestOpen(true);
@@ -66,7 +69,7 @@ const AssetRequestUsers = () => {
     <UserLayout>
       <div className="min-h-screen space-y-6 p-6">
         <h1 className="text-2xl font-semibold">Asset Requests</h1>
-        
+
         <div className="search-filter-section flex items-center justify-between gap-4 mt-4">
           <TextField
             label="Search by Name or Asset"
@@ -77,16 +80,22 @@ const AssetRequestUsers = () => {
             InputProps={{ startAdornment: <Search size={20} /> }}
             sx={{ flex: 1 }}
           />
-        
-          <FormControl variant="outlined" size="small" style={{ minWidth: 200 }}>
+
+          <FormControl
+            variant="outlined"
+            size="small"
+            style={{ minWidth: 200 }}
+          >
             <InputLabel>Filter by Category</InputLabel>
             <Select
               value={filterCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
               label="Filter by Category"
             >
-              {uniqueCategories.map(cat => (
-                <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+              {uniqueCategories.map((cat) => (
+                <MenuItem key={cat} value={cat}>
+                  {cat}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -95,7 +104,7 @@ const AssetRequestUsers = () => {
             variant="contained"
             color="primary"
             onClick={handleRequestOpen}
-            style={{ whiteSpace: "nowrap", fontWeight: "bold" }}
+            style={{ whiteSpace: 'nowrap', fontWeight: 'bold' }}
           >
             Request Asset
           </Button>

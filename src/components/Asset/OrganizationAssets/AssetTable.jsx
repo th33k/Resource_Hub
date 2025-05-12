@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -8,11 +8,11 @@ import {
   TableRow,
   Paper,
   Button,
-  Chip 
-} from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
-import EditAssetPopup from "./AssetEdit"; // Import the Edit popup
-import DeleteAssetPopup from "./AssetDelete"; // Import the Delete popup
+  Chip,
+} from '@mui/material';
+import { Edit, Delete } from '@mui/icons-material';
+import EditAssetPopup from './AssetEdit'; // Import the Edit popup
+import DeleteAssetPopup from './AssetDelete'; // Import the Delete popup
 
 function AssetTable({
   assets,
@@ -63,15 +63,15 @@ function AssetTable({
                 <TableCell>{asset.location}</TableCell>
                 <TableCell>
                   <Chip
-                    label={asset.is_available ? "Available" : "Not Available"}
-                    color={asset.is_available ? "success" : "default"}
+                    label={asset.is_available ? 'Available' : 'Not Available'}
+                    color={asset.is_available ? 'success' : 'default'}
                     variant="outlined"
                     size="small"
                   />
                 </TableCell>
                 <TableCell>
                   <Button
-                    sx={{ mr: "10px" }}
+                    sx={{ mr: '10px' }}
                     color="primary"
                     variant="outlined"
                     onClick={() => handleEditOpen(asset)}

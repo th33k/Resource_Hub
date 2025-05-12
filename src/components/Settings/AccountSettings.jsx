@@ -4,8 +4,14 @@ import './Styles/AccountSection.css';
 import { BASE_URLS } from '../../services/api/config';
 import VerificationPopup from './VerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
-import { toast } from "react-toastify";
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
+import { toast } from 'react-toastify';
+import {
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -21,9 +27,13 @@ const AccountSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openVerifyPopup, setOpenVerifyPopup] = useState(false);
-  const [selectedEmail, setSelectedEmail] = useState("");
-  const [code, setCode] = useState("");
-  const [confirmationDialog, setConfirmationDialog] = useState({ open: false, message: '', onConfirm: null });
+  const [selectedEmail, setSelectedEmail] = useState('');
+  const [code, setCode] = useState('');
+  const [confirmationDialog, setConfirmationDialog] = useState({
+    open: false,
+    message: '',
+    onConfirm: null,
+  });
   const [passwordError, setPasswordError] = useState('');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -44,7 +54,9 @@ const AccountSection = () => {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
+        const { data } = await axios.get(
+          `${BASE_URLS.settings}/details/${userId}`,
+        );
         const [profile] = data;
 
         setFormData((prev) => ({
@@ -81,14 +93,18 @@ const AccountSection = () => {
       return;
     }
     if (!phoneRegex.test(formData.phone)) {
-      toast.error('Invalid phone number format. Please enter a valid phone number.');
+      toast.error(
+        'Invalid phone number format. Please enter a valid phone number.',
+      );
       return;
     }
     try {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
 
-      const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
+      const { data } = await axios.get(
+        `${BASE_URLS.settings}/details/${userId}`,
+      );
       const existingPhone = data[0]?.phone_number;
 
       if (formData.phone === existingPhone) {
@@ -117,7 +133,9 @@ const AccountSection = () => {
       const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
 
-      const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
+      const { data } = await axios.get(
+        `${BASE_URLS.settings}/details/${userId}`,
+      );
       const existingEmail = data[0]?.email;
 
       if (email === existingEmail) {
@@ -128,23 +146,29 @@ const AccountSection = () => {
       setSelectedEmail(email);
       setOpenVerifyPopup(true);
 
-      const randomCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+      const randomCode =
+        Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setCode(randomCode.toString());
 
       await axios.post(`${BASE_URLS.settings}/sendEmail/`, {
         email,
-        code: randomCode
+        code: randomCode,
       });
       toast.success(`Verification code sent to ${email} successfully!`);
     } catch (error) {
-      toast.error(`Failed to send verification code: ${error.response?.data?.message || error.message}`);
+      toast.error(
+        `Failed to send verification code: ${error.response?.data?.message || error.message}`,
+      );
     }
   };
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    
-    if (formData.currentPassword === formData.newPassword && formData.newPassword === formData.confirmPassword) {
+
+    if (
+      formData.currentPassword === formData.newPassword &&
+      formData.newPassword === formData.confirmPassword
+    ) {
       toast.error('New password cannot be the same as the old password.');
       return;
     }
@@ -181,9 +205,11 @@ const AccountSection = () => {
     });
   };
 
-  const handleClickShowCurrentPassword = () => setShowCurrentPassword((show) => !show);
+  const handleClickShowCurrentPassword = () =>
+    setShowCurrentPassword((show) => !show);
   const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -221,100 +247,137 @@ const AccountSection = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit" onClick={() => handleEmailSubmit(formData.email)}>Update Email</button>
+          <button
+            type="submit"
+            onClick={() => handleEmailSubmit(formData.email)}
+          >
+            Update Email
+          </button>
         </div>
-        
-        <form onSubmit={handlePasswordSubmit} >
-        <label>Change Password</label>
+
+        <form onSubmit={handlePasswordSubmit}>
+          <label>Change Password</label>
           <div className="form-group-password">
-          <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-current-password">Current Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-current-password"
-              type={showCurrentPassword ? 'text' : 'password'}
-              name="currentPassword"
-              value={formData.currentPassword}
-              onChange={handleChange}
-              required
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={showCurrentPassword ? 'hide the password' : 'display the password'}
-                    onClick={handleClickShowCurrentPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Current Password"
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-new-password">New Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-new-password"
-              type={showNewPassword ? 'text' : 'password'}
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-              required
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={showNewPassword ? 'hide the password' : 'display the password'}
-                    onClick={handleClickShowNewPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="New Password"
-            />
-          </FormControl>
-          {passwordError && <p className="error">{passwordError}</p>}
-          <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-confirm-password">Confirm New Password</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-confirm-password"
-              type={showConfirmPassword ? 'text' : 'password'}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={showConfirmPassword ? 'hide the password' : 'display the password'}
-                    onClick={handleClickShowConfirmPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Confirm New Password"
-            />
-          </FormControl>
-          <button className='passwordsumbit' type="submit" disabled={!!passwordError}>Update Password</button>
+            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-current-password">
+                Current Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-current-password"
+                type={showCurrentPassword ? 'text' : 'password'}
+                name="currentPassword"
+                value={formData.currentPassword}
+                onChange={handleChange}
+                required
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showCurrentPassword
+                          ? 'hide the password'
+                          : 'display the password'
+                      }
+                      onClick={handleClickShowCurrentPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Current Password"
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-new-password">
+                New Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-new-password"
+                type={showNewPassword ? 'text' : 'password'}
+                name="newPassword"
+                value={formData.newPassword}
+                onChange={handleChange}
+                required
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showNewPassword
+                          ? 'hide the password'
+                          : 'display the password'
+                      }
+                      onClick={handleClickShowNewPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="New Password"
+              />
+            </FormControl>
+            {passwordError && <p className="error">{passwordError}</p>}
+            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-confirm-password">
+                Confirm New Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-confirm-password"
+                type={showConfirmPassword ? 'text' : 'password'}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showConfirmPassword
+                          ? 'hide the password'
+                          : 'display the password'
+                      }
+                      onClick={handleClickShowConfirmPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Confirm New Password"
+              />
+            </FormControl>
+            <button
+              className="passwordsumbit"
+              type="submit"
+              disabled={!!passwordError}
+            >
+              Update Password
+            </button>
           </div>
         </form>
       </div>
 
-      {openVerifyPopup && <VerificationPopup onClose={() => setOpenVerifyPopup(false)} email={selectedEmail} code={code}/>}
+      {openVerifyPopup && (
+        <VerificationPopup
+          onClose={() => setOpenVerifyPopup(false)}
+          email={selectedEmail}
+          code={code}
+        />
+      )}
 
       {confirmationDialog.open && (
         <ConfirmationDialog
           message={confirmationDialog.message}
           onConfirm={confirmationDialog.onConfirm}
-          onCancel={() => setConfirmationDialog({ open: false, message: '', onConfirm: null })}
+          onCancel={() =>
+            setConfirmationDialog({ open: false, message: '', onConfirm: null })
+          }
         />
       )}
     </div>

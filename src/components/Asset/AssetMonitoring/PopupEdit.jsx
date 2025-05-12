@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import "./PopupEdit.css";
+import React, { useState, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import './PopupEdit.css';
 
 const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
   const [quantity, setQuantity] = useState(asset.quantity);
@@ -22,7 +22,13 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
   }, [asset]);
 
   const handleSaveClick = () => {
-    onSave({ ...asset, quantity, status, handover_date: handoverDate, is_returning: isReturning });
+    onSave({
+      ...asset,
+      quantity,
+      status,
+      handover_date: handoverDate,
+      is_returning: isReturning,
+    });
     handleClose();
     if (onRefresh) {
       onRefresh();
@@ -33,14 +39,18 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
     <Modal
       open={open}
       onClose={handleClose}
-      BackdropProps={{ className: "popup-backdrop" }}
+      BackdropProps={{ className: 'popup-backdrop' }}
       aria-labelledby="edit-asset-modal-title"
       aria-describedby="edit-asset-modal-description"
     >
-      <Box className="popup-box" sx={{ overflowY: "auto" }}>
+      <Box className="popup-box" sx={{ overflowY: 'auto' }}>
         <h2 id="edit-asset-modal-title">Edit Asset Details</h2>
-        <p><strong>Asset Name:</strong> {asset.asset_name}</p>
-        <p><strong>Category:</strong> {asset.category}</p>
+        <p>
+          <strong>Asset Name:</strong> {asset.asset_name}
+        </p>
+        <p>
+          <strong>Category:</strong> {asset.category}
+        </p>
         <div className="input-group">
           <label htmlFor="quantity">Quantity</label>
           <input
@@ -85,13 +95,13 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
             label="Asset Returning"
           />
         </div>
-       <div className="btn-group">
-        <Button variant="outlined" color="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="contained" color="primary" onClick={handleSaveClick}>
-          Save
-        </Button>
+        <div className="btn-group">
+          <Button variant="outlined" color="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={handleSaveClick}>
+            Save
+          </Button>
         </div>
       </Box>
     </Modal>

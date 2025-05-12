@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   List,
   ListItemButton,
@@ -6,24 +6,24 @@ import {
   ListItemText,
   Collapse,
   styled,
-} from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+} from '@mui/material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const StyledListItemButton = styled(ListItemButton)(({ theme, depth = 0 }) => ({
   paddingLeft: theme.spacing(2 + depth * 2),
-  borderRadius: "8px",
-  margin: "4px 8px",
-  "&.Mui-selected": {
+  borderRadius: '8px',
+  margin: '4px 8px',
+  '&.Mui-selected': {
     backgroundColor:
-      theme.palette.mode === "light"
-        ? "rgba(63, 81, 181, 0.08)"
-        : "rgba(63, 81, 181, 0.16)",
+      theme.palette.mode === 'light'
+        ? 'rgba(63, 81, 181, 0.08)'
+        : 'rgba(63, 81, 181, 0.16)',
   },
-  "&:hover": {
+  '&:hover': {
     backgroundColor:
-      theme.palette.mode === "light"
-        ? "rgba(63, 81, 181, 0.04)"
-        : "rgba(63, 81, 181, 0.08)",
+      theme.palette.mode === 'light'
+        ? 'rgba(63, 81, 181, 0.04)'
+        : 'rgba(63, 81, 181, 0.08)',
   },
 }));
 

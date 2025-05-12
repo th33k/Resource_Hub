@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import ProfileSection from '../components/Settings/ProfileSettings';
 import AccountSection from '../components/Settings/AccountSettings';
-import AdminLayout from '../layouts/Admin/AdminLayout'; 
-import UserLayout from '../layouts/User/UserLayout'; 
+import AdminLayout from '../layouts/Admin/AdminLayout';
+import UserLayout from '../layouts/User/UserLayout';
 import { Tabs, Tab, Box, Paper } from '@mui/material';
 
 const Settings = () => {
-  const userRole = localStorage.getItem("userRole");
+  const userRole = localStorage.getItem('userRole');
   const [tab, setTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -30,9 +30,9 @@ const Settings = () => {
   // Conditional rendering based on role
   return (
     <>
-      {userRole === "Admin" ? (
+      {userRole === 'Admin' ? (
         <AdminLayout>{renderContent}</AdminLayout>
-      ) : userRole === "User" ? (
+      ) : userRole === 'User' ? (
         <UserLayout>{renderContent}</UserLayout>
       ) : (
         // Fallback for invalid or no role

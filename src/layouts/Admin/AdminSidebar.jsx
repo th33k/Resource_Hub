@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   List,
   ListItemButton,
@@ -6,7 +6,7 @@ import {
   ListItemText,
   useTheme,
   Collapse,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Dashboard as DashboardIcon,
   Restaurant as MealIcon,
@@ -17,54 +17,54 @@ import {
   Settings as SettingsIcon,
   ExpandLess,
   ExpandMore,
-} from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import { useSidebar } from "../../contexts/SidebarContext";
-import SidebarWrapper from "../shared/SidebarWrapper";
+} from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import { useSidebar } from '../../contexts/SidebarContext';
+import SidebarWrapper from '../shared/SidebarWrapper';
 
 const navItems = [
   {
-    title: "Dashboard",
-    path: "/admin-dashboardadmin",
+    title: 'Dashboard',
+    path: '/admin-dashboardadmin',
     icon: <DashboardIcon />,
   },
   {
-    title: "Meal",
+    title: 'Meal',
     icon: <MealIcon />,
     submenu: [
-      { title: "Meal Times", path: "/admin-addmealtime" },
-      { title: "Meal Types", path: "/admin-addmealtype" },
+      { title: 'Meal Times', path: '/admin-addmealtime' },
+      { title: 'Meal Types', path: '/admin-addmealtype' },
     ],
   },
   {
-    title:<Link to="/admin-assethome"> Assets</Link>,
+    title: <Link to="/admin-assethome"> Assets</Link>,
     icon: <AssetIcon />,
-    path: "/admin-assethome",
+    path: '/admin-assethome',
     submenu: [
-      { title: "Organization Assets", path: "/admin-asset" },
-      { title: "Requested Assets", path: "/admin-assetmonitoring" },
-      { title: "Due Assets", path: "/admin-dueassets" },
+      { title: 'Organization Assets', path: '/admin-asset' },
+      { title: 'Requested Assets', path: '/admin-assetmonitoring' },
+      { title: 'Due Assets', path: '/admin-dueassets' },
     ],
   },
   {
-    title: "Maintenance",
+    title: 'Maintenance',
     icon: <MaintenanceIcon />,
-    path: "/admin-maintenancehome",
-    submenu: [{ title: "All Maintenances", path: "/admin-maintenance" }],
+    path: '/admin-maintenancehome',
+    submenu: [{ title: 'All Maintenances', path: '/admin-maintenance' }],
   },
   {
-    title: "Users",
-    path: "/admin-users",
+    title: 'Users',
+    path: '/admin-users',
     icon: <UsersIcon />,
   },
   {
-    title: "Reports",
+    title: 'Reports',
     icon: <ReportIcon />,
-    path: "/admin-reporthome",
+    path: '/admin-reporthome',
     submenu: [
-      { title: "Asset Report", path: "/admin-assetreport" },
-      { title: "Meal Report", path: "/admin-mealreport" },
-      { title: "Maintenance Report", path: "/admin-maintenancereport" },
+      { title: 'Asset Report', path: '/admin-assetreport' },
+      { title: 'Meal Report', path: '/admin-mealreport' },
+      { title: 'Maintenance Report', path: '/admin-maintenancereport' },
     ],
   },
 ];

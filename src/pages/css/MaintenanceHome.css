@@ -1,14 +1,12 @@
-
 .addicon {
-    margin-left: 10px;
-    font-size: 14px;
-  }
-  
-.maintenen {
-    display: grid;
-    grid-template-columns: repeat(3, 2fr); 
-    gap: 16px;
-    padding: 10px;
-    padding-left: 100px;
-  }
+  margin-left: 10px;
+  font-size: 14px;
+}
 
+.maintenen {
+  display: grid;
+  grid-template-columns: repeat(3, 2fr);
+  gap: 16px;
+  padding: 10px;
+  padding-left: 100px;
+}

@@ -4,8 +4,8 @@ import {
   DialogContent,
   DialogActions,
   Button,
-} from "@mui/material";
-import { AlertTriangle } from "lucide-react";
+} from '@mui/material';
+import { AlertTriangle } from 'lucide-react';
 
 export const DeleteConfirmDialog = ({ open, onClose, onConfirm }) => {
   return (
@@ -15,7 +15,8 @@ export const DeleteConfirmDialog = ({ open, onClose, onConfirm }) => {
         Confirm Deletion
       </DialogTitle>
       <DialogContent>
-        Are you sure you want to delete this maintenance? This action cannot be undone.
+        Are you sure you want to delete this maintenance? This action cannot be
+        undone.
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>

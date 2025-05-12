@@ -48,8 +48,6 @@
   margin-bottom: 20px;
 }
 
-
-
 .login-page .login-form input::placeholder {
   color: #aaa;
 }
@@ -69,7 +67,7 @@
   color: #4f9ef8;
 }
 
-button[type="submit"] {
+button[type='submit'] {
   width: calc(100% - 20px);
   padding: 10px;
   background-color: #4f9ef8;
@@ -89,7 +87,8 @@ button[type="submit"] {
     height: auto;
     padding: 0;
   }
-  .login-left, .login-right {
+  .login-left,
+  .login-right {
     width: 100%;
     min-width: 0;
     padding: 0;
@@ -113,9 +112,9 @@ button[type="submit"] {
     width: 100%;
     min-width: 0;
     padding: 18px 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
     border-radius: 10px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
   }
 }
 
@@ -200,11 +199,10 @@ button[type="submit"] {
     text-align: center;
     word-break: break-word;
   }
-  button[type="submit"] {
+  button[type='submit'] {
     font-size: 1rem;
     padding: 8px;
     border-radius: 6px;
     margin-top: 4px;
   }
 }
-

@@ -1,6 +1,6 @@
 // API base URL for all microservices
 const BASE_URL =
-  "https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina";
+  'https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/resource-hub/ballerina';
 
 // Service-specific base URLs
 export const BASE_URLS = {
@@ -16,7 +16,7 @@ export const BASE_URLS = {
   dashboardAdmin: `${BASE_URL}/dashboard-admin-b74/v1.0`,
   dashboardUser: `${BASE_URL}/dashboard-user-033/v1.0`,
 
-    // For local development
+  // For local development
   // login: "http://localhost:9090/auth",
   // maintenance: "http://localhost:9090/maintenance",
   // asset: "http://localhost:9090/asset",

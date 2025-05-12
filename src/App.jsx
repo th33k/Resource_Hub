@@ -1,49 +1,49 @@
-import { ThemeProvider } from "./theme/ThemeProvider";
-import { SidebarProvider } from "./contexts/SidebarContext";
-import { UserProvider } from "./contexts/UserContext";
+import { ThemeProvider } from './theme/ThemeProvider';
+import { SidebarProvider } from './contexts/SidebarContext';
+import { UserProvider } from './contexts/UserContext';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-} from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Auth Pages
-import Login from "./pages/Login";
-import ForgotPassword from "./pages/ForgotPassword";
+import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
 
 // Admin Pages
-import AdminDashboard from "./pages/Admin/DashboardAdmin";
-import AssetHome from "./pages/Admin/Requested_Assets/AssetHome";
-import AssetMonitoringAdmin from "./pages/Admin/Requested_Assets/AssetMonitoringAdmin";
-import DueAsset from "./pages/Admin/Requested_Assets/DueAssset";
-import AssetAdmin from "./pages/Admin/Organization_Assets/AssetAdmin";
-import MaintenanceHome from "./pages/Admin/Maintenance/MaintenanceHome";
-import MaintenanceDetails from "./pages/Admin/Maintenance/MaintenanceDetails";
-import ReportHome from "./pages/Admin/Reports/ReportHome";
-import AssetReport from "./pages/Admin/Reports/AssetReport";
-import MealReport from "./pages/Admin/Reports/MealReport";
-import MaintenanceReport from "./pages/Admin/Reports/MaintenanceReport";
-import AddMealTime from "./pages/Admin/Meal_Function/AddMealTime";
-import AddMealType from "./pages/Admin/Meal_Function/AddMealType";
-import { Users } from "./pages/Admin/UserManagement/Users";
+import AdminDashboard from './pages/Admin/DashboardAdmin';
+import AssetHome from './pages/Admin/Requested_Assets/AssetHome';
+import AssetMonitoringAdmin from './pages/Admin/Requested_Assets/AssetMonitoringAdmin';
+import DueAsset from './pages/Admin/Requested_Assets/DueAssset';
+import AssetAdmin from './pages/Admin/Organization_Assets/AssetAdmin';
+import MaintenanceHome from './pages/Admin/Maintenance/MaintenanceHome';
+import MaintenanceDetails from './pages/Admin/Maintenance/MaintenanceDetails';
+import ReportHome from './pages/Admin/Reports/ReportHome';
+import AssetReport from './pages/Admin/Reports/AssetReport';
+import MealReport from './pages/Admin/Reports/MealReport';
+import MaintenanceReport from './pages/Admin/Reports/MaintenanceReport';
+import AddMealTime from './pages/Admin/Meal_Function/AddMealTime';
+import AddMealType from './pages/Admin/Meal_Function/AddMealType';
+import { Users } from './pages/Admin/UserManagement/Users';
 
 // User Pages
-import UserDashboard from "./pages/User/DashboardUser";
-import AssetRequestUsers from "./pages/User/RequestAsset/AssetRequestUsers";
-import DueAssetUser from "./pages/User/RequestAsset/DueAssetUser";
-import MealCalender from "./pages/User/MealRequest/MealCalander";
-import MaintenanceDetailsUser from "./pages/User/Maintenance/MaintenanceDetailsUser";
+import UserDashboard from './pages/User/DashboardUser';
+import AssetRequestUsers from './pages/User/RequestAsset/AssetRequestUsers';
+import DueAssetUser from './pages/User/RequestAsset/DueAssetUser';
+import MealCalender from './pages/User/MealRequest/MealCalander';
+import MaintenanceDetailsUser from './pages/User/Maintenance/MaintenanceDetailsUser';
 
 // Shared Pages
-import Notification from "./pages/Notification";
-import Settings from "./pages/Settings";
+import Notification from './pages/Notification';
+import Settings from './pages/Settings';
 
 // Components
-import ProtectedRoute from "./components/ProtectedRoute";
-import React from "react";
+import ProtectedRoute from './components/ProtectedRoute';
+import React from 'react';
 
 function App() {
   return (
@@ -172,45 +172,45 @@ function App() {
               />
 
               {/* User Routes */}
-              <Route 
-                path="/user-dashboarduser" 
+              <Route
+                path="/user-dashboarduser"
                 element={
                   <ProtectedRoute requiredRole="User">
                     <UserDashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/user-assetrequest" 
+              <Route
+                path="/user-assetrequest"
                 element={
                   <ProtectedRoute requiredRole="User">
                     <AssetRequestUsers />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/user-dueassets" 
+              <Route
+                path="/user-dueassets"
                 element={
                   <ProtectedRoute requiredRole="User">
                     <DueAssetUser />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/user-mealcalendar" 
+              <Route
+                path="/user-mealcalendar"
                 element={
                   <ProtectedRoute requiredRole="User">
                     <MealCalender />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/user-maintenance" 
+              <Route
+                path="/user-maintenance"
                 element={
                   <ProtectedRoute requiredRole="User">
                     <MaintenanceDetailsUser />
                   </ProtectedRoute>
-                } 
+                }
               />
 
               {/* Shared Routes */}

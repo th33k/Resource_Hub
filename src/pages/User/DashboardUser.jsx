@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Utensils, Box as BoxIcon, Wrench, CalendarDays, PackageCheck } from 'lucide-react';
+import {
+  Utensils,
+  Box as BoxIcon,
+  Wrench,
+  CalendarDays,
+  PackageCheck,
+} from 'lucide-react';
 import axios from 'axios';
 import UserLayout from '../../layouts/User/UserLayout';
 import { StatCard } from '../../components/Dashboard/User/StatCard';
@@ -43,14 +49,19 @@ const DashboardUser = () => {
   const { data, isLoading, isError, error, refetch } = useUserDashboardData();
 
   if (isLoading) {
-    return <UserLayout><div className="p-6">Loading dashboard...</div></UserLayout>;
+    return (
+      <UserLayout>
+        <div className="p-6">Loading dashboard...</div>
+      </UserLayout>
+    );
   }
 
   if (isError) {
     return (
       <UserLayout>
         <div className="p-6 text-red-500">
-          {error?.message || 'Failed to load dashboard data. Please try again later.'}
+          {error?.message ||
+            'Failed to load dashboard data. Please try again later.'}
           <button
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             onClick={() => refetch()}

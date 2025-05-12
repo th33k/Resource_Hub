@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Button } from "@mui/material";
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import MealCard from "../../../components/Meal/MealType/MealTypeCard";
+import MealCard from '../../../components/Meal/MealType/MealTypeCard';
 import { MealCardPopup } from '../../../components/Meal/MealType/AddMealTypePopup';
 import '../../css/AddMealType.css';
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import AdminLayout from '../../../layouts/Admin/AdminLayout';
 import { BASE_URLS } from '../../../services/api/config';
 
 function AddMealType() {
@@ -12,8 +12,8 @@ function AddMealType() {
   const [mealTypes, setMealTypes] = useState([]);
   const [error, setError] = useState(null);
 
-  const title = "Add New Meal Type";
-  const getSubtitle = () => "Manage meal types for the day";
+  const title = 'Add New Meal Type';
+  const getSubtitle = () => 'Manage meal types for the day';
 
   const handlePopupOpen = () => setIsPopupOpen(true);
   const handlePopupClose = () => setIsPopupOpen(false);
@@ -21,13 +21,13 @@ function AddMealType() {
   const handleDelete = async (mealId) => {
     try {
       const response = await fetch(`${BASE_URLS.mealtype}/details/${mealId}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
 
       if (response.ok) {
         await fetchMealTypes();
       } else {
-        setError("Failed to delete meal type");
+        setError('Failed to delete meal type');
       }
     } catch (error) {
       setError(`Error deleting meal type: ${error.message}`);
@@ -55,17 +55,19 @@ function AddMealType() {
     <AdminLayout>
       <div className="min-h-screen space-y-6 p-6">
         <h1 className="text-2xl font-semibold">Meal types</h1>
-        
+
         <Button
           variant="contained"
           className="addbtn"
           onClick={handlePopupOpen}
         >
           New Meal Type
-          <span className="addicon"><AddIcon /></span>
+          <span className="addicon">
+            <AddIcon />
+          </span>
         </Button>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
         <div className="mealtimes">
           {mealTypes.length > 0 ? (
@@ -74,7 +76,7 @@ function AddMealType() {
                 key={meal.mealtype_id}
                 mealId={meal.mealtype_id}
                 name={meal.mealtype_name}
-                image={meal.mealtype_image_url|| '/default-meal.png'}
+                image={meal.mealtype_image_url || '/default-meal.png'}
                 onDelete={handleDelete}
               />
             ))

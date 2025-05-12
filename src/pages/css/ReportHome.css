@@ -1,20 +1,19 @@
-.outerreport{
-  display:block;
-  margin:100px;
-  width:80%;
-  height:80vh;
+.outerreport {
+  display: block;
+  margin: 100px;
+  width: 80%;
+  height: 80vh;
 }
 .addicon {
-    margin-left: 10px;
-    font-size: 14px;
-  }
-  
-.Report {
-    display:flex;
-    flex-direction:row;
-    align-items: center;
-    align-content: center;
-    justify-items: center;
-    justify-content: space-between;
-  }
+  margin-left: 10px;
+  font-size: 14px;
+}
 
+.Report {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: space-between;
+}

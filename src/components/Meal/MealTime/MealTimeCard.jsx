@@ -1,10 +1,10 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import EditPopup from './EditMealTimePopup';
@@ -20,7 +20,6 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
   const [mealName, setMealName] = React.useState(name);
   const [mealImage, setMealImage] = React.useState(image);
   const [error, setError] = React.useState(null);
-
 
   const handleEditClickOpen = () => {
     setOpenEdit(true);
@@ -49,7 +48,10 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mealtime_name: name, mealtime_image_url: image }),
+        body: JSON.stringify({
+          mealtime_name: name,
+          mealtime_image_url: image,
+        }),
       });
 
       if (!response.ok) {
@@ -81,7 +83,11 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
   return (
     <div>
       <Card className="mealtime-card">
-        <CardMedia className="mealtime-card-media" image={mealImage} title={mealName} />
+        <CardMedia
+          className="mealtime-card-media"
+          image={mealImage}
+          title={mealName}
+        />
         <CardContent className="mealtime-card-content">
           <Typography gutterBottom variant="h5" component="div">
             {mealName}
@@ -89,10 +95,19 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
           {error && <Typography color="error">{error}</Typography>}
         </CardContent>
         <CardActions className="mealtime-card-actions">
-          <Button variant="outlined" className="mealtime-card-button" onClick={handleEditClickOpen}>
+          <Button
+            variant="outlined"
+            className="mealtime-card-button"
+            onClick={handleEditClickOpen}
+          >
             Edit <ModeEditTwoToneIcon />
           </Button>
-          <Button variant="outlined" color="error" className="mealtime-card-button" onClick={handleDeleteClickOpen}>
+          <Button
+            variant="outlined"
+            color="error"
+            className="mealtime-card-button"
+            onClick={handleDeleteClickOpen}
+          >
             Delete <DeleteTwoToneIcon />
           </Button>
         </CardActions>

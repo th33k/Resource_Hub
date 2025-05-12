@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Button,
   TextField,
@@ -6,14 +6,14 @@ import {
   Select,
   InputLabel,
   FormControl,
-} from "@mui/material";
-import { UserPlus, Search } from "lucide-react";
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
-import { UserTable } from "../../../components/Users/UserTable.jsx";
-import { AddUserDialog } from "../../../components/Users/AddUserDialog.jsx";
-import { EditUserDialog } from "../../../components/Users/EditUserDialog.jsx";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '@mui/material';
+import { UserPlus, Search } from 'lucide-react';
+import AdminLayout from '../../../layouts/Admin/AdminLayout';
+import { UserTable } from '../../../components/Users/UserTable.jsx';
+import { AddUserDialog } from '../../../components/Users/AddUserDialog.jsx';
+import { EditUserDialog } from '../../../components/Users/EditUserDialog.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from '../../../services/api/config';
 
 export const Users = () => {
@@ -21,16 +21,16 @@ export const Users = () => {
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [filterType, setFilterType] = useState("All");
+  const [searchText, setSearchText] = useState('');
+  const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
 
   const apiRequest = async (url, method, body = null) => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem('authToken');
     const options = {
       method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }),
       },
       ...(body && { body: JSON.stringify(body) }),
@@ -41,14 +41,14 @@ export const Users = () => {
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(
-          `${response.status}: ${errorText || response.statusText}`
+          `${response.status}: ${errorText || response.statusText}`,
         );
       }
 
       if (
-        method !== "DELETE" &&
-        response.headers.get("content-length") !== "0" &&
-        response.headers.get("content-type")?.includes("application/json")
+        method !== 'DELETE' &&
+        response.headers.get('content-length') !== '0' &&
+        response.headers.get('content-type')?.includes('application/json')
       ) {
         return await response.json();
       }
@@ -62,7 +62,7 @@ export const Users = () => {
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await apiRequest(`${BASE_URLS.user}/details`, "GET");
+      const data = await apiRequest(`${BASE_URLS.user}/details`, 'GET');
       setUsers(
         data.map((user) => ({
           id: user.user_id.toString(), // ID is stored as a string
@@ -71,11 +71,11 @@ export const Users = () => {
           additionalDetails: user.bio,
           profilePicture:
             user.profile_picture_url ||
-            `https://ui-avatars.com/api/?name=${user.username || user.email.split("@")[0]}`,
+            `https://ui-avatars.com/api/?name=${user.username || user.email.split('@')[0]}`,
           username: user.username,
           phoneNumber: user.phone_number,
           createdAt: user.created_at,
-        }))
+        })),
       );
     } catch (error) {
       toast.error(`Failed to load users`);
@@ -89,14 +89,14 @@ export const Users = () => {
   }, [fetchUsers]);
 
   const formatUserData = (user) => ({
-    username: user.username || user.email.split("@")[0],
+    username: user.username || user.email.split('@')[0],
     profile_picture_url:
       user.profilePicture ||
-      `https://ui-avatars.com/api/?name=${user.email.split("@")[0]}`,
+      `https://ui-avatars.com/api/?name=${user.email.split('@')[0]}`,
     usertype: user.userType,
     email: user.email,
-    phone_number: user.phoneNumber || "",
-    bio: user.additionalDetails || "",
+    phone_number: user.phoneNumber || '',
+    bio: user.additionalDetails || '',
     ...(user.id && { user_id: parseInt(user.id) }), // Ensure ID is an integer
     ...(user.created_at
       ? { created_at: user.created_at }
@@ -107,12 +107,12 @@ export const Users = () => {
     try {
       const response = await apiRequest(
         `${BASE_URLS.user}/add`,
-        "POST",
-        formatUserData(newUser)
+        'POST',
+        formatUserData(newUser),
       );
       await fetchUsers();
       setIsAddUserOpen(false);
-      toast.success(response.message || "User added successfully");
+      toast.success(response.message || 'User added successfully');
     } catch (error) {
       toast.error(`Failed to add user: ${error.message}`);
     }
@@ -122,20 +122,20 @@ export const Users = () => {
     try {
       const userId = parseInt(editedUser.id); // Convert user ID to integer
       if (isNaN(userId)) {
-        throw new Error("Invalid user ID");
+        throw new Error('Invalid user ID');
       }
 
       await apiRequest(
         `${BASE_URLS.user}/details/${userId}`,
-        "PUT",
-        formatUserData(editedUser)
+        'PUT',
+        formatUserData(editedUser),
       );
 
       setUsers((prev) =>
-        prev.map((user) => (user.id === editedUser.id ? editedUser : user))
+        prev.map((user) => (user.id === editedUser.id ? editedUser : user)),
       );
 
-      toast.success("User updated successfully");
+      toast.success('User updated successfully');
       setIsEditUserOpen(false);
     } catch (error) {
       toast.error(`Failed to update user: ${error.message}`);
@@ -145,13 +145,14 @@ export const Users = () => {
 
   const handleDeleteUsers = async (userIds) => {
     try {
-      const deletePromises = userIds.map((userId) =>
-        apiRequest(`${BASE_URLS.user}/details/${parseInt(userId)}`, "DELETE") // Parse userId for DELETE
+      const deletePromises = userIds.map(
+        (userId) =>
+          apiRequest(`${BASE_URLS.user}/details/${parseInt(userId)}`, 'DELETE'), // Parse userId for DELETE
       );
       await Promise.allSettled(deletePromises);
       await fetchUsers();
       toast.success(
-        `${userIds.length} user${userIds.length !== 1 ? "s" : ""} deleted successfully`
+        `${userIds.length} user${userIds.length !== 1 ? 's' : ''} deleted successfully`,
       );
     } catch (error) {
       toast.error(`Failed to delete users: ${error.message}`);
@@ -163,11 +164,11 @@ export const Users = () => {
     () =>
       users.filter(({ email, additionalDetails, userType }) => {
         const searchMatch = [email, additionalDetails].some((field) =>
-          field?.toLowerCase().includes(searchText.toLowerCase())
+          field?.toLowerCase().includes(searchText.toLowerCase()),
         );
-        return searchMatch && (filterType === "All" || userType === filterType);
+        return searchMatch && (filterType === 'All' || userType === filterType);
       }),
-    [users, searchText, filterType]
+    [users, searchText, filterType],
   );
 
   return (
@@ -185,7 +186,9 @@ export const Users = () => {
               size="small"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              InputProps={{ startAdornment: <Search size={20} className="mr-2" /> }}
+              InputProps={{
+                startAdornment: <Search size={20} className="mr-2" />,
+              }}
             />
             <FormControl variant="outlined" size="small" className="w-40">
               <InputLabel>Filter by Type</InputLabel>
@@ -233,7 +236,13 @@ export const Users = () => {
           open={isEditUserOpen}
           onClose={() => setIsEditUserOpen(false)}
           onSave={handleEditUser}
-          user={editingUser || { email: "", userType: "User", additionalDetails: "" }}
+          user={
+            editingUser || {
+              email: '',
+              userType: 'User',
+              additionalDetails: '',
+            }
+          }
         />
 
         <ToastContainer

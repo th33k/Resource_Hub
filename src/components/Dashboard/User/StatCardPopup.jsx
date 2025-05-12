@@ -1,6 +1,6 @@
-import { Line } from "react-chartjs-2";
-import { X } from "lucide-react";
-import { Dialog, useTheme } from "@mui/material";
+import { Line } from 'react-chartjs-2';
+import { X } from 'lucide-react';
+import { Dialog, useTheme } from '@mui/material';
 
 export const StatCardPopup = ({
   open,
@@ -31,7 +31,7 @@ export const StatCardPopup = ({
     datasets: [
       {
         data: chartData?.data || [],
-        borderColor: "rgb(59, 130, 246)",
+        borderColor: 'rgb(59, 130, 246)',
         tension: 0.4,
       },
     ],

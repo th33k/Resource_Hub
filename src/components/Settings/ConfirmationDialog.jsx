@@ -7,8 +7,12 @@ const ConfirmationDialog = ({ message, onConfirm, onCancel }) => {
       <div className="confirmation-dialog">
         <p>{message}</p>
         <div className="confirmation-dialog-buttons">
-          <button className="confirm-button" onClick={onConfirm}>Confirm</button>
-          <button className="cancel-button" onClick={onCancel}>Cancel</button>
+          <button className="confirm-button" onClick={onConfirm}>
+            Confirm
+          </button>
+          <button className="cancel-button" onClick={onCancel}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

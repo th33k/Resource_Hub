@@ -1,5 +1,5 @@
-import React from "react";
-import AppHeader from "../shared/AppHeader";
+import React from 'react';
+import AppHeader from '../shared/AppHeader';
 
 const AdminHeader = () => {
   return (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   Button,
   TextField,
@@ -7,21 +7,21 @@ import {
   InputLabel,
   FormControl,
   CircularProgress,
-} from "@mui/material";
-import { Plus, Search } from "lucide-react";
-import { MaintenanceTable } from "../../../components/Maintenance/MaintenanceTable.jsx";
-import { AddMaintenancePopup } from "../../../components/Maintenance/AddMaintenancePopup.jsx";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import AdminLayout from "../../../layouts/Admin/AdminLayout.jsx";
+} from '@mui/material';
+import { Plus, Search } from 'lucide-react';
+import { MaintenanceTable } from '../../../components/Maintenance/MaintenanceTable.jsx';
+import { AddMaintenancePopup } from '../../../components/Maintenance/AddMaintenancePopup.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import AdminLayout from '../../../layouts/Admin/AdminLayout.jsx';
 import { BASE_URLS } from '../../../services/api/config.js';
 
 const MaintenanceDetails = () => {
   const [maintenance, setMaintenance] = useState([]);
   const [isAddMaintenanceOpen, setIsAddMaintenanceOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [filterType, setFilterType] = useState("All");
+  const [searchText, setSearchText] = useState('');
+  const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
 
   const fetchMaintenanceData = async () => {
@@ -29,8 +29,8 @@ const MaintenanceDetails = () => {
       const response = await axios.get(`${BASE_URLS.maintenance}/details`);
       setMaintenance(response.data);
     } catch (error) {
-      console.error("Failed to fetch maintenance data:", error);
-      toast.error("Failed to load maintenance data!");
+      console.error('Failed to fetch maintenance data:', error);
+      toast.error('Failed to load maintenance data!');
     } finally {
       setLoading(false);
     }
@@ -42,9 +42,9 @@ const MaintenanceDetails = () => {
 
   const handleAddMaintenance = async (newMaintenance) => {
     try {
-      const userId = localStorage.getItem("Userid");
+      const userId = localStorage.getItem('Userid');
       if (!userId) {
-        toast.error("User ID not found. Please login again.");
+        toast.error('User ID not found. Please login again.');
         return;
       }
 
@@ -55,45 +55,55 @@ const MaintenanceDetails = () => {
         user_id: parseInt(userId),
       };
 
-      const response = await axios.post(`${BASE_URLS.maintenance}/add`, payload);
+      const response = await axios.post(
+        `${BASE_URLS.maintenance}/add`,
+        payload,
+      );
       toast.success(response.data.message);
       fetchMaintenanceData();
       setIsAddMaintenanceOpen(false);
     } catch (error) {
-      console.error("Error adding maintenance:", error);
-      toast.error("Failed to add maintenance.");
+      console.error('Error adding maintenance:', error);
+      toast.error('Failed to add maintenance.');
     }
   };
 
   const handleDeleteMaintenance = async (maintenanceId) => {
     try {
-      await axios.delete(`http://localhost:9090/maintenance/details/${maintenanceId}`);
-      toast.success("Maintenance deleted successfully!");
+      await axios.delete(
+        `http://localhost:9090/maintenance/details/${maintenanceId}`,
+      );
+      toast.success('Maintenance deleted successfully!');
       fetchMaintenanceData();
     } catch (error) {
-      console.error("Failed to delete maintenance:", error);
-      toast.error("Failed to delete maintenance!");
+      console.error('Failed to delete maintenance:', error);
+      toast.error('Failed to delete maintenance!');
     }
   };
-
 
   const handleEditMaintenance = async (editedMaintenance) => {
     try {
       if (!editedMaintenance.maintenance_id) {
-        console.error("Invalid maintenance object: Missing maintenance_id", editedMaintenance);
-        toast.error("Failed to update maintenance: Missing maintenance_id.");
+        console.error(
+          'Invalid maintenance object: Missing maintenance_id',
+          editedMaintenance,
+        );
+        toast.error('Failed to update maintenance: Missing maintenance_id.');
         return;
       }
 
       const response = await axios.put(
         `${BASE_URLS.maintenance}/details/${editedMaintenance.maintenance_id}`,
-        editedMaintenance
+        editedMaintenance,
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
     } catch (error) {
-      console.error("Error updating maintenance:", error.response?.data || error.message);
-      toast.error("Failed to update maintenance.");
+      console.error(
+        'Error updating maintenance:',
+        error.response?.data || error.message,
+      );
+      toast.error('Failed to update maintenance.');
     }
   };
 
@@ -101,7 +111,7 @@ const MaintenanceDetails = () => {
     const searchMatch = item.name
       .toLowerCase()
       .includes(searchText.toLowerCase());
-    const typeMatch = filterType === "All" || item.priorityLevel === filterType;
+    const typeMatch = filterType === 'All' || item.priorityLevel === filterType;
     return searchMatch && typeMatch;
   });
 
@@ -112,12 +122,12 @@ const MaintenanceDetails = () => {
 
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <TextField
               label="Search"
               variant="outlined"
@@ -129,7 +139,7 @@ const MaintenanceDetails = () => {
             <FormControl
               variant="outlined"
               size="small"
-              style={{ marginLeft: "10px", width: "150px" }}
+              style={{ marginLeft: '10px', width: '150px' }}
             >
               <InputLabel>Filter by Priority</InputLabel>
               <Select

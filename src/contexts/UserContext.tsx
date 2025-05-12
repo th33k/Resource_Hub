@@ -30,7 +30,7 @@ interface UserContextType {
 // Default fallback user
 const defaultUser: UserData = {
   name: 'Guest User',
-  role: localStorage.getItem("userRole") || '',
+  role: localStorage.getItem('userRole') || '',
   avatar: 'GU',
 };
 
@@ -44,7 +44,9 @@ const UserContext = createContext<UserContextType>({
 
 export const useUser = () => useContext(UserContext);
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -64,7 +66,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      const response = await axios.get(`${BASE_URLS.settings}/details/${storedUserId}`);
+      const response = await axios.get(
+        `${BASE_URLS.settings}/details/${storedUserId}`,
+      );
       const [profile] = response.data;
 
       const name = profile.username || 'User';
@@ -83,7 +87,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }));
     } catch (error) {
       console.error('Failed to fetch user data:', error);
-      setUserData(defaultUser); 
+      setUserData(defaultUser);
     }
   }, [storedUserId]);
 
@@ -95,29 +99,30 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     refreshUserData();
   }, [refreshUserData]);
 
-  const isUserAdmin = useMemo(() =>
-    userData.role.toLowerCase() === 'admin',
-  [userData.role]);
+  const isUserAdmin = useMemo(
+    () => userData.role.toLowerCase() === 'admin',
+    [userData.role],
+  );
 
-  const isAdminView = useMemo(() =>
-    location.pathname.startsWith('/admin'),
-  [location.pathname]);
+  const isAdminView = useMemo(
+    () => location.pathname.startsWith('/admin'),
+    [location.pathname],
+  );
 
   const toggleAdminMode = useCallback(() => {
     navigate(isAdminView ? '/user-dashboarduser' : '/admin-dashboardadmin');
   }, [isAdminView, navigate]);
 
-  const value = useMemo(() => ({
-    isAdmin: isUserAdmin,
-    toggleAdminMode,
-    userData,
-    refreshUserData,
-    isAdminView,
-  }), [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView]);
-
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
+  const value = useMemo(
+    () => ({
+      isAdmin: isUserAdmin,
+      toggleAdminMode,
+      userData,
+      refreshUserData,
+      isAdminView,
+    }),
+    [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView],
   );
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

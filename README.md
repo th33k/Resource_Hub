@@ -4,35 +4,35 @@ Resource Hub is a web application designed for efficient management of organizat
 
 ## Features
 
-*   **Dashboard:** Overview of key statistics and activities for both Admins and Users.
-*   **Meal Management:**
-    *   Meal Calendar for users to request meals.
-    *   Admin interface to manage meal types and times.
-*   **Asset Management:**
-    *   Users can request assets.
-    *   Admins manage organizational assets (add, edit, delete, monitor).
-    *   Tracking of requested and due assets.
-*   **Maintenance Management:**
-    *   Users can submit maintenance requests.
-    *   Admins manage and track maintenance tasks, priorities, and statuses.
-*   **User Management (Admin):** Manage user accounts and roles.
-*   **Reporting (Admin):** Generate reports for meals, assets, and maintenance activities.
-*   **Notifications:** Inform users about relevant events or updates.
-*   **Settings:** User profile and application settings (e.g., theme).
-*   **Role-Based Access Control:** Different views and permissions for Admin and User roles.
+- **Dashboard:** Overview of key statistics and activities for both Admins and Users.
+- **Meal Management:**
+  - Meal Calendar for users to request meals.
+  - Admin interface to manage meal types and times.
+- **Asset Management:**
+  - Users can request assets.
+  - Admins manage organizational assets (add, edit, delete, monitor).
+  - Tracking of requested and due assets.
+- **Maintenance Management:**
+  - Users can submit maintenance requests.
+  - Admins manage and track maintenance tasks, priorities, and statuses.
+- **User Management (Admin):** Manage user accounts and roles.
+- **Reporting (Admin):** Generate reports for meals, assets, and maintenance activities.
+- **Notifications:** Inform users about relevant events or updates.
+- **Settings:** User profile and application settings (e.g., theme).
+- **Role-Based Access Control:** Different views and permissions for Admin and User roles.
 
 ## Tech Stack
 
-*   **Frontend:** React, TypeScript, JavaScript
-*   **UI Library:** Material UI (MUI)
-*   **Styling:** Tailwind CSS, CSS Modules/Plain CSS
-*   **Routing:** React Router
-*   **Data Fetching/State Management:** React Query, Axios
-*   **Calendar:** FullCalendar
-*   **Charts:** Chart.js (via react-chartjs-2), Recharts
-*   **PDF Generation:** html2pdf.js
-*   **Build Tool:** Vite
-*   **Linting:** ESLint
+- **Frontend:** React, TypeScript, JavaScript
+- **UI Library:** Material UI (MUI)
+- **Styling:** Tailwind CSS, CSS Modules/Plain CSS
+- **Routing:** React Router
+- **Data Fetching/State Management:** React Query, Axios
+- **Calendar:** FullCalendar
+- **Charts:** Chart.js (via react-chartjs-2), Recharts
+- **PDF Generation:** html2pdf.js
+- **Build Tool:** Vite
+- **Linting:** ESLint
 
 ## Project Structure
 
@@ -63,7 +63,7 @@ Resource Hub is a web application designed for efficient management of organizat
     ```bash
     npm install
     ```
-    *or if using yarn:*
+    _or if using yarn:_
     ```bash
     yarn install
     ```
@@ -74,7 +74,7 @@ Resource Hub is a web application designed for efficient management of organizat
     ```bash
     npm run dev
     ```
-    *or*
+    _or_
     ```bash
     yarn dev
     ```
@@ -85,10 +85,13 @@ Resource Hub is a web application designed for efficient management of organizat
 ```bash
 npm run build
 ```
-*or*
+
+_or_
+
 ```bash
 yarn build
 ```
+
 This will create a `dist` folder with the optimized production build.
 
 ## Linting
@@ -96,7 +99,9 @@ This will create a `dist` folder with the optimized production build.
 ```bash
 npm run lint
 ```
-*or*
+
+_or_
+
 ```bash
 yarn lint
 ```

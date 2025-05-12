@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Drawer,
@@ -8,17 +8,16 @@ import {
   IconButton,
   Divider,
   useTheme,
-} from "@mui/material";
-import { ChevronLeft } from "@mui/icons-material";
-import { useSidebar } from "../../contexts/SidebarContext";
+} from '@mui/material';
+import { ChevronLeft } from '@mui/icons-material';
+import { useSidebar } from '../../contexts/SidebarContext';
 
 const SidebarContainer = styled(Box)(({ theme }) => ({
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  backgroundColor: theme.palette.mode === 'dark' 
-    ? '#1a1b25' 
-    : theme.palette.background.paper,
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor:
+    theme.palette.mode === 'dark' ? '#1a1b25' : theme.palette.background.paper,
   color: theme.palette.text.primary,
 }));
 
@@ -26,7 +25,7 @@ const SidebarWrapper = ({
   title,
   logo, // Updated: Can be string (text) or image path
   children,
-  footerContent
+  footerContent,
 }) => {
   const theme = useTheme();
   const { isOpen, isMobile, close, sidebarWidth } = useSidebar();
@@ -35,10 +34,10 @@ const SidebarWrapper = ({
     <SidebarContainer>
       <Toolbar
         sx={{
-          display: "flex",
-          justifyContent: isOpen ? "space-between" : "center",
+          display: 'flex',
+          justifyContent: isOpen ? 'space-between' : 'center',
           px: [1],
-          minHeight: "64px",
+          minHeight: '64px',
         }}
       >
         {isOpen && (
@@ -48,22 +47,45 @@ const SidebarWrapper = ({
                 sx={{
                   width: 40, // Increased size
                   height: 40, // Increased size
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   borderRadius: 1,
                   overflow: 'hidden', // Ensure image fits
                 }}
               >
                 {typeof logo === 'string' && logo.includes('/') ? (
-                  <img src={logo} alt={`${title} Logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  <img
+                    src={logo}
+                    alt={`${title} Logo`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
                 ) : (
-                   <Box sx={{ bgcolor: theme.palette.primary.main, color: '#fff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 1, fontWeight: 'bold' }}>
-                     {logo}
-                   </Box>
+                  <Box
+                    sx={{
+                      bgcolor: theme.palette.primary.main,
+                      color: '#fff',
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 1,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {logo}
+                  </Box>
                 )}
               </Box>
-              <Typography variant="h6" sx={{ fontWeight: 600, letterSpacing: 0.5 }}>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 600, letterSpacing: 0.5 }}
+              >
                 {title}
               </Typography>
             </Box>
@@ -80,48 +102,66 @@ const SidebarWrapper = ({
             sx={{
               width: 40, // Increased size
               height: 40, // Increased size
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               borderRadius: 1,
-              fontWeight: "bold",
+              fontWeight: 'bold',
               overflow: 'hidden', // Ensure image fits
             }}
           >
-             {typeof logo === 'string' && logo.includes('/') ? (
-                <img src={logo} alt={`${title} Logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              ) : (
-                 <Box sx={{ bgcolor: theme.palette.primary.main, color: '#fff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 1, fontWeight: 'bold' }}>
-                   {logo}
-                 </Box>
-              )}
+            {typeof logo === 'string' && logo.includes('/') ? (
+              <img
+                src={logo}
+                alt={`${title} Logo`}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            ) : (
+              <Box
+                sx={{
+                  bgcolor: theme.palette.primary.main,
+                  color: '#fff',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 1,
+                  fontWeight: 'bold',
+                }}
+              >
+                {logo}
+              </Box>
+            )}
           </Box>
         )}
       </Toolbar>
 
       <Divider sx={{ borderColor: 'rgba(255,255,255,0.1)' }} />
 
-      <Box sx={{ 
-        flex: 1, 
-        overflowY: "auto", 
-        pt: 1, 
-        pb: 2,
-        '&::-webkit-scrollbar': {
-          width: '4px',
-        },
-        '&::-webkit-scrollbar-track': {
-          background: 'transparent',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          background: 'rgba(255,255,255,0.1)',
-          borderRadius: '4px',
-        },
-      }}>
+      <Box
+        sx={{
+          flex: 1,
+          overflowY: 'auto',
+          pt: 1,
+          pb: 2,
+          '&::-webkit-scrollbar': {
+            width: '4px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: 'rgba(255,255,255,0.1)',
+            borderRadius: '4px',
+          },
+        }}
+      >
         {children}
       </Box>
 
       {footerContent && (
-        <Box sx={{ marginTop: "auto", pb: 2 }}>
+        <Box sx={{ marginTop: 'auto', pb: 2 }}>
           <Divider sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
           {footerContent}
         </Box>
@@ -139,13 +179,14 @@ const SidebarWrapper = ({
             flexShrink: 0,
             [`& .MuiDrawer-paper`]: {
               width: sidebarWidth,
-              boxSizing: "border-box",
+              boxSizing: 'border-box',
               borderRight: 0,
-              boxShadow: theme.palette.mode === 'dark' 
-                ? 'none' 
-                : '0 0 10px rgba(0,0,0,0.1)',
-              overflow: "hidden",
-              transition: theme.transitions.create("width", {
+              boxShadow:
+                theme.palette.mode === 'dark'
+                  ? 'none'
+                  : '0 0 10px rgba(0,0,0,0.1)',
+              overflow: 'hidden',
+              transition: theme.transitions.create('width', {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
               }),
@@ -167,10 +208,11 @@ const SidebarWrapper = ({
             flexShrink: 0,
             [`& .MuiDrawer-paper`]: {
               width: sidebarWidth,
-              boxSizing: "border-box",
-              backgroundColor: theme.palette.mode === 'dark' 
-                ? '#1a1b25' 
-                : theme.palette.background.paper,
+              boxSizing: 'border-box',
+              backgroundColor:
+                theme.palette.mode === 'dark'
+                  ? '#1a1b25'
+                  : theme.palette.background.paper,
             },
           }}
           ModalProps={{

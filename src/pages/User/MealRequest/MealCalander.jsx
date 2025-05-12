@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import "../../css/MealCalendar.css";
-import Popup from "../../../components/Calendar/popup";
-import DeletePopup from "../../../components/Calendar/DeletePopup";
-import axios from "axios";
-import UserLayout from "../../../layouts/User/UserLayout";
+import React, { useState, useEffect } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import '../../css/MealCalendar.css';
+import Popup from '../../../components/Calendar/popup';
+import DeletePopup from '../../../components/Calendar/DeletePopup';
+import axios from 'axios';
+import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 function MealCalendar() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -16,7 +16,7 @@ function MealCalendar() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventData, setEventData] = useState([]);
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     fetchEvents();
@@ -24,7 +24,9 @@ function MealCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get(`${BASE_URLS.calendar}/mealevents/${localStorage.getItem("Userid")}`);
+      const response = await axios.get(
+        `${BASE_URLS.calendar}/mealevents/${localStorage.getItem('Userid')}`,
+      );
       const formattedEvents = response.data.map((event) => ({
         id: event.requestedmeal_id,
         title: `${event.mealtime_name} - ${event.mealtype_name}`,
@@ -37,8 +39,8 @@ function MealCalendar() {
       }));
       setEventData(formattedEvents);
     } catch (error) {
-      console.error("Error fetching events:", error);
-      toast.error("Error fetching events:", error);
+      console.error('Error fetching events:', error);
+      toast.error('Error fetching events:', error);
     }
   };
 
@@ -55,17 +57,25 @@ function MealCalendar() {
     }
   };
 
-  const handleAddEvent = async (mealTimeId, mealTypeId, mealTimeName, mealTypeName) => {
+  const handleAddEvent = async (
+    mealTimeId,
+    mealTypeId,
+    mealTimeName,
+    mealTypeName,
+  ) => {
     try {
-      const response = await axios.post(`${BASE_URLS.calendar}/mealevents/add`, {
-        mealtime_id: mealTimeId,
-        mealtype_id: mealTypeId,
-        user_id: parseInt(localStorage.getItem("Userid")),
-        submitted_date: today,
-        meal_request_date: selectedDate,
-      });
+      const response = await axios.post(
+        `${BASE_URLS.calendar}/mealevents/add`,
+        {
+          mealtime_id: mealTimeId,
+          mealtype_id: mealTypeId,
+          user_id: parseInt(localStorage.getItem('Userid')),
+          submitted_date: today,
+          meal_request_date: selectedDate,
+        },
+      );
       if (response.status === 200 || response.status === 201) {
-         toast.success("Event added successfully!");
+        toast.success('Event added successfully!');
       }
       if (response.status !== 200 && response.status !== 201) {
         throw new Error(`Failed to add event: ${response.status}`);
@@ -83,9 +93,9 @@ function MealCalendar() {
       };
       setEventData((prevEvents) => [...prevEvents, newEvent]);
       setPopupOpen(false);
-      toast.success("Event added successfully!");
+      toast.success('Event added successfully!');
     } catch (error) {
-      console.error("Error adding event:", error);
+      console.error('Error adding event:', error);
       toast.error(`Error: ${error.message}`);
       throw error;
     }
@@ -96,10 +106,10 @@ function MealCalendar() {
       await axios.delete(`${BASE_URLS.calendar}/mealevents/${eventId}`);
       setDeletePopupOpen(false);
       await fetchEvents(); // Refetch events after deletion
-      toast.success("Event deleted successfully!");
+      toast.success('Event deleted successfully!');
     } catch (error) {
-      console.error("Error deleting event:", error);
-      toast.error("Error deleting event:", error);
+      console.error('Error deleting event:', error);
+      toast.error('Error deleting event:', error);
     }
   };
 
@@ -112,7 +122,8 @@ function MealCalendar() {
 
   const isMealSelected = (mealTimeId) => {
     return eventData.some(
-      (event) => event.start === selectedDate && event.meal_time_id === mealTimeId
+      (event) =>
+        event.start === selectedDate && event.meal_time_id === mealTimeId,
     );
   };
 
@@ -123,20 +134,20 @@ function MealCalendar() {
         <div>
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
-            height={"80vh"}
+            height={'80vh'}
             headerToolbar={{
-              left: "prev,next",
-              center: "title",
-              right: "today",
+              left: 'prev,next',
+              center: 'title',
+              right: 'today',
             }}
             dateClick={dayClickAction}
             events={eventData}
             eventClick={handleEventClick}
             dayCellClassNames={(arg) => {
               if (isPastDate(arg.date)) {
-                return "fc-day-disabled";
+                return 'fc-day-disabled';
               }
-              return "";
+              return '';
             }}
           />
 
@@ -151,8 +162,10 @@ function MealCalendar() {
           <DeletePopup
             open={deletePopupOpen}
             handleClose={() => setDeletePopupOpen(false)}
-            onDelete={() => selectedEvent && handleDeleteEvent(selectedEvent.id)}
-            eventTitle={selectedEvent ? selectedEvent.title : ""}
+            onDelete={() =>
+              selectedEvent && handleDeleteEvent(selectedEvent.id)
+            }
+            eventTitle={selectedEvent ? selectedEvent.title : ''}
           />
         </div>
       </div>

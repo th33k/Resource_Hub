@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Modal,
   Box,
@@ -7,9 +7,9 @@ import {
   CardContent,
   CardActionArea,
   Button,
-} from "@mui/material";
+} from '@mui/material';
 
-function SchedulePopup({onClose , table}) {
+function SchedulePopup({ onClose, table }) {
   const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -29,7 +29,11 @@ function SchedulePopup({onClose , table}) {
   };
 
   return (
-    <Modal open={true} onClose={onClose} aria-labelledby="frequency-modal-title">
+    <Modal
+      open={true}
+      onClose={onClose}
+      aria-labelledby="frequency-modal-title"
+    >
       <Box sx={modalStyle}>
         <Typography
           id="frequency-modal-title"
@@ -86,9 +90,10 @@ function SchedulePopup({onClose , table}) {
           </Card>
         </Box>
         <br></br>
-        <Button onClick={onClose} variant="contained">Back</Button>
+        <Button onClick={onClose} variant="contained">
+          Back
+        </Button>
       </Box>
-          
     </Modal>
   );
 }

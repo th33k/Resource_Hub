@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./css/Login.css";
-import { useUser } from "../contexts/UserContext";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './css/Login.css';
+import { useUser } from '../contexts/UserContext';
 import { BASE_URLS } from '../services/api/config';
 import {
   TextField,
@@ -9,27 +9,27 @@ import {
   InputLabel,
   OutlinedInput,
   InputAdornment,
-  IconButton
+  IconButton,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function Login() {
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { refreshUserData } = useUser();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    const userRole = localStorage.getItem("userRole");
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    const userRole = localStorage.getItem('userRole');
 
-    if (isAuthenticated === "true" && userRole) {
+    if (isAuthenticated === 'true' && userRole) {
       const redirectPath =
-        userRole.toLowerCase() === "admin"
-          ? "/admin-dashboardadmin"
-          : "/user-dashboarduser";
+        userRole.toLowerCase() === 'admin'
+          ? '/admin-dashboardadmin'
+          : '/user-dashboarduser';
       navigate(redirectPath);
     }
   }, [navigate]);
@@ -37,39 +37,39 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMessage("");
+    setErrorMessage('');
 
     try {
       const response = await fetch(`${BASE_URLS.login}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || 'Login failed');
       }
 
       const userRole =
         data.usertype.charAt(0).toUpperCase() +
         data.usertype.slice(1).toLowerCase();
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userRole", userRole);
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("Userid", data.id);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userRole', userRole);
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('Userid', data.id);
 
       refreshUserData();
 
-      if (userRole === "Admin") {
-        navigate("/admin-dashboardadmin");
+      if (userRole === 'Admin') {
+        navigate('/admin-dashboardadmin');
       } else {
-        navigate("/user-dashboarduser");
+        navigate('/user-dashboarduser');
       }
     } catch (error) {
-      setErrorMessage(error.message || "Invalid email or password");
+      setErrorMessage(error.message || 'Invalid email or password');
     } finally {
       setIsLoading(false);
     }
@@ -110,7 +110,7 @@ function Login() {
             <InputLabel htmlFor="login-password">Password</InputLabel>
             <OutlinedInput
               id="login-password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={credentials.password}
               onChange={(e) =>
                 setCredentials({ ...credentials, password: e.target.value })
@@ -118,7 +118,9 @@ function Login() {
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? 'Hide password' : 'Show password'
+                    }
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
@@ -138,7 +140,7 @@ function Login() {
             </label>
           </div>
           <button type="submit" disabled={isLoading}>
-            {isLoading ? "Signing In..." : "SIGN IN"}
+            {isLoading ? 'Signing In...' : 'SIGN IN'}
           </button>
         </form>
       </div>

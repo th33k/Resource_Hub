@@ -3,13 +3,17 @@ import axios from 'axios';
 import './Styles/ProfileSection.css';
 import { BASE_URLS } from '../../services/api/config';
 import ConfirmationDialog from './ConfirmationDialog';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 const ProfileSection = () => {
   const [formData, setFormData] = useState({ name: '', picture: '', bio: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [confirmationDialog, setConfirmationDialog] = useState({ open: false, message: '', onConfirm: null });
+  const [confirmationDialog, setConfirmationDialog] = useState({
+    open: false,
+    message: '',
+    onConfirm: null,
+  });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -17,7 +21,9 @@ const ProfileSection = () => {
         const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
 
-        const { data } = await axios.get(`${BASE_URLS.settings}/details/${userId}`);
+        const { data } = await axios.get(
+          `${BASE_URLS.settings}/details/${userId}`,
+        );
         const [profile] = data;
 
         setFormData({
@@ -42,7 +48,8 @@ const ProfileSection = () => {
     e.preventDefault();
 
     if (!formData.name.trim()) return toast.error('Name is required');
-    if (formData.bio.length > 150) return toast.error('Bio cannot exceed 150 characters');
+    if (formData.bio.length > 150)
+      return toast.error('Bio cannot exceed 150 characters');
 
     setConfirmationDialog({
       open: true,
@@ -86,7 +93,7 @@ const ProfileSection = () => {
         <div className="form-group">
           <label>Name</label>
           <input
-          className="form-input"
+            className="form-input"
             type="text"
             name="name"
             value={formData.name}
@@ -97,7 +104,7 @@ const ProfileSection = () => {
         <div className="form-group">
           <label>Profile Picture URL</label>
           <input
-          className="form-input"
+            className="form-input"
             type="url"
             name="picture"
             value={formData.picture}
@@ -119,7 +126,9 @@ const ProfileSection = () => {
         <ConfirmationDialog
           message={confirmationDialog.message}
           onConfirm={confirmationDialog.onConfirm}
-          onCancel={() => setConfirmationDialog({ open: false, message: '', onConfirm: null })}
+          onCancel={() =>
+            setConfirmationDialog({ open: false, message: '', onConfirm: null })
+          }
         />
       )}
     </div>

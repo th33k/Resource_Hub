@@ -1,6 +1,6 @@
-import React from "react";
-import AssetsTable from "../../../components/Report/AssetsTable";
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import React from 'react';
+import AssetsTable from '../../../components/Report/AssetsTable';
+import AdminLayout from '../../../layouts/Admin/AdminLayout';
 
 function AssetReport() {
   return (

@@ -1,15 +1,22 @@
-import React from "react";
-import { Card, CardContent, Typography, Avatar, Box, Chip } from "@mui/material";
-import ErrorIcon from "@mui/icons-material/Error";
-import WarningIcon from "@mui/icons-material/Warning";
-import InfoIcon from "@mui/icons-material/Info";
+import React from 'react';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+  Box,
+  Chip,
+} from '@mui/material';
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
+import InfoIcon from '@mui/icons-material/Info';
 
 // Priority level configurations
 const getPriorityConfig = (level) => {
   const configs = {
-    High: { color: "#D32F2F", label: "High", icon: ErrorIcon }, // Red
-    Medium: { color: "#F57C00", label: "Medium", icon: WarningIcon }, // Orange
-    Low: { color: "#FFB300", label: "Low", icon: InfoIcon }, // Light Orange
+    High: { color: '#D32F2F', label: 'High', icon: ErrorIcon }, // Red
+    Medium: { color: '#F57C00', label: 'Medium', icon: WarningIcon }, // Orange
+    Low: { color: '#FFB300', label: 'Low', icon: InfoIcon }, // Light Orange
   };
 
   return configs[level] || configs.Low; // Default to Low if invalid
@@ -17,7 +24,7 @@ const getPriorityConfig = (level) => {
 
 export const MaintenanceNotificationCard = ({ notification }) => {
   // Use priorityLevel from notification, default to "Low" if not provided
-  const priorityLevel = notification.priorityLevel || "Low";
+  const priorityLevel = notification.priorityLevel || 'Low';
   const config = getPriorityConfig(priorityLevel);
   const IconComponent = config.icon;
 
@@ -25,26 +32,26 @@ export const MaintenanceNotificationCard = ({ notification }) => {
     <Card
       variant="outlined"
       sx={{
-        display: "flex",
-        width: "100%",
-        minHeight: "80px",
+        display: 'flex',
+        width: '100%',
+        minHeight: '80px',
         my: 1,
         borderLeft: `4px solid ${config.color}`,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-        transition: "box-shadow 0.2s ease-in-out",
-        "&:hover": {
-          boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        transition: 'box-shadow 0.2s ease-in-out',
+        '&:hover': {
+          boxShadow: '0 3px 10px rgba(0,0,0,0.1)',
         },
       }}
     >
       {/* Icon Section */}
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           p: 1.5,
-          width: "60px",
+          width: '60px',
         }}
       >
         <Avatar
@@ -62,9 +69,9 @@ export const MaintenanceNotificationCard = ({ notification }) => {
       {/* Content Section */}
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
           p: 1.5,
           flexGrow: 1,
         }}
@@ -74,8 +81,8 @@ export const MaintenanceNotificationCard = ({ notification }) => {
             variant="subtitle1"
             sx={{
               fontWeight: 600,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
           >
             {notification.name || notification.username}
@@ -96,10 +103,10 @@ export const MaintenanceNotificationCard = ({ notification }) => {
           variant="body2"
           color="text.secondary"
           sx={{
-            display: "-webkit-box",
+            display: '-webkit-box',
             WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
           }}
         >
           {notification.description}
@@ -109,12 +116,12 @@ export const MaintenanceNotificationCard = ({ notification }) => {
       {/* Date Section */}
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'flex-end',
           p: 1.5,
-          width: "160px",
+          width: '160px',
         }}
       >
         <Typography variant="caption" color="text.secondary">

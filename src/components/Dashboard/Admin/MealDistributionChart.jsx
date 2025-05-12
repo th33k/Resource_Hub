@@ -1,4 +1,4 @@
-import { Line } from "react-chartjs-2";
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,8 +8,8 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
-import { useTheme } from "@mui/material";
+} from 'chart.js';
+import { useTheme } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -18,14 +18,14 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "bottom",
+      position: 'bottom',
     },
   },
   scales: {
@@ -56,10 +56,16 @@ export const MealDistributionChart = ({ data }) => {
       }}
       className="p-6 rounded-lg"
     >
-      <h2 className="text-xl font-semibold mb-2" style={{ color: theme.palette.text.primary }}>
+      <h2
+        className="text-xl font-semibold mb-2"
+        style={{ color: theme.palette.text.primary }}
+      >
         Meal Distribution
       </h2>
-      <p className="text-sm mb-6" style={{ color: theme.palette.text.secondary }}>
+      <p
+        className="text-sm mb-6"
+        style={{ color: theme.palette.text.secondary }}
+      >
         Weekly meal service trends
       </p>
       <Line options={options} data={chartData} />

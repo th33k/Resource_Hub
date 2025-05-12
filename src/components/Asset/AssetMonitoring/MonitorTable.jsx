@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -9,24 +9,24 @@ import {
   Avatar,
   useTheme,
   Chip,
-} from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import PopupEdit from "./PopupEdit";
+} from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import PopupEdit from './PopupEdit';
 
 const getStatusColor = (status, theme) => {
   const normalizedStatus = status.toLowerCase();
   switch (normalizedStatus) {
-    case "accepted":
+    case 'accepted':
       return {
         bg: alpha(theme.palette.success.light, 0.2),
         color: theme.palette.success.main,
       };
-    case "pending":
+    case 'pending':
       return {
         bg: alpha(theme.palette.info.light, 0.2),
         color: theme.palette.info.main,
       };
-    case "rejected":
+    case 'rejected':
       return {
         bg: alpha(theme.palette.error.light, 0.2),
         color: theme.palette.error.main,
@@ -68,8 +68,12 @@ const MonitorTable = ({
               <TableCell align="center">User</TableCell>
               <TableCell align="center">Asset ID</TableCell>
               <TableCell align="center">Asset</TableCell>
-              {showHandoverColumns && <TableCell align="center">Handover Date</TableCell>}
-              {showHandoverColumns && <TableCell align="center">Days Remaining</TableCell>}
+              {showHandoverColumns && (
+                <TableCell align="center">Handover Date</TableCell>
+              )}
+              {showHandoverColumns && (
+                <TableCell align="center">Days Remaining</TableCell>
+              )}
               <TableCell align="center">Status</TableCell>
               <TableCell align="center">Category</TableCell>
               {customColumns.map((col, index) => (
@@ -79,20 +83,25 @@ const MonitorTable = ({
           </TableHead>
           <TableBody>
             {assets.map((asset) => {
-              const validStatuses = ["Pending", "Accepted", "Rejected"];
-              const status = validStatuses.includes(asset.status) ? asset.status : "Pending";
+              const validStatuses = ['Pending', 'Accepted', 'Rejected'];
+              const status = validStatuses.includes(asset.status)
+                ? asset.status
+                : 'Pending';
               const statusStyle = getStatusColor(status, theme);
 
               return (
                 <TableRow
                   key={asset.requestedasset_id}
                   onClick={() => handleRowClick(asset)}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: 'pointer' }}
                 >
                   <TableCell align="center">
                     <div className="flex items-center gap-3">
                       <Avatar
-                        src={asset.profile_picture_url || "https://i.pravatar.cc/50"}
+                        src={
+                          asset.profile_picture_url ||
+                          'https://i.pravatar.cc/50'
+                        }
                         alt={asset.username}
                       />
                       {asset.username}
@@ -100,8 +109,12 @@ const MonitorTable = ({
                   </TableCell>
                   <TableCell align="center">{asset.asset_id}</TableCell>
                   <TableCell align="center">{asset.asset_name}</TableCell>
-                  {showHandoverColumns && <TableCell align="center">{asset.handover_date}</TableCell>}
-                  {showHandoverColumns && <TableCell align="center">{asset.remaining_days}</TableCell>}
+                  {showHandoverColumns && (
+                    <TableCell align="center">{asset.handover_date}</TableCell>
+                  )}
+                  {showHandoverColumns && (
+                    <TableCell align="center">{asset.remaining_days}</TableCell>
+                  )}
                   <TableCell align="center">
                     <Chip
                       label={status}
@@ -110,14 +123,16 @@ const MonitorTable = ({
                         backgroundColor: statusStyle.bg,
                         color: statusStyle.color,
                         fontWeight: 600,
-                        fontSize: "0.75rem",
-                        height: "24px",
+                        fontSize: '0.75rem',
+                        height: '24px',
                       }}
                     />
                   </TableCell>
                   <TableCell align="center">{asset.category}</TableCell>
                   {customColumns.map((col, index) => (
-                    <TableCell key={`row-${index}`}>{col.render(asset)}</TableCell>
+                    <TableCell key={`row-${index}`}>
+                      {col.render(asset)}
+                    </TableCell>
                   ))}
                 </TableRow>
               );

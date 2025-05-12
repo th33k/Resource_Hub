@@ -43,7 +43,8 @@ export const getTheme = (mode: 'light' | 'dark') => {
       },
       text: {
         primary: mode === 'light' ? 'rgba(0, 0, 0, 0.87)' : '#fff',
-        secondary: mode === 'light' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.7)',
+        secondary:
+          mode === 'light' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.7)',
       },
     },
     shape: {
@@ -108,9 +109,10 @@ export const getTheme = (mode: 'light' | 'dark') => {
         styleOverrides: {
           root: {
             borderRadius: 8,
-            boxShadow: mode === 'light' 
-              ? '0 2px 12px 0 rgba(0, 0, 0, 0.05)'
-              : '0 2px 12px 0 rgba(0, 0, 0, 0.2)',
+            boxShadow:
+              mode === 'light'
+                ? '0 2px 12px 0 rgba(0, 0, 0, 0.05)'
+                : '0 2px 12px 0 rgba(0, 0, 0, 0.2)',
           },
         },
       },
@@ -126,13 +128,15 @@ export const getTheme = (mode: 'light' | 'dark') => {
           root: {
             borderRadius: 8,
             '&.Mui-selected': {
-              backgroundColor: mode === 'light' 
-                ? 'rgba(63, 81, 181, 0.08)'
-                : 'rgba(63, 81, 181, 0.16)',
+              backgroundColor:
+                mode === 'light'
+                  ? 'rgba(63, 81, 181, 0.08)'
+                  : 'rgba(63, 81, 181, 0.16)',
               '&:hover': {
-                backgroundColor: mode === 'light' 
-                  ? 'rgba(63, 81, 181, 0.12)'
-                  : 'rgba(63, 81, 181, 0.24)',
+                backgroundColor:
+                  mode === 'light'
+                    ? 'rgba(63, 81, 181, 0.12)'
+                    : 'rgba(63, 81, 181, 0.24)',
               },
             },
           },

@@ -9,19 +9,19 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-} from "@mui/material";
-import { useState, useEffect } from "react";
+} from '@mui/material';
+import { useState, useEffect } from 'react';
 
 export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
-  const [description, setDescription] = useState("");
-  const [priorityLevel, setPriorityLevel] = useState("");
-  const [status, setStatus] = useState("");
+  const [description, setDescription] = useState('');
+  const [priorityLevel, setPriorityLevel] = useState('');
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     if (maintenance) {
-      setDescription(maintenance.description || "");
-      setPriorityLevel(maintenance.priorityLevel || "");
-      setStatus(maintenance.status || "");
+      setDescription(maintenance.description || '');
+      setPriorityLevel(maintenance.priorityLevel || '');
+      setStatus(maintenance.status || '');
     }
   }, [maintenance]);
 
@@ -43,13 +43,13 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
             <TextField
               fullWidth
               label="Name"
-              value={maintenance?.name || ""}
+              value={maintenance?.name || ''}
               disabled
             />
             <TextField
               fullWidth
               label="Request Date"
-              value={maintenance?.request_date || ""}
+              value={maintenance?.request_date || ''}
               disabled
             />
             <FormControl fullWidth>

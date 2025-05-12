@@ -24,7 +24,9 @@ const SidebarContext = createContext<SidebarContextType>({
 
 export const useSidebar = () => useContext(SidebarContext);
 
-export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -42,7 +44,7 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     // Initial call
     handleResize();
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -50,14 +52,16 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const toggle = () => setIsOpen((prev) => !prev);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
-  
+
   // Calculate sidebar width based on state
   const sidebarWidth = isOpen ? EXPANDED_WIDTH : COLLAPSED_WIDTH;
 
   const value = useMemo(
     () => ({ isOpen, toggle, open, close, isMobile, sidebarWidth }),
-    [isOpen, isMobile, sidebarWidth]
+    [isOpen, isMobile, sidebarWidth],
   );
 
-  return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;
+  return (
+    <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
+  );
 };

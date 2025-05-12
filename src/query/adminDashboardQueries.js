@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { BASE_URLS } from "../services/api/config";
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { BASE_URLS } from '../services/api/config';
 
 export function useAdminDashboardData() {
   return useQuery({
-    queryKey: ["adminDashboardData"],
+    queryKey: ['adminDashboardData'],
     queryFn: async () => {
       const [statsRes, resourcesRes, mealRes, resourceAllocRes] =
         await Promise.all([

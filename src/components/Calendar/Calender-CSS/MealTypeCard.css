@@ -1,27 +1,26 @@
 /* MealTypeCard.css */
 
 .meal-type-card {
-    width: 250px;
-    height: 300px;
-    padding: 20px;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .meal-type-card-media {
-    height: 200px;
-    width: 200px;
-  }
-  
-  .meal-type-card-actions {
-    display: block;
-    margin: auto;
-  }
-  
-  .meal-type-card-button {
-    width: 100%;
-  }
-  
+  width: 250px;
+  height: 300px;
+  padding: 20px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.meal-type-card-media {
+  height: 200px;
+  width: 200px;
+}
+
+.meal-type-card-actions {
+  display: block;
+  margin: auto;
+}
+
+.meal-type-card-button {
+  width: 100%;
+}

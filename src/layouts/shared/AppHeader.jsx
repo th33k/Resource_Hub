@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   AppBar,
   Box,
@@ -9,33 +9,33 @@ import {
   Tooltip,
   useTheme,
   useMediaQuery,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Menu as MenuIcon,
   Notifications as NotificationsIcon,
   Settings as SettingsIcon,
   MoreVert as MoreIcon,
-} from "@mui/icons-material";
-import { useSidebar } from "../../contexts/SidebarContext";
-import { useThemeContext } from "../../theme/ThemeProvider";
-import { useUser } from "../../contexts/UserContext";
+} from '@mui/icons-material';
+import { useSidebar } from '../../contexts/SidebarContext';
+import { useThemeContext } from '../../theme/ThemeProvider';
+import { useUser } from '../../contexts/UserContext';
 
 // Shared components
-import ModeToggle from "./ModeToggle";
-import ThemeToggle from "./ThemeToggle";
-import ProfileMenu from "./ProfileMenu";
-import MobileMenu from "./MobileMenu";
-import { Link } from "react-router-dom";
+import ModeToggle from './ModeToggle';
+import ThemeToggle from './ThemeToggle';
+import ProfileMenu from './ProfileMenu';
+import MobileMenu from './MobileMenu';
+import { Link } from 'react-router-dom';
 
 const AppHeader = ({
-  title = "Dashboard",
+  title = 'Dashboard',
   logo, // Updated: Can be string (text) or image path
   notificationCount = 0,
   showSettings = true,
-  showOrdersInProfile = false
+  showOrdersInProfile = false,
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { toggle } = useSidebar();
   const { toggleMode } = useThemeContext();
   const { userData, isAdmin, toggleAdminMode, isAdminView } = useUser();
@@ -57,12 +57,12 @@ const AppHeader = ({
         zIndex: (theme) => theme.zIndex.drawer + 1,
         bgcolor: theme.palette.background.paper,
         color: theme.palette.text.primary,
-        boxShadow: "none",
+        boxShadow: 'none',
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
     >
-      <Toolbar sx={{ minHeight: "64px !important" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Toolbar sx={{ minHeight: '64px !important' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton
             color="inherit"
             edge="start"
@@ -72,24 +72,43 @@ const AppHeader = ({
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box
               sx={{
                 width: 40, // Increased size
                 height: 40, // Increased size
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 borderRadius: 1,
                 mr: 1,
-                fontWeight: "bold",
+                fontWeight: 'bold',
                 overflow: 'hidden', // Ensure image fits
               }}
             >
               {typeof logo === 'string' && logo.includes('/') ? (
-                <img src={logo} alt={`${title} Logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                <img
+                  src={logo}
+                  alt={`${title} Logo`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               ) : (
-                <Box sx={{ bgcolor: theme.palette.primary.main, color: '#fff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 1 }}>
+                <Box
+                  sx={{
+                    bgcolor: theme.palette.primary.main,
+                    color: '#fff',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 1,
+                  }}
+                >
                   {logo}
                 </Box>
               )}
@@ -99,7 +118,7 @@ const AppHeader = ({
               sx={{
                 fontWeight: 600,
                 letterSpacing: 0.5,
-                display: { xs: "none", sm: "block" },
+                display: { xs: 'none', sm: 'block' },
               }}
             >
               {title}
@@ -107,30 +126,33 @@ const AppHeader = ({
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: "auto" }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
           {/* Only render ModeToggle if user has Admin role */}
-          {userData.role === "Admin" && (
-            <ModeToggle isAdmin={isAdminView} toggleAdminMode={toggleAdminMode} />
+          {userData.role === 'Admin' && (
+            <ModeToggle
+              isAdmin={isAdminView}
+              toggleAdminMode={toggleAdminMode}
+            />
           )}
 
           {!isMobile ? (
             <>
-             <Link to={"/notifications"} style={{ textDecoration: "none" }}>
-             <Tooltip title="Notifications">
-                <IconButton
-                  size="large"
-                  color="inherit"
-                  sx={{
-                    bgcolor: theme.palette.background.default,
-                    "&:hover": { bgcolor: theme.palette.action.hover },
-                  }}
-                >
-                  <Badge badgeContent={notificationCount} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
-             </Link>
+              <Link to={'/notifications'} style={{ textDecoration: 'none' }}>
+                <Tooltip title="Notifications">
+                  <IconButton
+                    size="large"
+                    color="inherit"
+                    sx={{
+                      bgcolor: theme.palette.background.default,
+                      '&:hover': { bgcolor: theme.palette.action.hover },
+                    }}
+                  >
+                    <Badge badgeContent={notificationCount} color="error">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+              </Link>
 
               {showSettings && (
                 <Tooltip title="Settings">
@@ -139,7 +161,7 @@ const AppHeader = ({
                     color="inherit"
                     sx={{
                       bgcolor: theme.palette.background.default,
-                      "&:hover": { bgcolor: theme.palette.action.hover },
+                      '&:hover': { bgcolor: theme.palette.action.hover },
                     }}
                   >
                     <SettingsIcon />
@@ -156,7 +178,7 @@ const AppHeader = ({
               onClick={handleMobileMenuOpen}
               sx={{
                 bgcolor: theme.palette.background.default,
-                "&:hover": { bgcolor: theme.palette.action.hover },
+                '&:hover': { bgcolor: theme.palette.action.hover },
               }}
             >
               <MoreIcon />

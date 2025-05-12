@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -9,39 +9,57 @@ import {
   Avatar,
   useTheme,
   Chip,
-} from "@mui/material";
-import { alpha } from "@mui/material/styles";
+} from '@mui/material';
+import { alpha } from '@mui/material/styles';
 
 const getStatusColor = (status, theme) => {
   switch (status.toLowerCase()) {
-    case "active":
+    case 'active':
       return {
-        bg: theme.palette.mode === "dark" ? alpha(theme.palette.success.main, 0.2) : alpha(theme.palette.success.light, 0.2),
+        bg:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.success.main, 0.2)
+            : alpha(theme.palette.success.light, 0.2),
         color: theme.palette.success.main,
       };
-    case "inactive":
+    case 'inactive':
       return {
-        bg: theme.palette.mode === "dark" ? alpha(theme.palette.warning.main, 0.2) : alpha(theme.palette.warning.light, 0.2),
+        bg:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.warning.main, 0.2)
+            : alpha(theme.palette.warning.light, 0.2),
         color: theme.palette.warning.main,
       };
-    case "pending":
+    case 'pending':
       return {
-        bg: theme.palette.mode === "dark" ? alpha(theme.palette.info.main, 0.2) : alpha(theme.palette.info.light, 0.2),
+        bg:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.info.main, 0.2)
+            : alpha(theme.palette.info.light, 0.2),
         color: theme.palette.info.main,
       };
-    case "accepted":
+    case 'accepted':
       return {
-        bg: theme.palette.mode === "dark" ? alpha(theme.palette.success.main, 0.2) : alpha(theme.palette.success.light, 0.2),
+        bg:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.success.main, 0.2)
+            : alpha(theme.palette.success.light, 0.2),
         color: theme.palette.success.main,
       };
-    case "rejected":
+    case 'rejected':
       return {
-        bg: theme.palette.mode === "dark" ? alpha(theme.palette.error.main, 0.2) : alpha(theme.palette.error.light, 0.2),
+        bg:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.error.main, 0.2)
+            : alpha(theme.palette.error.light, 0.2),
         color: theme.palette.error.main,
       };
     default:
       return {
-        bg: theme.palette.mode === "dark" ? alpha(theme.palette.grey[600], 0.2) : alpha(theme.palette.grey[400], 0.2),
+        bg:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.grey[600], 0.2)
+            : alpha(theme.palette.grey[400], 0.2),
         color: theme.palette.text.secondary,
       };
   }
@@ -77,17 +95,19 @@ const MonitorTable = ({
             const statusStyle = getStatusColor(asset.status, theme);
 
             // Conditionally handle `is_returning` and other fields
-            const isReturning = asset.is_returning ? 'Returning' : 'Not Returning';
-            const handoverDate = 
-              asset.is_returning ? asset.handover_date : 'No Return';
+            const isReturning = asset.is_returning
+              ? 'Returning'
+              : 'Not Returning';
+            const handoverDate = asset.is_returning
+              ? asset.handover_date
+              : 'No Return';
             const remainingDays =
               asset.is_returning && asset.status === 'Accepted'
-              ? asset.remaining_days
-              : 'N/A';
+                ? asset.remaining_days
+                : 'N/A';
 
             return (
               <TableRow key={asset.requestedasset_id}>
-
                 <TableCell>{asset.requestedasset_id}</TableCell>
                 <TableCell>{asset.asset_name}</TableCell>
                 <TableCell>{asset.quantity}</TableCell>
@@ -101,15 +121,17 @@ const MonitorTable = ({
                       backgroundColor: statusStyle.bg,
                       color: statusStyle.color,
                       fontWeight: 600,
-                      fontSize: "0.75rem",
-                      height: "24px",
+                      fontSize: '0.75rem',
+                      height: '24px',
                     }}
                   />
                 </TableCell>
                 <TableCell>{isReturning}</TableCell>
                 <TableCell>{asset.category}</TableCell>
                 {customColumns.map((col, index) => (
-                  <TableCell key={`row-${index}`}>{col.render(asset)}</TableCell>
+                  <TableCell key={`row-${index}`}>
+                    {col.render(asset)}
+                  </TableCell>
                 ))}
               </TableRow>
             );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -17,13 +17,13 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import { Pencil, Trash2, SendHorizontal } from "lucide-react";
-import { EditMaintenance } from "./EditMaintenancePopup.jsx";
-import { DeleteConfirmDialog } from "./DeleteConfirmDialog.jsx";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { Pencil, Trash2, SendHorizontal } from 'lucide-react';
+import { EditMaintenance } from './EditMaintenancePopup.jsx';
+import { DeleteConfirmDialog } from './DeleteConfirmDialog.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from '../../services/api/config.js';
 
 const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
@@ -64,26 +64,26 @@ export const MaintenanceTable = ({
   // Get color for priority level
   const getPriorityColor = (priority) => {
     switch (priority.toLowerCase()) {
-      case "high":
+      case 'high':
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.error.main, 0.2)
               : alpha(theme.palette.error.light, 0.2),
           color: theme.palette.error.main,
         };
-      case "medium":
+      case 'medium':
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.warning.main, 0.2)
               : alpha(theme.palette.warning.light, 0.2),
           color: theme.palette.warning.main,
         };
-      case "low":
+      case 'low':
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.success.main, 0.2)
               : alpha(theme.palette.success.light, 0.2),
           color: theme.palette.success.main,
@@ -91,7 +91,7 @@ export const MaintenanceTable = ({
       default:
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.info.main, 0.2)
               : alpha(theme.palette.info.light, 0.2),
           color: theme.palette.info.main,
@@ -102,26 +102,26 @@ export const MaintenanceTable = ({
   // Get color for status
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
-      case "completed":
+      case 'completed':
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.success.main, 0.2)
               : alpha(theme.palette.success.light, 0.2),
           color: theme.palette.success.main,
         };
-      case "in progress":
+      case 'in progress':
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.info.main, 0.2)
               : alpha(theme.palette.info.light, 0.2),
           color: theme.palette.info.main,
         };
-      case "pending":
+      case 'pending':
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.warning.main, 0.2)
               : alpha(theme.palette.warning.light, 0.2),
           color: theme.palette.warning.main,
@@ -129,7 +129,7 @@ export const MaintenanceTable = ({
       default:
         return {
           bg:
-            theme.palette.mode === "dark"
+            theme.palette.mode === 'dark'
               ? alpha(theme.palette.grey[600], 0.2)
               : alpha(theme.palette.grey[400], 0.2),
           color: theme.palette.text.secondary,
@@ -141,9 +141,9 @@ export const MaintenanceTable = ({
   const handleSendNotification = async (maintenanceItem) => {
     try {
       const response = await fetch(`${BASE_URLS.maintenance}/addnotification`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           user_id: parseInt(maintenanceItem.user_id),
@@ -154,30 +154,30 @@ export const MaintenanceTable = ({
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(
-          `Failed to add notification: ${response.status} ${errorText}`
+          `Failed to add notification: ${response.status} ${errorText}`,
         );
       }
 
       const result = await response.json();
-      toast.success(result.message || "Notification sent successfully!", {
-        position: "top-right",
+      toast.success(result.message || 'Notification sent successfully!', {
+        position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        theme: "colored",
+        theme: 'colored',
       });
     } catch (error) {
-      console.error("Error adding notification:", error);
+      console.error('Error adding notification:', error);
       toast.error(`Failed to send notification: ${error.message}`, {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        theme: "colored",
+        theme: 'colored',
       });
     }
   };
@@ -199,17 +199,17 @@ export const MaintenanceTable = ({
 
   return (
     <>
-      <Paper elevation={theme.palette.mode === "dark" ? 2 : 1}>
+      <Paper elevation={theme.palette.mode === 'dark' ? 2 : 1}>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow
                 sx={{
                   backgroundColor:
-                    theme.palette.mode === "dark"
+                    theme.palette.mode === 'dark'
                       ? theme.palette.background.paper
                       : theme.palette.grey[100],
-                  "& .MuiTableCell-root": {
+                  '& .MuiTableCell-root': {
                     color: theme.palette.text.primary,
                     fontWeight: 600,
                   },
@@ -234,9 +234,9 @@ export const MaintenanceTable = ({
                       key={item.maintenance_id}
                       hover
                       sx={{
-                        "&:hover": {
+                        '&:hover': {
                           backgroundColor:
-                            theme.palette.mode === "dark"
+                            theme.palette.mode === 'dark'
                               ? alpha(theme.palette.action.hover, 0.1)
                               : theme.palette.action.hover,
                         },
@@ -253,8 +253,8 @@ export const MaintenanceTable = ({
                             backgroundColor: priorityStyle.bg,
                             color: priorityStyle.color,
                             fontWeight: 600,
-                            fontSize: "0.75rem",
-                            height: "24px",
+                            fontSize: '0.75rem',
+                            height: '24px',
                           }}
                         />
                       </TableCell>
@@ -266,8 +266,8 @@ export const MaintenanceTable = ({
                             backgroundColor: statusStyle.bg,
                             color: statusStyle.color,
                             fontWeight: 600,
-                            fontSize: "0.75rem",
-                            height: "24px",
+                            fontSize: '0.75rem',
+                            height: '24px',
                           }}
                         />
                       </TableCell>
@@ -356,7 +356,7 @@ export const MaintenanceTable = ({
           setIsDeleteDialogOpen(false);
         }}
       />
-      
+
       <SendConfirmDialog
         open={isSendDialogOpen}
         onClose={() => setIsSendDialogOpen(false)}

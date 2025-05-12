@@ -1,12 +1,12 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Popupmealtype from "./popupmealtype";
-import "./Calender-CSS/MealTimeCard.css";
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Popupmealtype from './popupmealtype';
+import './Calender-CSS/MealTimeCard.css';
 
 const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
   const [popupOpen, setPopupOpen] = React.useState(false);
@@ -20,7 +20,11 @@ const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
   return (
     <div>
       <Card className="meal-time-card">
-        <CardMedia className="meal-time-card-media" image={image} title={name} />
+        <CardMedia
+          className="meal-time-card-media"
+          image={image}
+          title={name}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {name}
@@ -41,7 +45,9 @@ const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
       <Popupmealtype
         open={popupOpen}
         handleClose={() => setPopupOpen(false)}
-        onAddEvent={(mealTypeId, mealTypeName) => onSelect(mealTypeId, mealTypeName)}
+        onAddEvent={(mealTypeId, mealTypeName) =>
+          onSelect(mealTypeId, mealTypeName)
+        }
       />
     </div>
   );

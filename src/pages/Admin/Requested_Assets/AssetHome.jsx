@@ -1,47 +1,47 @@
-import React from "react";
-import AssetHomeCard from "../../../components/Asset/AssetMonitoring/AssetHomeCard";
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
-import "../../css/AssetHome.css";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import AssetHomeCard from '../../../components/Asset/AssetMonitoring/AssetHomeCard';
+import AdminLayout from '../../../layouts/Admin/AdminLayout';
+import '../../css/AssetHome.css';
+import { useNavigate } from 'react-router-dom';
 
 function AssetHome() {
   const navigate = useNavigate();
 
   const categories = [
     {
-      name: "Electronics & IT",
-      label: "Electronics & IT",
-      image: "/Asset/Electronic And IT.png",
+      name: 'Electronics & IT',
+      label: 'Electronics & IT',
+      image: '/Asset/Electronic And IT.png',
     },
     {
-      name: "Office Supplies",
-      label: "Office Supplies",
-      image: "/Asset/Stationary Items.png",
+      name: 'Office Supplies',
+      label: 'Office Supplies',
+      image: '/Asset/Stationary Items.png',
     },
     {
-      name: "Furniture",
-      label: "Furniture",
-      image: "/Asset/Furniture.png",
+      name: 'Furniture',
+      label: 'Furniture',
+      image: '/Asset/Furniture.png',
     },
     {
-      name: "Electrical Appliances",
-      label: "Electrical Appliances",
-      image: "/Asset/Maintenance Tools.png",
+      name: 'Electrical Appliances',
+      label: 'Electrical Appliances',
+      image: '/Asset/Maintenance Tools.png',
     },
     {
-      name: "Machinery & Tools",
-      label: "Machinery & Tools",
-      image: "/Asset/Mechanices.png",
+      name: 'Machinery & Tools',
+      label: 'Machinery & Tools',
+      image: '/Asset/Mechanices.png',
     },
     {
-      name: "Miscellaneous",
-      label: "Miscellaneous",
-      image: "/Asset/Extra Items.png",
+      name: 'Miscellaneous',
+      label: 'Miscellaneous',
+      image: '/Asset/Extra Items.png',
     },
   ];
 
   const handleCardClick = (category) => {
-    navigate("/admin-assetmonitoring", {
+    navigate('/admin-assetmonitoring', {
       state: { category: category.name },
     });
   };

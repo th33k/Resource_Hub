@@ -41,7 +41,10 @@ const ModeToggle = ({ isAdmin, toggleAdminMode }) => {
           }}
         >
           <AdminPanelSettingsIcon fontSize="small" />
-          <Typography variant="body2" sx={{ fontWeight: 500, display: { xs: 'none', sm: 'block' } }}>
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 500, display: { xs: 'none', sm: 'block' } }}
+          >
             Admin
           </Typography>
         </Box>
@@ -60,7 +63,10 @@ const ModeToggle = ({ isAdmin, toggleAdminMode }) => {
           }}
         >
           <PersonIcon fontSize="small" />
-          <Typography variant="body2" sx={{ fontWeight: 500, display: { xs: 'none', sm: 'block' } }}>
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 500, display: { xs: 'none', sm: 'block' } }}
+          >
             User
           </Typography>
         </Box>

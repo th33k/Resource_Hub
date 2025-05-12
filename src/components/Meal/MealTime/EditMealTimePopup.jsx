@@ -1,12 +1,21 @@
-import * as React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-function EditPopup({ open, onClose, onSave, mealName, mealImage, setMealName, setMealImage, mealId }) {
+function EditPopup({
+  open,
+  onClose,
+  onSave,
+  mealName,
+  mealImage,
+  setMealName,
+  setMealImage,
+  mealId,
+}) {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Edit Meal Time</DialogTitle>
@@ -35,7 +44,10 @@ function EditPopup({ open, onClose, onSave, mealName, mealImage, setMealName, se
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => onSave(mealId, mealName, mealImage)} color="primary">
+        <Button
+          onClick={() => onSave(mealId, mealName, mealImage)}
+          color="primary"
+        >
           Save
         </Button>
       </DialogActions>

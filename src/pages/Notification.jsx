@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { MaintenanceNotificationCard } from "../components/Maintenance/MaintenanceNotificationCard";
-import AdminLayout from "../layouts/Admin/AdminLayout";
-import UserLayout from "../layouts/User/UserLayout"; // Adjust path as needed
+import React, { useState, useEffect } from 'react';
+import { MaintenanceNotificationCard } from '../components/Maintenance/MaintenanceNotificationCard';
+import AdminLayout from '../layouts/Admin/AdminLayout';
+import UserLayout from '../layouts/User/UserLayout'; // Adjust path as needed
 import { BASE_URLS } from '../services/api/config';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -27,10 +27,10 @@ function Notification() {
           priorityLevel: item.priorityLevel,
         }));
         setNotifications(mappedData);
-        toast.success("Notifications loaded successfully!");
+        toast.success('Notifications loaded successfully!');
       } catch (error) {
-        console.error("Error fetching notifications:", error);
-        toast.error("Error fetching notifications:", error);
+        console.error('Error fetching notifications:', error);
+        toast.error('Error fetching notifications:', error);
       }
     };
 
@@ -41,7 +41,7 @@ function Notification() {
   const totalPages = Math.ceil(notifications.length / itemsPerPage);
   const paginatedNotifications = notifications.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   // Handle page change
@@ -51,7 +51,7 @@ function Notification() {
   };
 
   // Get user role from localStorage
-  const userRole = localStorage.getItem("userRole");
+  const userRole = localStorage.getItem('userRole');
 
   // Conditional layout rendering
   const renderContent = (
@@ -60,7 +60,10 @@ function Notification() {
         <h2 className="text-xl font-bold mb-6">Maintenance Notifications</h2>
         <div className="space-y-4">
           {paginatedNotifications.map((notification, index) => (
-            <MaintenanceNotificationCard key={index} notification={notification} />
+            <MaintenanceNotificationCard
+              key={index}
+              notification={notification}
+            />
           ))}
         </div>
 
@@ -78,20 +81,22 @@ function Notification() {
                     Previous
                   </button>
                 </li>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <li key={page}>
-                    <button
-                      onClick={() => handlePageChange(page)}
-                      className={`px-3 py-2 border ${
-                        currentPage === page
-                          ? "text-blue-600 bg-blue-50 hover:bg-blue-100"
-                          : "text-gray-500 bg-white hover:bg-gray-100"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  </li>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <li key={page}>
+                      <button
+                        onClick={() => handlePageChange(page)}
+                        className={`px-3 py-2 border ${
+                          currentPage === page
+                            ? 'text-blue-600 bg-blue-50 hover:bg-blue-100'
+                            : 'text-gray-500 bg-white hover:bg-gray-100'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    </li>
+                  ),
+                )}
                 <li>
                   <button
                     onClick={() => handlePageChange(currentPage + 1)}
@@ -111,9 +116,9 @@ function Notification() {
 
   return (
     <>
-      {userRole == "Admin" ? (
+      {userRole == 'Admin' ? (
         <AdminLayout>{renderContent}</AdminLayout>
-      ) : userRole == "User" ? (
+      ) : userRole == 'User' ? (
         <UserLayout>{renderContent}</UserLayout>
       ) : (
         // Fallback for invalid or no role (e.g., not logged in)

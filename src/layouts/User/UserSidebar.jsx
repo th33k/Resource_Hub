@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   List,
   ListItemButton,
@@ -6,7 +6,7 @@ import {
   ListItemText,
   Collapse,
   useTheme,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Dashboard as DashboardIcon,
   Restaurant as MealIcon,
@@ -16,34 +16,34 @@ import {
   Settings as SettingsIcon,
   ExpandLess,
   ExpandMore,
-} from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import { useSidebar } from "../../contexts/SidebarContext";
-import SidebarWrapper from "../shared/SidebarWrapper";
+} from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import { useSidebar } from '../../contexts/SidebarContext';
+import SidebarWrapper from '../shared/SidebarWrapper';
 
 const navItems = [
   {
-    title: "Dashboard",
-    path: "/user-dashboarduser",
+    title: 'Dashboard',
+    path: '/user-dashboarduser',
     icon: <DashboardIcon />,
   },
   {
-    title: "Meal",
+    title: 'Meal',
     icon: <MealIcon />,
-    submenu: [{ title: "Meal Calendar", path: "/user-mealcalendar" }],
+    submenu: [{ title: 'Meal Calendar', path: '/user-mealcalendar' }],
   },
   {
-    title: "Assets",
+    title: 'Assets',
     icon: <AssetIcon />,
     submenu: [
-      { title: "Asset Requests", path: "/user-assetrequest" },
-      { title: "Due Assets", path: "/user-dueassets" },
+      { title: 'Asset Requests', path: '/user-assetrequest' },
+      { title: 'Due Assets', path: '/user-dueassets' },
     ],
   },
   {
-    title: "Maintenance",
+    title: 'Maintenance',
     icon: <MaintenanceIcon />,
-    submenu: [{ title: "Maintenance Requests", path: "/user-maintenance" }],
+    submenu: [{ title: 'Maintenance Requests', path: '/user-maintenance' }],
   },
 ];
 
@@ -68,7 +68,11 @@ const UserSidebar = () => {
   );
 
   return (
-    <SidebarWrapper title="Resource Hub" logo="/Resource Hub Logo.png" footerContent={sidebarFooter}>
+    <SidebarWrapper
+      title="Resource Hub"
+      logo="/Resource Hub Logo.png"
+      footerContent={sidebarFooter}
+    >
       <List component="nav">
         {navItems.map((item, idx) => (
           <React.Fragment key={item.title}>

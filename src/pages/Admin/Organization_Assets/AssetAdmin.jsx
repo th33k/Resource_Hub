@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from "react";
-import AssetTable from "../../../components/Asset/OrganizationAssets/AssetTable";
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-import { UserPlus, Search } from "lucide-react";
-import EditAssetPopup from "../../../components/Asset/OrganizationAssets/AssetEdit";
-import DeleteAssetPopup from "../../../components/Asset/OrganizationAssets/AssetDelete";
-import AssetAdd from "../../../components/Asset/OrganizationAssets/AssetAdd";
-import axios from "axios";
-import "../../css/AssetAdmin.css";
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import React, { useState, useEffect } from 'react';
+import AssetTable from '../../../components/Asset/OrganizationAssets/AssetTable';
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
+import { UserPlus, Search } from 'lucide-react';
+import EditAssetPopup from '../../../components/Asset/OrganizationAssets/AssetEdit';
+import DeleteAssetPopup from '../../../components/Asset/OrganizationAssets/AssetDelete';
+import AssetAdd from '../../../components/Asset/OrganizationAssets/AssetAdd';
+import axios from 'axios';
+import '../../css/AssetAdmin.css';
+import AdminLayout from '../../../layouts/Admin/AdminLayout';
 import { BASE_URLS } from '../../../services/api/config';
 
 function AssetAdmin() {
-  const [searchText, setSearchText] = useState("");
-  const [filterCategory, setFilterCategory] = useState("All");
+  const [searchText, setSearchText] = useState('');
+  const [filterCategory, setFilterCategory] = useState('All');
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -27,15 +34,18 @@ function AssetAdmin() {
     fetch(`${BASE_URLS.asset}/details`)
       .then((response) => response.json())
       .then((data) => setAssets(data))
-      .catch((error) => console.error("Error fetching assets:", error));
+      .catch((error) => console.error('Error fetching assets:', error));
   };
 
-  const uniqueCategories = ["All", ...new Set(assets.map((asset) => asset.category))];
+  const uniqueCategories = [
+    'All',
+    ...new Set(assets.map((asset) => asset.category)),
+  ];
 
   const filteredAssets = assets.filter(
     (asset) =>
-      (filterCategory === "All" || asset.category === filterCategory) &&
-      asset.asset_name.toLowerCase().includes(searchText.toLowerCase())
+      (filterCategory === 'All' || asset.category === filterCategory) &&
+      asset.asset_name.toLowerCase().includes(searchText.toLowerCase()),
   );
 
   const handleEditOpen = (asset) => {
@@ -62,8 +72,8 @@ function AssetAdmin() {
       setDeleteOpen(false);
       setSelectedAsset(null);
     } catch (error) {
-      console.error("Error deleting asset:", error);
-      alert("Failed to delete asset");
+      console.error('Error deleting asset:', error);
+      alert('Failed to delete asset');
     }
   };
 
@@ -85,7 +95,11 @@ function AssetAdmin() {
               InputProps={{ startAdornment: <Search size={20} /> }}
               className="search-bar"
             />
-            <FormControl variant="outlined" size="small" className="category-dropdown">
+            <FormControl
+              variant="outlined"
+              size="small"
+              className="category-dropdown"
+            >
               <InputLabel>Filter by Category</InputLabel>
               <Select
                 value={filterCategory}

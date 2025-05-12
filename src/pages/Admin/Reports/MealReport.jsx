@@ -1,6 +1,6 @@
-import React from "react";
-import MealEventsTable from "../../../components/Report/MealEventsTable";
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import React from 'react';
+import MealEventsTable from '../../../components/Report/MealEventsTable';
+import AdminLayout from '../../../layouts/Admin/AdminLayout';
 
 function MealReport() {
   return (

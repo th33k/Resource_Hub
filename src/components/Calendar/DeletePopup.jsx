@@ -1,9 +1,9 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography"; 
-import './Calender-CSS/DeletePopup.css';  
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import './Calender-CSS/DeletePopup.css';
 
 function DeletePopup({ open, handleClose, onDelete, eventTitle }) {
   return (
@@ -11,7 +11,7 @@ function DeletePopup({ open, handleClose, onDelete, eventTitle }) {
       open={open}
       onClose={handleClose}
       BackdropProps={{
-        className: "modal-backdrop",
+        className: 'modal-backdrop',
       }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -21,7 +21,8 @@ function DeletePopup({ open, handleClose, onDelete, eventTitle }) {
           Delete Event
         </Typography>
         <Typography className="modal-description" variant="body1">
-          Are you sure you want to delete the event:<br /> <strong>{eventTitle}</strong>?
+          Are you sure you want to delete the event:
+          <br /> <strong>{eventTitle}</strong>?
         </Typography>
         <Box className="modal-actions">
           <Button variant="contained" color="error" onClick={onDelete}>

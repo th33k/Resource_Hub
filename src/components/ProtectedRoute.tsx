@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { useUser } from "../contexts/UserContext";
+import React, { useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 
 interface ProtectedRouteProps {
-  requiredRole: "Admin" | "User";
+  requiredRole: 'Admin' | 'User';
   children: React.ReactNode;
 }
 
@@ -20,8 +20,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }, [refreshUserData]);
 
   // Check if user is authenticated
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-  
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
   if (!isAuthenticated) {
     // Redirect to login if not authenticated
     return <Navigate to="/" state={{ from: location }} replace />;
@@ -32,7 +32,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const requiredRoleLower = requiredRole.toLowerCase();
 
   // Admins can access both admin and user routes
-  if (userRole === "admin") {
+  if (userRole === 'admin') {
     return <>{children}</>;
   }
 
@@ -44,7 +44,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Redirect unauthorized access
   return (
     <Navigate
-      to={userRole === "user" ? "/user-dashboarduser" : "/admin-dashboardadmin"}
+      to={userRole === 'user' ? '/user-dashboarduser' : '/admin-dashboardadmin'}
       state={{ from: location }}
       replace
     />

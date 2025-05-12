@@ -1,6 +1,6 @@
-import React from "react";
-import MaintenanceTable from "../../../components/Report/MaintenanceTable"; 
-import AdminLayout from "../../../layouts/Admin/AdminLayout";
+import React from 'react';
+import MaintenanceTable from '../../../components/Report/MaintenanceTable';
+import AdminLayout from '../../../layouts/Admin/AdminLayout';
 
 function MaintenanceReport() {
   return (

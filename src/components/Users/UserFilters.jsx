@@ -1,10 +1,10 @@
 import React from 'react';
-import { 
-  TextField, 
-  Select, 
-  MenuItem, 
-  FormControl, 
-  InputLabel 
+import {
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import { Search } from 'lucide-react';
 
@@ -16,7 +16,7 @@ export const UserFilters = ({
   selectedDepartment,
   onDepartmentChange,
   selectedStatus,
-  onStatusChange
+  onStatusChange,
 }) => {
   const roles = ['', 'Admin', 'Manager', 'Employee'];
   const departments = ['', 'IT', 'HR', 'Finance', 'Operations', 'Marketing'];
@@ -25,14 +25,17 @@ export const UserFilters = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+        <Search
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          size={20}
+        />
         <TextField
           fullWidth
           placeholder="Search users..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           InputProps={{
-            className: 'pl-10'
+            className: 'pl-10',
           }}
         />
       </div>

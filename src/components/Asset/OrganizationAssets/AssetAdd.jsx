@@ -1,15 +1,26 @@
-import React, { useState } from "react";
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import { BASE_URLS } from '../../../services/api/config';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 function AssetAdd({ open, onClose, onAdd }) {
   const [newAsset, setNewAsset] = useState({
-    name: "",
-    category: "",
-    quantity: "",
-    condition: "",
-    location: "",
+    name: '',
+    category: '',
+    quantity: '',
+    condition: '',
+    location: '',
   });
 
   const handleInputChange = (e) => {
@@ -18,11 +29,17 @@ function AssetAdd({ open, onClose, onAdd }) {
   };
 
   const handleAddAsset = async () => {
-    if (!newAsset.name || !newAsset.category || !newAsset.quantity || !newAsset.condition || !newAsset.location) {
-      toast.error("Please fill in all fields");
+    if (
+      !newAsset.name ||
+      !newAsset.category ||
+      !newAsset.quantity ||
+      !newAsset.condition ||
+      !newAsset.location
+    ) {
+      toast.error('Please fill in all fields');
       return;
     }
-    
+
     try {
       const response = await fetch(`${BASE_URLS.asset}/add`, {
         method: 'POST',
@@ -30,7 +47,7 @@ function AssetAdd({ open, onClose, onAdd }) {
         body: JSON.stringify({
           asset_name: newAsset.name,
           category: newAsset.category,
-          quantity:parseInt( newAsset.quantity),
+          quantity: parseInt(newAsset.quantity),
           condition_type: newAsset.condition,
           location: newAsset.location,
         }),
@@ -41,19 +58,19 @@ function AssetAdd({ open, onClose, onAdd }) {
       }
 
       setNewAsset({
-        name: "",
-        category: "",
-        quantity: "",
-        condition: "",
-        location: "",
+        name: '',
+        category: '',
+        quantity: '',
+        condition: '',
+        location: '',
       });
 
-      toast.success("Asset added successfully!");
+      toast.success('Asset added successfully!');
       onAdd(); // Notify parent to refresh or handle after asset addition
       onClose(); // Close the popup after adding the asset
     } catch (error) {
-      console.error("Error adding asset:", error);
-      toast.error("Failed to add asset.");
+      console.error('Error adding asset:', error);
+      toast.error('Failed to add asset.');
     }
   };
 
@@ -81,7 +98,9 @@ function AssetAdd({ open, onClose, onAdd }) {
             <MenuItem value="Electronics & IT">Electronics & IT</MenuItem>
             <MenuItem value="Office Supplies">Office Supplies</MenuItem>
             <MenuItem value="Furniture">Furniture</MenuItem>
-            <MenuItem value="Electrical Appliances">Electrical Appliances</MenuItem>
+            <MenuItem value="Electrical Appliances">
+              Electrical Appliances
+            </MenuItem>
             <MenuItem value="Machinery & Tools">Machinery & Tools</MenuItem>
             <MenuItem value="Miscellaneous">Miscellaneous</MenuItem>
           </Select>

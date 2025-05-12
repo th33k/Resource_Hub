@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -12,18 +12,18 @@ import {
   FormControl,
   Switch,
   FormControlLabel,
-} from "@mui/material";
-import { BASE_URLS } from "../../../services/api/config";
-import { toast } from "react-toastify";
+} from '@mui/material';
+import { BASE_URLS } from '../../../services/api/config';
+import { toast } from 'react-toastify';
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   const [editedAsset, setEditedAsset] = useState({
-    id: "",
-    name: "",
-    category: "",
-    quantity: "",
-    condition: "",
-    location: "",
+    id: '',
+    name: '',
+    category: '',
+    quantity: '',
+    condition: '',
+    location: '',
     is_available: false,
   });
 
@@ -54,7 +54,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
       !editedAsset.condition ||
       !editedAsset.location
     ) {
-      toast.error("Please fill in all fields");
+      toast.error('Please fill in all fields');
       return;
     }
 
@@ -62,8 +62,8 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
       const response = await fetch(
         `${BASE_URLS.asset}/details/${editedAsset.id}`,
         {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             asset_id: editedAsset.id,
             asset_name: editedAsset.name,
@@ -71,10 +71,9 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
             quantity: parseInt(editedAsset.quantity),
             condition_type: editedAsset.condition,
             location: editedAsset.location,
-            is_available: editedAsset.is_available, 
+            is_available: editedAsset.is_available,
           }),
-          
-        }
+        },
       );
 
       if (!response.ok) {
@@ -83,11 +82,11 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
 
       const updatedAsset = await response.json();
       onUpdate(updatedAsset);
-      toast.success("Asset updated successfully!");
+      toast.success('Asset updated successfully!');
       onClose();
     } catch (error) {
-      console.error("Error updating asset:", error);
-      toast.error("Failed to update asset.");
+      console.error('Error updating asset:', error);
+      toast.error('Failed to update asset.');
     }
   };
 

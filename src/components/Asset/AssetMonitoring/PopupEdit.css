@@ -20,7 +20,7 @@
 .popup-box h2 {
   margin-bottom: 20px;
   font-size: 1.5rem;
-  text-align: center;;
+  text-align: center;
 }
 
 .popup-box p {
@@ -56,8 +56,6 @@
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-
-
 /* Styles for the styled dropdown */
 .styled-dropdown {
   width: 100%;
@@ -92,9 +90,10 @@
 
 /* Added hover effects for buttons and improved spacing */
 .btn-group button {
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
-
 
 /* Added responsive design for smaller screens */
 @media (max-width: 600px) {
@@ -111,7 +110,8 @@
     font-size: 12px;
   }
 
-  .input-group input, .styled-dropdown {
+  .input-group input,
+  .styled-dropdown {
     font-size: 12px;
     padding: 8px;
   }

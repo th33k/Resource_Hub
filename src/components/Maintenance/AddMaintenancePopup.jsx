@@ -9,13 +9,13 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-} from "@mui/material";
-import { useState } from "react";
+} from '@mui/material';
+import { useState } from 'react';
 
 export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
-  const [name, setName] = useState("");
-  const [priorityLevel, setPriorityLevel] = useState("Low");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [priorityLevel, setPriorityLevel] = useState('Low');
+  const [description, setDescription] = useState('');
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
 
@@ -29,9 +29,9 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
     }
 
     onAdd({ name, priorityLevel, description });
-    setName("");
-    setPriorityLevel("Low");
-    setDescription("");
+    setName('');
+    setPriorityLevel('Low');
+    setDescription('');
     onClose();
   };
 
@@ -47,7 +47,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               error={nameError}
-              helperText={nameError ? "Please enter a name" : ""}
+              helperText={nameError ? 'Please enter a name' : ''}
             />
             <FormControl fullWidth>
               <InputLabel>Priority Level</InputLabel>
@@ -69,7 +69,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               error={descriptionError}
-              helperText={descriptionError ? "Please enter a description" : ""}
+              helperText={descriptionError ? 'Please enter a description' : ''}
             />
           </div>
         </DialogContent>

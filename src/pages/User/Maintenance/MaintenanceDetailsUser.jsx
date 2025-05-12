@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   Button,
   TextField,
@@ -7,21 +7,21 @@ import {
   InputLabel,
   FormControl,
   CircularProgress,
-} from "@mui/material";
-import { Plus, Search } from "lucide-react";
-import { AddMaintenancePopup } from "../../../components/Maintenance/AddMaintenancePopup";
-import { ToastContainer, toast } from "react-toastify";
-import { MaintenanceTableUser } from "../../../components/Maintenance/MaintenanceTableUser";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import UserLayout from "../../../layouts/User/UserLayout";
+} from '@mui/material';
+import { Plus, Search } from 'lucide-react';
+import { AddMaintenancePopup } from '../../../components/Maintenance/AddMaintenancePopup';
+import { ToastContainer, toast } from 'react-toastify';
+import { MaintenanceTableUser } from '../../../components/Maintenance/MaintenanceTableUser';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
 
 const MaintenanceDetailsUser = () => {
   const [maintenance, setMaintenance] = useState([]);
   const [isAddMaintenanceOpen, setIsAddMaintenanceOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [filterType, setFilterType] = useState("All");
+  const [searchText, setSearchText] = useState('');
+  const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
 
   const fetchMaintenanceData = async () => {
@@ -29,8 +29,8 @@ const MaintenanceDetailsUser = () => {
       const response = await axios.get(`${BASE_URLS.maintenance}/details`);
       setMaintenance(response.data);
     } catch (error) {
-      console.error("Failed to fetch maintenance data:", error);
-      toast.error("Failed to load maintenance data!");
+      console.error('Failed to fetch maintenance data:', error);
+      toast.error('Failed to load maintenance data!');
     } finally {
       setLoading(false);
     }
@@ -42,9 +42,9 @@ const MaintenanceDetailsUser = () => {
 
   const handleAddMaintenance = async (newMaintenance) => {
     try {
-      const userId = localStorage.getItem("Userid");
+      const userId = localStorage.getItem('Userid');
       if (!userId) {
-        toast.error("User ID not found. Please login again.");
+        toast.error('User ID not found. Please login again.');
         return;
       }
 
@@ -55,20 +55,24 @@ const MaintenanceDetailsUser = () => {
         user_id: parseInt(userId),
       };
 
-      const response = await axios.post(`${BASE_URLS.maintenance}/add`, payload);
+      const response = await axios.post(
+        `${BASE_URLS.maintenance}/add`,
+        payload,
+      );
       toast.success(response.data.message);
       fetchMaintenanceData();
       setIsAddMaintenanceOpen(false);
     } catch (error) {
-      console.error("Error adding maintenance:", error);
-      toast.error("Failed to add maintenance.");
+      console.error('Error adding maintenance:', error);
+      toast.error('Failed to add maintenance.');
     }
   };
 
-
   const filteredMaintenance = maintenance.filter((item) => {
-    const searchMatch = item.name.toLowerCase().includes(searchText.toLowerCase());
-    const typeMatch = filterType === "All" || item.priorityLevel === filterType;
+    const searchMatch = item.name
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+    const typeMatch = filterType === 'All' || item.priorityLevel === filterType;
     return searchMatch && typeMatch;
   });
 
@@ -87,7 +91,11 @@ const MaintenanceDetailsUser = () => {
               onChange={(e) => setSearchText(e.target.value)}
               InputProps={{ startAdornment: <Search size={20} /> }}
             />
-            <FormControl variant="outlined" size="small" sx={{ width: "150px" }}>
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{ width: '150px' }}
+            >
               <InputLabel>Filter by Priority</InputLabel>
               <Select
                 value={filterType}
@@ -116,9 +124,7 @@ const MaintenanceDetailsUser = () => {
             <CircularProgress />
           </div>
         ) : (
-          <MaintenanceTableUser
-            maintenance={filteredMaintenance}
-          />
+          <MaintenanceTableUser maintenance={filteredMaintenance} />
         )}
 
         <AddMaintenancePopup

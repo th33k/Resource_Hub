@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -18,20 +18,20 @@ import {
   Card,
   CardContent,
   CardActionArea,
-} from "@mui/material";
-import html2pdf from "html2pdf.js";
+} from '@mui/material';
+import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
-import { toast } from "react-toastify";
-import SchedulePopup from "./SchedulePopup";
+import { toast } from 'react-toastify';
+import SchedulePopup from './SchedulePopup';
 
 const MealEventsTable = () => {
-  const [mealEvents, setMealEvents] = useState([""]);
-  const [filteredEvents, setFilteredEvents] = useState([""]);
-  const [mealTimes, setMealTimes] = useState([""]);
-  const [mealTypes, setMealTypes] = useState([""]);
-  const [selectedMealTime, setSelectedMealTime] = useState("");
-  const [selectedMealType, setSelectedMealType] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [mealEvents, setMealEvents] = useState(['']);
+  const [filteredEvents, setFilteredEvents] = useState(['']);
+  const [mealTimes, setMealTimes] = useState(['']);
+  const [mealTypes, setMealTypes] = useState(['']);
+  const [selectedMealTime, setSelectedMealTime] = useState('');
+  const [selectedMealType, setSelectedMealType] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
   const [openschedulePopup, setOpenSchedulePopup] = useState(false);
 
   // Fetch meal events
@@ -42,7 +42,7 @@ const MealEventsTable = () => {
         setMealEvents(data);
         setFilteredEvents(data);
       })
-      .catch((error) => console.error("Error fetching meal events:", error));
+      .catch((error) => console.error('Error fetching meal events:', error));
   }, []);
 
   // Fetch meal times from API
@@ -56,7 +56,7 @@ const MealEventsTable = () => {
         }));
         setMealTimes(mealNames);
       })
-      .catch((error) => console.error("Error fetching meal times:", error));
+      .catch((error) => console.error('Error fetching meal times:', error));
   }, []);
 
   // Fetch meal types from API
@@ -70,7 +70,7 @@ const MealEventsTable = () => {
         }));
         setMealTypes(mealTypeList);
       })
-      .catch((error) => console.error("Error fetching meal types:", error));
+      .catch((error) => console.error('Error fetching meal types:', error));
   }, []);
 
   // Filter events based on selected values
@@ -78,10 +78,14 @@ const MealEventsTable = () => {
     let filtered = mealEvents;
 
     if (selectedMealTime) {
-      filtered = filtered.filter((event) => event.meal_time === selectedMealTime);
+      filtered = filtered.filter(
+        (event) => event.meal_time === selectedMealTime,
+      );
     }
     if (selectedMealType) {
-      filtered = filtered.filter((event) => event.meal_type === selectedMealType);
+      filtered = filtered.filter(
+        (event) => event.meal_type === selectedMealType,
+      );
     }
     if (selectedMonth) {
       filtered = filtered.filter((event) => {
@@ -95,26 +99,25 @@ const MealEventsTable = () => {
 
   const handleDownloadPDF = () => {
     try {
-      const element = document.getElementById("meal-events-table");
+      const element = document.getElementById('meal-events-table');
       const options = {
         margin: 1,
-        filename: "MealEventsReport.pdf",
-        image: { type: "jpeg", quality: 0.98 },
+        filename: 'MealEventsReport.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(element).set(options).save();
-      toast.success("Meal events report downloaded successfully!");
+      toast.success('Meal events report downloaded successfully!');
     } catch (error) {
-      console.error("Error downloading meal events report:", error);
-      toast.error("Failed to download meal events report.");
+      console.error('Error downloading meal events report:', error);
+      toast.error('Failed to download meal events report.');
     }
   };
 
-
   return (
     <div>
-      <div style={{ display: "flex", gap: "15px", marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: '15px', marginBottom: 20 }}>
         {/* Meal Time Filter */}
         <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
           <InputLabel>Meal Time</InputLabel>
@@ -160,7 +163,7 @@ const MealEventsTable = () => {
             <MenuItem value="">All</MenuItem>
             {Array.from({ length: 12 }, (_, i) => (
               <MenuItem key={i + 1} value={i + 1}>
-                {new Date(0, i).toLocaleString("default", { month: "long" })}
+                {new Date(0, i).toLocaleString('default', { month: 'long' })}
               </MenuItem>
             ))}
           </Select>
@@ -170,11 +173,14 @@ const MealEventsTable = () => {
         <Button variant="contained" color="primary" onClick={handleDownloadPDF}>
           Download PDF
         </Button>
-        <Button variant="contained" color="primary" onClick={()=>setOpenSchedulePopup(true)} >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenSchedulePopup(true)}
+        >
           Schedule PDF
         </Button>
       </div>
- 
 
       {/* Table */}
       <TableContainer component={Paper} id="meal-events-table">
@@ -202,11 +208,13 @@ const MealEventsTable = () => {
         </Table>
       </TableContainer>
 
-      {openschedulePopup &&  <SchedulePopup onClose={()=>setOpenSchedulePopup(false)}  table="Meal _Requests" />}
-
+      {openschedulePopup && (
+        <SchedulePopup
+          onClose={() => setOpenSchedulePopup(false)}
+          table="Meal _Requests"
+        />
+      )}
     </div>
-
-
   );
 };
 

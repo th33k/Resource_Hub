@@ -1,4 +1,4 @@
-import { useTheme } from "@mui/material";
+import { useTheme } from '@mui/material';
 
 export const ResourceCard = ({ title, total, highPriority, progress }) => {
   const theme = useTheme();
@@ -11,7 +11,12 @@ export const ResourceCard = ({ title, total, highPriority, progress }) => {
       }}
       className="rounded-lg p-6 hover:shadow-lg transition-all"
     >
-      <h3 className="font-medium mb-4" style={{ color: theme.palette.text.primary }}>{title}</h3>
+      <h3
+        className="font-medium mb-4"
+        style={{ color: theme.palette.text.primary }}
+      >
+        {title}
+      </h3>
       <div
         className="h-2 rounded-full mb-4"
         style={{ background: theme.palette.action.disabledBackground }}
@@ -25,8 +30,12 @@ export const ResourceCard = ({ title, total, highPriority, progress }) => {
         />
       </div>
       <div className="flex justify-between text-sm">
-        <span style={{ color: theme.palette.text.secondary }}>Total: {total}</span>
-        <span style={{ color: theme.palette.text.secondary }}>High Priority: {highPriority}</span>
+        <span style={{ color: theme.palette.text.secondary }}>
+          Total: {total}
+        </span>
+        <span style={{ color: theme.palette.text.secondary }}>
+          High Priority: {highPriority}
+        </span>
       </div>
     </div>
   );
