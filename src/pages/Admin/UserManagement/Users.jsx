@@ -16,15 +16,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from '../../../services/api/config';
 
+// Component for managing users (CRUD operations)
 export const Users = () => {
-  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
-  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
-  const [editingUser, setEditingUser] = useState(null);
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);  
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false); 
+  const [editingUser, setEditingUser] = useState(null); 
   const [users, setUsers] = useState([]);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(''); 
   const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
 
+  // Generic API request function
   const apiRequest = async (url, method, body = null) => {
     const token = localStorage.getItem('authToken');
     const options = {
@@ -59,6 +61,7 @@ export const Users = () => {
     }
   };
 
+  // Fetches users from the API
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
@@ -84,10 +87,12 @@ export const Users = () => {
     }
   }, []);
 
+  // Fetch users on component mount
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
+  // Formats user data for API requests
   const formatUserData = (user) => ({
     username: user.username || user.email.split('@')[0],
     profile_picture_url:
@@ -103,6 +108,7 @@ export const Users = () => {
       : !user.id && { created_at: new Date().toISOString() }),
   });
 
+  // Handles adding a new user
   const handleAddUser = async (newUser) => {
     try {
       const response = await apiRequest(
@@ -118,6 +124,7 @@ export const Users = () => {
     }
   };
 
+  // Handles editing an existing user
   const handleEditUser = async (editedUser) => {
     try {
       const userId = parseInt(editedUser.id); // Convert user ID to integer
@@ -143,6 +150,7 @@ export const Users = () => {
     }
   };
 
+  // Handles deleting one or more users
   const handleDeleteUsers = async (userIds) => {
     try {
       const deletePromises = userIds.map(
@@ -160,6 +168,7 @@ export const Users = () => {
     }
   };
 
+  // Memoized filtered list of users based on search and filter type
   const filteredUsers = useMemo(
     () =>
       users.filter(({ email, additionalDetails, userType }) => {
@@ -174,11 +183,11 @@ export const Users = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold">User Management</h1>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <TextField
               label="Search"
@@ -232,6 +241,7 @@ export const Users = () => {
           onAdd={handleAddUser}
         />
 
+        {/* Dialog for editing an existing user */}
         <EditUserDialog
           open={isEditUserOpen}
           onClose={() => setIsEditUserOpen(false)}

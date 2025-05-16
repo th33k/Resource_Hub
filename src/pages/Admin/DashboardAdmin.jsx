@@ -18,6 +18,7 @@ import { getMonthLabels } from '../../utils/dateUtils';
 import { useAdminDashboardData } from '../../query/adminDashboardQueries';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
 
+// Custom actions for the QuickActions component
 const customUserActions = [
   {
     icon: CalendarDays,
@@ -49,10 +50,14 @@ const iconMap = {
   Wrench: <Wrench className="text-red-500" />,
 };
 
+// Admin Dashboard component
 const AdminDashboard = () => {
+
   const monthLabels = getMonthLabels();
+  // Fetches admin dashboard data using a custom hook
   const { data, isLoading, isError, error, refetch } = useAdminDashboardData();
 
+  // Display loading state
   if (isLoading) {
     return (
       <AdminLayout>
@@ -61,6 +66,7 @@ const AdminDashboard = () => {
     );
   }
 
+  // Display error state
   if (isError) {
     return (
       <AdminLayout>
@@ -68,7 +74,7 @@ const AdminDashboard = () => {
           {error?.message ||
             'Failed to load dashboard data. Please try again later.'}
           <button
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600"
             onClick={() => refetch()}
           >
             Retry
@@ -78,15 +84,16 @@ const AdminDashboard = () => {
     );
   }
 
+  // Destructure data for easier access
   const { stats, resources, mealData, resourceData } = data;
 
   return (
     <AdminLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen p-6 space-y-6">
         {/* Heading */}
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
@@ -101,7 +108,7 @@ const AdminDashboard = () => {
           ))}
         </div>
         {/* Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <MealDistributionChart data={mealData} />
           </div>
@@ -110,8 +117,8 @@ const AdminDashboard = () => {
           </div>
         </div>
         {/* Resource Cards
-        <h2 className="text-xl font-semibold pt-4">Resource Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h2 className="pt-4 text-xl font-semibold">Resource Overview</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {resources.map((resource, index) => (
             <ResourceCard
               key={index}
