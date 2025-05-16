@@ -18,11 +18,11 @@ import { BASE_URLS } from '../../../services/api/config';
 
 // Component for managing users (CRUD operations)
 export const Users = () => {
-  const [isAddUserOpen, setIsAddUserOpen] = useState(false);  
-  const [isEditUserOpen, setIsEditUserOpen] = useState(false); 
-  const [editingUser, setEditingUser] = useState(null); 
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [searchText, setSearchText] = useState(''); 
+  const [searchText, setSearchText] = useState('');
   const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
 

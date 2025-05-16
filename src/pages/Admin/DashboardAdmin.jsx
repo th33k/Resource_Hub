@@ -52,7 +52,6 @@ const iconMap = {
 
 // Admin Dashboard component
 const AdminDashboard = () => {
-
   const monthLabels = getMonthLabels();
   // Fetches admin dashboard data using a custom hook
   const { data, isLoading, isError, error, refetch } = useAdminDashboardData();
